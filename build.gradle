@@ -7,17 +7,46 @@
  */
 
 plugins {
+    // Apply shadowJar
+    id 'com.github.johnrengelman.shadow' version '5.1.0'
+
     // Apply the java plugin to add support for Java
     id 'java'
 
     // Apply the application plugin to add support for building a CLI application
     id 'application'
+
+    id 'jacoco'
+
+    id 'checkstyle'
+  
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled true
+    }
+     
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: 'chess/App*')
+        }))
+    } 
 }
 
 repositories {
     // Use jcenter for resolving dependencies.
     // You can declare any Maven/Ivy/file repository here.
-    jcenter()
+    mavenCentral() 
+}
+
+test {
+    testLogging {
+        events "failed"
+        exceptionFormat "full"
+    }
 }
 
 dependencies {
@@ -28,7 +57,24 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 }
 
+javafx {
+    version = "11.0.2"
+    modules = ['javafx.controls']
+}
+
 application {
     // Define the main class for the application
     mainClassName = 'minesweeper.App'
 }
+
+checkstyle {
+    ignoreFailures = true
+}
+
+check.dependsOn jacocoTestReport
+
+task performanceTest(type:JavaExec) {
+   classpath = sourceSets.main.runtimeClasspath
+   main = 'datastructureproject.PerformanceTest'
+}
+
