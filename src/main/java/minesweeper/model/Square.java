@@ -6,8 +6,8 @@ package minesweeper.model;
  * @see model.Board
  */
 public class Square {
-    boolean isMine, opened = false;
-    int surrounding = 0;
+    public boolean isMine, opened = false;
+    public int surrounding = 0;
 
     public Square() {
     }
