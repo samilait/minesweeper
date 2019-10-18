@@ -50,6 +50,11 @@ public class Square {
 
         return false;
     }
+
+    public void setMine() {
+        this.isMine = true;
+    }
+
     /**
      * amount of surrounding Squares that have a mine.
      * @return 0 if this square has not been opened, otherwise the amount of surrounding Squares that have a mine.
