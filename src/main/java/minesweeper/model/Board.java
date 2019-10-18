@@ -36,16 +36,32 @@ public class Board {
         this.initialize();
     }
 
+    /**
+     * Set a Square at a given X, Y coordinate
+     */
     public void addSquare(Square square, int xCoord, int yCoord) {
         this.board[xCoord][yCoord] = square;
     }
 
+    /**
+     * Opens a square in the given X, Y coordinate
+     * and all surrounding squares that are not mines
+     */
     public boolean open(int x, int y) {
         this.board[x][y].open();
         if (board[x][y].isMine()) {
             this.gameEnd = true;
             return false;
         } else {
+
+            /*
+             * BFS implementation for opening squares:
+             *
+             * 1. Open current square
+             * 2. If current square has surrounding mines, ignore surrounding tiles
+             * 3. Else open all surrounding squares
+             */
+
             HashSet<Pair<Integer>> visited = new HashSet<>();
             ArrayDeque<Pair<Integer>> toVisit = new ArrayDeque<>();
 
@@ -54,7 +70,10 @@ public class Board {
             while (!toVisit.isEmpty()) {
                 Pair<Integer> v = toVisit.pop();
 
+                // Have we visited this square before?
                 if (visited.contains(v)) {
+
+                    // If yes, skip it
                     continue;
                 }
 
@@ -65,9 +84,12 @@ public class Board {
                     
                     board[v.second][v.first].open();
 
+                    // If current square has surrounding mines, ignore surrounding squares
                     if (square.surrounding() > 0) {
                         continue;
-                    } else if (square.surrounding() == 0 && !square.isMine()) {
+                    } else if (square.surrounding() == 0) {
+                        // No surrounding mines, all surrounding squares can be opened
+                        
                         toVisit.push(new Pair(v.first - 1, v.second));
                         toVisit.push(new Pair(v.first + 1, v.second));
 
@@ -104,7 +126,10 @@ public class Board {
         });
         return builder.toString();
     }
-
+    
+    /**
+     * Increments the surrounding mine counter for tiles surrounding given square
+     */
     public void incrementAdjacentSquares(int x, int y) {
         for (int xInc = -1; xInc <= 1; xInc++) {
             for (int yInc = -1; yInc <= 1; yInc++) {
@@ -116,6 +141,9 @@ public class Board {
         }
     }
 
+    /**
+     * Check if a given X,Y coordinate is within the board
+     */
     private boolean withinBoard(int x, int y) {
         return x >= 0 && x < this.width && y >= 0 && y < this.length;
     }
