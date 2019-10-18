@@ -6,14 +6,42 @@ package minesweeper.model;
  * @see model.Board
  */
 public class Square {
-    public boolean isMine, opened = false;
-    public int surrounding = 0;
+    private boolean isMine, opened = false;
+    private int surrounding = 0;
 
     public Square() {
     }
 
     public Square(boolean isMine) {
-	this.isMine = isMine;
+        this.isMine = isMine;
+    }
+
+    public void open() {
+        this.opened = true;
+    }
+
+    public boolean getOpen() {
+        return this.opened;
+    }
+
+    public boolean isMine() {
+        if (this.opened) {
+            return isMine;
+        }
+
+        return false;
+    }
+
+    public int surrounding() {
+        if (this.opened) {
+            return surrounding;
+        }
+
+        return 0;
+    }
+
+    public void incrementSurrounding() {
+        this.surrounding++;
     }
 
     @Override

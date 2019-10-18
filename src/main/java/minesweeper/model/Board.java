@@ -9,7 +9,7 @@ public class Board {
 
     boolean gameEnd, gameWon = false;
     Square[][] board;
-    final int width, length;
+    public final int width, length;
 
     // For debugging purposes
     public Board() {
@@ -20,7 +20,7 @@ public class Board {
         int col = 0;
         this.initialize();
         while (mineCount-- > 0) {
-            this.board[row][col].isMine = true;
+            this.board[row][col] = new Square(true);
             this.incrementAdjacentSquares(row, col);
             if (++col >= this.width) {
                 col = 0;
@@ -41,8 +41,8 @@ public class Board {
     }
 
     public boolean open(int x, int y) {
-        this.board[x][y].opened = true;
-        if (board[x][y].isMine) {
+        this.board[x][y].open();
+        if (board[x][y].isMine()) {
             this.gameEnd = true;
             return false;
         } else {
@@ -62,13 +62,12 @@ public class Board {
 
                 if (withinBoard(v.first, v.second)) {
                     Square square = board[v.second][v.first];
+                    
+                    board[v.second][v.first].open();
 
-                    board[v.second][v.first].opened = true;
-                    board[v.second][v.first].surrounding = square.surrounding;
-
-                    if (square.surrounding > 0) {
+                    if (square.surrounding() > 0) {
                         continue;
-                    } else if (square.surrounding == 0 && !square.isMine) {
+                    } else if (square.surrounding() == 0 && !square.isMine()) {
                         toVisit.push(new Pair(v.first - 1, v.second));
                         toVisit.push(new Pair(v.first + 1, v.second));
 
@@ -111,7 +110,7 @@ public class Board {
             for (int yInc = -1; yInc <= 1; yInc++) {
                 System.out.println(xInc + ":" + yInc);
                 if (withinBoard(x + xInc, y + yInc) && !(xInc == 0 && yInc == 0)) {
-                    board[x + xInc][y + yInc].surrounding++;
+                    board[x + xInc][y + yInc].incrementSurrounding();
                 }
             }
         }
