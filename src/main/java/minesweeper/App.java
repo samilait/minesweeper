@@ -26,7 +26,6 @@ public class App extends Application {
         //launch();
         
         Board board = new Board();
-        board.setMinesInitial(2);
 
         System.out.println(board);
 
