@@ -15,9 +15,10 @@ public class Board {
     public Board() {
         this.width = this.length = 10;
         this.board = new Square[10][10];
-        int mineCount = 10;
+        int mineCount = 2;
         int row = 0;
         int col = 0;
+        this.initialize();
         while (mineCount-- > 0) {
             this.board[row][col].isMine = true;
             this.incrementAdjacentSquares(row, col);
@@ -26,7 +27,6 @@ public class Board {
                 row++;
             }
         }
-        this.initialize();
     }
 
     public Board(int width, int length) {
@@ -40,7 +40,7 @@ public class Board {
         this.board[xCoord][yCoord] = square;
     }
 
-    public boolean clickOnSquare(int x, int y) {
+    public boolean open(int x, int y) {
         this.board[x][y].opened = true;
         if (board[x][y].isMine) {
             this.gameEnd = true;

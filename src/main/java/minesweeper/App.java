@@ -31,7 +31,7 @@ public class App extends Application {
 
         System.out.println("Clicking 5,5");
 
-        board.clickOnSquare(5,5);
+        board.open(5,5);
 
         System.out.println(board);
 
