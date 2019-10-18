@@ -133,8 +133,8 @@ public class Board {
     public void incrementAdjacentSquares(int x, int y) {
         for (int xInc = -1; xInc <= 1; xInc++) {
             for (int yInc = -1; yInc <= 1; yInc++) {
-                System.out.println(xInc + ":" + yInc);
-                if (withinBoard(x + xInc, y + yInc) && !(xInc == 0 && yInc == 0)) {
+                if(xInc == 0 && yInc == 0) continue;
+                if (withinBoard(x + xInc, y + yInc)) {
                     board[x + xInc][y + yInc].incrementSurrounding();
                 }
             }
