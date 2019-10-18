@@ -2,6 +2,8 @@
 package minesweeper.model;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.ArrayDeque;
 
 public class Board {
 
@@ -30,7 +32,7 @@ public class Board {
         this.board[xCoord][yCoord] = square;
     }
 
-    public void setMinesInital(int mineCount) {
+    public void setMinesInitial(int mineCount) {
         if (mineCount > this.width * this.length) {
             throw new Error("More mine than squares in this board");
         }
@@ -51,6 +53,44 @@ public class Board {
         if(board[x][y].isMine){
             this.gameEnd = true;
             return false;
+        } else {
+            HashSet<Pair<Integer>> visited = new HashSet<>(); 
+            ArrayDeque<Pair<Integer>> toVisit = new ArrayDeque<>();
+
+            toVisit.push(new Pair(x, y));
+            
+            while (!toVisit.isEmpty()) {
+                Pair<Integer> v = toVisit.pop();
+                
+                if (visited.contains(v)) {
+                    continue;
+                }
+
+                visited.add(v);
+
+                if (withinBoard(v.first, v.second)) {
+                    Square square = board[v.second][v.first];
+                    
+                    incompleteBoard[v.second][v.first].opened = true;
+                    incompleteBoard[v.second][v.first].surrounding = square.surrounding;
+
+                    if (square.surrounding > 0) {
+                        continue;
+                    } else if (square.surrounding == 0 && !square.isMine){
+                        toVisit.push(new Pair(v.first - 1, v.second));
+                        toVisit.push(new Pair(v.first + 1, v.second));
+
+                        toVisit.push(new Pair(v.first, v.second - 1));
+                        toVisit.push(new Pair(v.first, v.second + 1));
+
+                        toVisit.push(new Pair(v.first - 1, v.second - 1));
+                        toVisit.push(new Pair(v.first - 1, v.second + 1));
+
+                        toVisit.push(new Pair(v.first + 1, v.second - 1));
+                        toVisit.push(new Pair(v.first + 1, v.second + 1));
+                    }
+                }
+            }
         }
         return true;
     }
@@ -63,12 +103,16 @@ public class Board {
         this.board = Arrays.stream(board).map(row -> {
             return Arrays.stream(row).map(squareElement -> new Square()).toArray(Square[]::new);
         }).toArray(Square[][]::new);
+
+        this.incompleteBoard = Arrays.stream(incompleteBoard).map(row -> {
+            return Arrays.stream(row).map(squareElement -> new Square()).toArray(Square[]::new);
+        }).toArray(Square[][]::new);
     }
 
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder("Field \n");
-        Arrays.stream(board).forEach(row -> {
+        Arrays.stream(incompleteBoard).forEach(row -> {
             Arrays.stream(row).forEach(square -> builder.append(square));
             builder.append("\n");
         });
@@ -79,14 +123,14 @@ public class Board {
         for(int xInc = -1; xInc <= 1; xInc++){
             for(int yInc = -1; yInc <= 1; yInc++){
                 System.out.println(xInc + ":" + yInc);
-                if(withingBoard(x + xInc, y + yInc) && !(xInc == 0 && yInc == 0)){
+                if(withinBoard(x + xInc, y + yInc) && !(xInc == 0 && yInc == 0)){
                     board[x + xInc][y + yInc].surrounding++;
                 }
             }
         }
     }
 
-    private boolean withingBoard(int x, int y){
+    private boolean withinBoard(int x, int y){
         return x >= 0 
         && x < this.width 
         && y >= 0 

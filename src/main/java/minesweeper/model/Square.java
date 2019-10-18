@@ -18,6 +18,7 @@ public class Square {
 
     @Override
     public String toString() {
+        if (!this.opened) return "X";
         return this.isMine ? "*" : "" + surrounding;
     }
 
