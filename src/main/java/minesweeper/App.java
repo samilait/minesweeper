@@ -10,6 +10,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import minesweeper.model.Board;
+import minesweeper.generator.MinefieldGenerator;
 
 public class App extends Application {
     @Override
@@ -25,7 +26,11 @@ public class App extends Application {
     public static void main(String[] args) {
         //launch();
         
-        Board board = new Board();
+        Board board = new Board(10, 10);
+
+        MinefieldGenerator gen = new MinefieldGenerator();
+
+        gen.generate(board, 5, 5, 5);
 
         System.out.println(board);
 

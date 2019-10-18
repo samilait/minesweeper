@@ -8,7 +8,7 @@ import java.util.HashSet;
 public class Board {
 
     boolean gameEnd, gameWon = false;
-    Square[][] board;
+    public Square[][] board;
     public final int width, length;
 
     // For debugging purposes
@@ -80,9 +80,9 @@ public class Board {
                 visited.add(v);
 
                 if (withinBoard(v.first, v.second)) {
-                    Square square = board[v.second][v.first];
+                    Square square = board[v.first][v.second];
                     
-                    board[v.second][v.first].open();
+                    board[v.first][v.second].open();
 
                     // If current square has surrounding mines, ignore surrounding squares
                     if (square.surrounding() > 0) {
@@ -136,7 +136,7 @@ public class Board {
                 if(xInc == 0 && yInc == 0) continue;
                 if (withinBoard(x + xInc, y + yInc)) {
                     board[x + xInc][y + yInc].incrementSurrounding();
-                }
+               }
             }
         }
     }
