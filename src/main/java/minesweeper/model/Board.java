@@ -46,6 +46,16 @@ public class Board {
         }
     }
 
+    public boolean clickOnSquare(int x, int y){
+        this.board[x][y].opened = true;
+        if(board[x][y].isMine){
+            this.gameEnd = true;
+            return false;
+        }
+        return true;
+    }
+
+
     /**
      * Initializes the board with empty squares i.e. no mines.
      */
