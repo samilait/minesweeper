@@ -9,7 +9,7 @@ package minesweeper.model;
  */
 public class Square {
     private boolean isMine, opened = false;
-    private int surrounding = 0; //Number of surrounding squares with mines
+    private int surroundingMines = 0; //Number of surrounding squares with mines
 
     /**
      * Generates new Square wih no mine
@@ -59,9 +59,9 @@ public class Square {
      * amount of surrounding Squares that have a mine.
      * @return 0 if this square has not been opened, otherwise the amount of surrounding Squares that have a mine.
      */
-    public int surrounding() {
+    public int surroundingMines() {
         if (this.opened) {
-            return surrounding;
+            return surroundingMines;
         }
 
         return 0;
@@ -70,8 +70,8 @@ public class Square {
     /**
      * Increments the amount this Square has other Squares surrounding it, with mines in them
      */
-    public void incrementSurrounding() {
-        this.surrounding++;
+    public void incrementSurroundingMines() {
+        this.surroundingMines++;
     }
 
     /**
@@ -81,7 +81,7 @@ public class Square {
     @Override
     public String toString() {
         if (!this.opened) return "X";
-        return this.isMine ? "*" : "" + surrounding;
+        return this.isMine ? "*" : "" + surroundingMines;
     }
 
 

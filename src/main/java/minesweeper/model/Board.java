@@ -85,9 +85,9 @@ public class Board {
                     board[v.first][v.second].open();
 
                     // If current square has surrounding mines, ignore surrounding squares
-                    if (square.surrounding() > 0) {
+                    if (square.surroundingMines() > 0) {
                         continue;
-                    } else if (square.surrounding() == 0) {
+                    } else if (square.surroundingMines() == 0) {
                         // No surrounding mines, all surrounding squares can be opened
                         
                         toVisit.push(new Pair(v.first - 1, v.second));
@@ -135,7 +135,7 @@ public class Board {
             for (int yInc = -1; yInc <= 1; yInc++) {
                 if(xInc == 0 && yInc == 0) continue;
                 if (withinBoard(x + xInc, y + yInc)) {
-                    board[x + xInc][y + yInc].incrementSurrounding();
+                    board[x + xInc][y + yInc].incrementSurroundingMines();
                }
             }
         }

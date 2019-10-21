@@ -26,7 +26,7 @@ public class SquareTest {
 
     @Test
     public void unopenedSquareWillNotRevealNumberOfSurrounding() {
-        assertEquals(0, square.surrounding());
+        assertEquals(0, square.surroundingMines());
     }
 
     @Test
