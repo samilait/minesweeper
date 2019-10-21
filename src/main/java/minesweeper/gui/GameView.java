@@ -10,17 +10,19 @@ import javafx.stage.Stage;
 public class GameView {
     private GridPane gameBoard;
 
-    public gameView(int x, int y){
+    public GameView(int x, int y){
         gameBoard = new GridPane();
         for (int i=0; i<x; i++){
             for (int j=0; j<y; j++){
-                Button button = buildButton(3);
-                gameBoard.setConstraints(button, i,j);
+                Button button = buildButton(30);
+                gameBoard.add(button, i,j);
                 
             }
         }
     }
-
+    public GridPane getView() {
+        return this.gameBoard;
+    }
     public Button buildButton(int size){
         Button button = new Button();
         button.setMinWidth(size);
