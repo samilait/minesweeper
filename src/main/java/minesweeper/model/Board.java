@@ -144,7 +144,7 @@ public class Board {
     /**
      * Check if a given X,Y coordinate is within the board
      */
-    private boolean withinBoard(int x, int y) {
+    public boolean withinBoard(int x, int y) {
         return x >= 0 && x < this.width && y >= 0 && y < this.length;
     }
 
