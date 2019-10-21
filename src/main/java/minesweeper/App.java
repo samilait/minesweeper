@@ -30,8 +30,9 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-        //launch();
+        launch();
         
+        /*
         Board board = new Board(10, 10);
 
         MinefieldGenerator gen = new MinefieldGenerator();
@@ -47,5 +48,6 @@ public class App extends Application {
         System.out.println(board);
 
         System.out.println("Hrup");
+        */
     }
 }
