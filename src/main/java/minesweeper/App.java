@@ -7,7 +7,9 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import minesweeper.gui.GameView;
 
 import minesweeper.model.Board;
 import minesweeper.generator.MinefieldGenerator;
@@ -17,15 +19,21 @@ public class App extends Application {
     public void start(Stage stage) {
         String javaVersion = System.getProperty("java.version");
         String javafxVersion = System.getProperty("javafx.version");
+        VBox vb = new VBox();
         Label l = new Label("Hello, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
-        Scene scene = new Scene(new StackPane(l), 640, 480);
+        GameView gv = new GameView(10, 10, vb);
+
+        
+        vb.getChildren().addAll(l, gv.getView());
+        Scene scene = new Scene(vb);
         stage.setScene(scene);
         stage.show();
     }
 
     public static void main(String[] args) {
-        //launch();
+        launch();
         
+        /*
         Board board = new Board(10, 10);
 
         MinefieldGenerator gen = new MinefieldGenerator();
@@ -41,5 +49,6 @@ public class App extends Application {
         System.out.println(board);
 
         System.out.println("Hrup");
+        */
     }
 }
