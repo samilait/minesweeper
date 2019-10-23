@@ -19,10 +19,11 @@ public class App extends Application {
     public void start(Stage stage) {
         String javaVersion = System.getProperty("java.version");
         String javafxVersion = System.getProperty("javafx.version");
-        Label l = new Label("Hello, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
-        GameView gv = new GameView(10, 10);
-
         VBox vb = new VBox();
+        Label l = new Label("Hello, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
+        GameView gv = new GameView(10, 10, vb);
+
+        
         vb.getChildren().addAll(l, gv.getView());
         Scene scene = new Scene(vb);
         stage.setScene(scene);
