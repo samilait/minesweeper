@@ -60,15 +60,13 @@ public class Square {
      * @return true if this Square has been flagged by the user
      */
     public boolean getFlagged() {
-        if (!this.opened) {
-            return this.isFlagged;
-        } else {
-            return false;
-        }
+        return this.isFlagged;
     }
     
     public void toggleFlagged() {
-        this.isFlagged = !this.isFlagged;
+        if (!this.opened) { 
+            this.isFlagged = !this.isFlagged;
+        }
     }
 
    
