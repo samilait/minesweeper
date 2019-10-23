@@ -8,7 +8,7 @@ package minesweeper.model;
  * @see model.Board
  */
 public class Square {
-    private boolean isMine, opened = false;
+    private boolean isMine, opened, isFlagged = false;
     private int surroundingMines = 0; //Number of surrounding squares with mines
 
     /**
@@ -40,7 +40,7 @@ public class Square {
     }
 
     /**
-     * Wheter this Square is a Square with mine
+     * Whether this Square is a Square with mine
      * @return true if this is a mine Square and it has been opened already, false otherwise
      */
     public boolean isMine() {
@@ -54,6 +54,22 @@ public class Square {
     public void setMine() {
         this.isMine = true;
     }
+
+    /**
+     * Whether this Square is flagged 
+     * @return true if this Square has been flagged by the user
+     */
+    public boolean getFlagged() {
+        return this.isFlagged;
+    }
+    
+    public void toggleFlagged() {
+        if (!this.opened) { 
+            this.isFlagged = !this.isFlagged;
+        }
+    }
+
+   
 
     /**
      * amount of surrounding Squares that have a mine.
