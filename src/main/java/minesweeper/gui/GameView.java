@@ -8,6 +8,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.input.MouseButton;
+import javafx.scene.text.Text;
+import javafx.scene.Node;
+import javafx.scene.shape.Rectangle;
 import minesweeper.model.*;
 import minesweeper.generator.MinefieldGenerator;
 
@@ -20,7 +23,7 @@ public class GameView {
     private boolean firstclick = true;
     
     public GameView(int x, int y, VBox vbox){
-        vbox = vbox;
+        this.vbox = vbox;
         sizeX = x;
         sizeY = y;
         gameGP = new GridPane();
@@ -29,7 +32,7 @@ public class GameView {
         generator = new MinefieldGenerator();
         for (int i=0; i<x; i++){
             for (int j=0; j<y; j++){
-                Button button = buildButton(30, i, j, vbox);
+                Button button = buildButton(30, i, j);
                 gameGP.add(button, i,j);
                 
             }
@@ -39,7 +42,7 @@ public class GameView {
         return this.gameGP;
     }
 
-    public Button buildButton(int size, int x, int y, VBox vbox) {
+    public Button buildButton(int size, int x, int y) {
         Button button = new Button();
         button.setMinWidth(size);
         button.setMaxWidth(size);
@@ -53,29 +56,15 @@ public class GameView {
                     firstclick = false;
                 }
                 board.open(x, y);
-                GridPane originalGP = this.gameGP;
-                gameGP = new GridPane();
-                for (int i = 0; i < sizeX; i++) {
-                    for (int j = 0; j < sizeY; j++) {
-                        Button newButton = buildButton(30, i, j, vbox);
-                        
-                        if (board.board[i][j].getOpen()) {
-                            if (board.board[i][j].isMine()) {
-                                newButton.setText("x");
-                            } else {
-                                newButton.setText("" + board.board[i][j].surroundingMines());
-                            }
-                        } else {
-                            if (board.board[i][j].getFlagged()){
-                                newButton.setText("!");
-                            }
-                        }
-
-                        gameGP.add(newButton, i,j);
-                    }
+                
+                if (board.board[x][y].isMine()){
+                    button.setText("x");
+                    gameOver();
+                    return; 
                 }
-                vbox.getChildren().remove(originalGP);
-                vbox.getChildren().add(gameGP);
+              
+               
+                updateGameGP(false);
             } else if (e.getButton() == MouseButton.SECONDARY) {
                 board.board[x][y].toggleFlagged();
                 
@@ -92,6 +81,48 @@ public class GameView {
         return button;
     }
 
+    public void gameOver(){
+        this.vbox.getChildren().remove(0);
+        this.vbox.getChildren().add(new Label("You lost. Get rekt"));
+        
+        updateGameGP(true);
+        
+    }
     
+    public void updateGameGP(Boolean end) {
+        GridPane originalGP = this.gameGP;
+        this.gameGP = new GridPane();
+        for (int i = 0; i < sizeX; i++) {
+            for (int j = 0; j < sizeY; j++) {
+                Button newButton = new Button();
+                if (end) {
+                    newButton.setMinHeight(30);
+                    newButton.setMaxHeight(30);
+                    newButton.setMinWidth(30);
+                    newButton.setMaxWidth(30);
+                } else {
+                    newButton = buildButton(30, i, j);
+                }
+                
+                
+                if (board.board[i][j].getOpen()) {
+                    if (board.board[i][j].isMine()) {
+                        newButton.setText("x");
+
+                    } else {
+                        newButton.setText("" + board.board[i][j].surroundingMines());
+                    }
+                } else {
+                    if (board.board[i][j].getFlagged()){
+                        newButton.setText("!");
+                    }
+                }
+
+                gameGP.add(newButton, i,j);
+            }
+        }
+        this.vbox.getChildren().remove(originalGP);
+        this.vbox.getChildren().add(gameGP);
+    }
     
 }
