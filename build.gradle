@@ -7,9 +7,6 @@
  */
 
 plugins {
-    // Apply shadowJar
-    id 'com.github.johnrengelman.shadow' version '5.1.0'
-
     // Apply the java plugin to add support for Java
     id 'java'
 
