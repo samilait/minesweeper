@@ -23,7 +23,7 @@ public class GameView {
     private boolean firstclick = true;
     
     public GameView(int x, int y, VBox vbox){
-        vbox = vbox;
+        this.vbox = vbox;
         sizeX = x;
         sizeY = y;
         gameGP = new GridPane();
@@ -32,7 +32,7 @@ public class GameView {
         generator = new MinefieldGenerator();
         for (int i=0; i<x; i++){
             for (int j=0; j<y; j++){
-                Button button = buildButton(30, i, j, vbox);
+                Button button = buildButton(30, i, j);
                 gameGP.add(button, i,j);
                 
             }
@@ -42,7 +42,7 @@ public class GameView {
         return this.gameGP;
     }
 
-    public Button buildButton(int size, int x, int y, VBox vbox) {
+    public Button buildButton(int size, int x, int y) {
         Button button = new Button();
         button.setMinWidth(size);
         button.setMaxWidth(size);
@@ -59,12 +59,12 @@ public class GameView {
                 
                 if (board.board[x][y].isMine()){
                     button.setText("x");
-                    gameOver(vbox);
+                    gameOver();
                     return; 
                 }
               
                
-                updateGameGP(vbox, false);
+                updateGameGP(false);
             } else if (e.getButton() == MouseButton.SECONDARY) {
                 board.board[x][y].toggleFlagged();
                 
@@ -81,15 +81,15 @@ public class GameView {
         return button;
     }
 
-    public void gameOver(VBox vbox){
-        vbox.getChildren().remove(0);
-        vbox.getChildren().add(new Label("You lost. Get rekt"));
+    public void gameOver(){
+        this.vbox.getChildren().remove(0);
+        this.vbox.getChildren().add(new Label("You lost. Get rekt"));
         
-        updateGameGP(vbox, true);
+        updateGameGP(true);
         
     }
     
-    public void updateGameGP(VBox vbox, Boolean end) {
+    public void updateGameGP(Boolean end) {
         GridPane originalGP = this.gameGP;
         this.gameGP = new GridPane();
         for (int i = 0; i < sizeX; i++) {
@@ -101,7 +101,7 @@ public class GameView {
                     newButton.setMinWidth(30);
                     newButton.setMaxWidth(30);
                 } else {
-                    newButton = buildButton(30, i, j, vbox);
+                    newButton = buildButton(30, i, j);
                 }
                 
                 
@@ -121,8 +121,8 @@ public class GameView {
                 gameGP.add(newButton, i,j);
             }
         }
-        vbox.getChildren().remove(originalGP);
-        vbox.getChildren().add(gameGP);
+        this.vbox.getChildren().remove(originalGP);
+        this.vbox.getChildren().add(gameGP);
     }
     
 }
