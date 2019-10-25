@@ -9,17 +9,13 @@ public class Board {
 
     public boolean gameEnd, gameWon = false;
     public Square[][] board;
-    public int openedSquares;
     public int totalMines;
-    public final int totalSquares;
     public final int width, length;
 
     // For debugging purposes
     public Board() {
         this.width = 10;
         this.length = 10;
-        this.openedSquares = 0;
-        this.totalSquares = 10*10;
         this.board = new Square[10][10];
         int mineCount = 2;
         this.totalMines = 2;
@@ -39,8 +35,6 @@ public class Board {
     public Board(int width, int length) {
         this.width = width;
         this.length = length;
-        this.openedSquares = 0;
-        this.totalSquares = 10*10;
         this.board = new Square[width][length];
         this.initialize();
     }
@@ -67,7 +61,6 @@ public class Board {
         }
 
         this.board[x][y].open();
-        this.openedSquares++;
         if (board[x][y].isMine()) {
             this.gameEnd = true;
             return false;
@@ -102,7 +95,6 @@ public class Board {
                     Square square = board[v.first][v.second];
                     
                     board[v.first][v.second].open();
-                    this.openedSquares++;
                     // If current square has surrounding mines, ignore surrounding squares
                     if (square.surroundingMines() > 0 || square.getFlagged()) {
                         continue;
@@ -124,13 +116,21 @@ public class Board {
                 }
             }
         }
-        if (this.getUnopenedSquaresCount() == this.totalMines) {
+        if (getUnopenedSquaresCount() == this.totalMines) {
             this.gameWon = true;
         }
         return true;
     }
     public int getUnopenedSquaresCount() {
-        return this.totalSquares - this.openedSquares;
+        int unopenedSquares = 0;
+        for (int x=0; x<this.width; x++) { 
+            for (int y=0; y<this.length; y++) {
+                if (!board[x][y].getOpen()) {
+                    unopenedSquares++;
+                }
+            }
+        }
+        return unopenedSquares;
     }
     /**
      * Initializes the board with empty squares i.e. no mines.
