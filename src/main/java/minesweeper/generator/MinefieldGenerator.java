@@ -26,7 +26,7 @@ public class MinefieldGenerator {
 
         for (int x = -1; x <= 1; x++) {
             for (int y = -1; y <= 1; y++) {
-                if (isSafeArea(safeX + x, safeY + y , safeX, safeY) && board.withinBoard(safeX + x, safeY + y)) {
+                if (isSafeArea(safeX + x, safeY + y, safeX, safeY) && board.withinBoard(safeX + x, safeY + y)) {
                     squaresLeft--;
                 }
             }
