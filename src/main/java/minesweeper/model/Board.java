@@ -48,6 +48,10 @@ public class Board {
      * and all surrounding squares that are not mines
      */
     public boolean open(int x, int y) {
+        if (this.board[x][y].getFlagged()) {
+            return true;
+        }
+
         this.board[x][y].open();
         if (board[x][y].isMine()) {
             this.gameEnd = true;
@@ -85,7 +89,7 @@ public class Board {
                     board[v.first][v.second].open();
 
                     // If current square has surrounding mines, ignore surrounding squares
-                    if (square.surroundingMines() > 0) {
+                    if (square.surroundingMines() > 0 || square.getFlagged()) {
                         continue;
                     } else if (square.surroundingMines() == 0) {
                         // No surrounding mines, all surrounding squares can be opened
