@@ -107,7 +107,7 @@ public class GameView {
                         newButton.setText("" + board.board[i][j].surroundingMines());
 
                         if (board.board[i][j].surroundingMines() == 0) {
-                            newButton.setText("✹");
+                            newButton.setText("⎕");
                         }
                     }
                 } else {
