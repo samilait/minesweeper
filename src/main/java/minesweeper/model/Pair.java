@@ -2,7 +2,7 @@ package minesweeper.model;
 
 import java.util.Objects;
 
-class Pair<T> {
+public class Pair<T> {
     public T first;
     public T second;
 

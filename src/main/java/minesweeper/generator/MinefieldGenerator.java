@@ -1,6 +1,5 @@
 package minesweeper.generator;
 
-import minesweeper.model.Square;
 import minesweeper.model.Board;
 
 public class MinefieldGenerator {
@@ -17,7 +16,9 @@ public class MinefieldGenerator {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 if (Math.random() < ((float) mines / squaresLeft)) {
-                    if (x == safeX && y == safeY) continue;
+                    if (x == safeX && y == safeY) {
+                        continue;
+                    }
 
                     board.board[x][y].setMine();
                     board.incrementAdjacentSquares(x, y);

@@ -1,16 +1,10 @@
 package minesweeper.gui;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.input.MouseButton;
-import javafx.scene.text.Text;
-import javafx.scene.Node;
-import javafx.scene.shape.Rectangle;
 import minesweeper.model.*;
 import minesweeper.generator.MinefieldGenerator;
 
@@ -22,7 +16,7 @@ public class GameView {
     private MinefieldGenerator generator;
     private boolean firstclick = true;
     
-    public GameView(int x, int y, VBox vbox){
+    public GameView(int x, int y, VBox vbox) {
         this.vbox = vbox;
         sizeX = x;
         sizeY = y;
@@ -30,10 +24,10 @@ public class GameView {
         board = new Board(x, y);
 
         generator = new MinefieldGenerator();
-        for (int i=0; i<x; i++){
-            for (int j=0; j<y; j++){
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < y; j++) {
                 Button button = buildButton(30, i, j);
-                gameGP.add(button, i,j);
+                gameGP.add(button, i, j);
                 
             }
         }
@@ -50,14 +44,14 @@ public class GameView {
         button.setMaxHeight(size);
 
         button.setOnMouseClicked((e) -> {
-            if (e.getButton() == MouseButton.PRIMARY){
+            if (e.getButton() == MouseButton.PRIMARY) {
                 if (firstclick) {
                     generator.generate(board, 10, x, y);
                     firstclick = false;
                 }
                 board.open(x, y);
                 
-                if (board.board[x][y].isMine()){
+                if (board.board[x][y].isMine()) {
                     button.setText("x");
                     gameOver();
                     return; 
@@ -68,7 +62,7 @@ public class GameView {
             } else if (e.getButton() == MouseButton.SECONDARY) {
                 board.board[x][y].toggleFlagged();
                 
-                if (board.board[x][y].getFlagged()){
+                if (board.board[x][y].getFlagged()) {
                     button.setText("!");
                 } else {
                     button.setText("");
@@ -81,7 +75,7 @@ public class GameView {
         return button;
     }
 
-    public void gameOver(){
+    public void gameOver() {
         this.vbox.getChildren().remove(0);
         this.vbox.getChildren().add(new Label("You lost. Get rekt"));
         
@@ -113,12 +107,12 @@ public class GameView {
                         newButton.setText("" + board.board[i][j].surroundingMines());
                     }
                 } else {
-                    if (board.board[i][j].getFlagged()){
+                    if (board.board[i][j].getFlagged()) {
                         newButton.setText("!");
                     }
                 }
 
-                gameGP.add(newButton, i,j);
+                gameGP.add(newButton, i, j);
             }
         }
         this.vbox.getChildren().remove(originalGP);

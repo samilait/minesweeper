@@ -13,7 +13,9 @@ public class Board {
 
     // For debugging purposes
     public Board() {
-        this.width = this.length = 10;
+        this.width = 10;
+        this.length = 10;
+
         this.board = new Square[10][10];
         int mineCount = 2;
         int row = 0;
@@ -133,10 +135,12 @@ public class Board {
     public void incrementAdjacentSquares(int x, int y) {
         for (int xInc = -1; xInc <= 1; xInc++) {
             for (int yInc = -1; yInc <= 1; yInc++) {
-                if(xInc == 0 && yInc == 0) continue;
+                if (xInc == 0 && yInc == 0) {
+                    continue;
+                }
                 if (withinBoard(x + xInc, y + yInc)) {
                     board[x + xInc][y + yInc].incrementSurroundingMines();
-               }
+                }
             }
         }
     }
