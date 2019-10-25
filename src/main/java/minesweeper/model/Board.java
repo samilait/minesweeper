@@ -7,17 +7,22 @@ import java.util.HashSet;
 
 public class Board {
 
-    boolean gameEnd, gameWon = false;
+    public boolean gameEnd, gameWon = false;
     public Square[][] board;
+    public int openedSquares;
+    public int totalMines;
+    public final int totalSquares;
     public final int width, length;
 
     // For debugging purposes
     public Board() {
         this.width = 10;
         this.length = 10;
-
+        this.openedSquares = 0;
+        this.totalSquares = 10*10;
         this.board = new Square[10][10];
         int mineCount = 2;
+        this.totalMines = 2;
         int row = 0;
         int col = 0;
         this.initialize();
@@ -34,10 +39,17 @@ public class Board {
     public Board(int width, int length) {
         this.width = width;
         this.length = length;
+        this.openedSquares = 0;
+        this.totalSquares = 10*10;
         this.board = new Square[width][length];
         this.initialize();
     }
-
+    /** 
+     * Sets the number of total mines, used by MinefieldGenerator when generating a new board
+     */
+    public void setTotalMines(int totalMines) {
+        this.totalMines = totalMines;
+    }
     /**
      * Set a Square at a given X, Y coordinate
      */
@@ -55,6 +67,7 @@ public class Board {
         }
 
         this.board[x][y].open();
+        this.openedSquares++;
         if (board[x][y].isMine()) {
             this.gameEnd = true;
             return false;
@@ -89,7 +102,7 @@ public class Board {
                     Square square = board[v.first][v.second];
                     
                     board[v.first][v.second].open();
-
+                    this.openedSquares++;
                     // If current square has surrounding mines, ignore surrounding squares
                     if (square.surroundingMines() > 0 || square.getFlagged()) {
                         continue;
@@ -111,9 +124,14 @@ public class Board {
                 }
             }
         }
+        if (this.getUnopenedSquaresCount() == this.totalMines) {
+            this.gameWon = true;
+        }
         return true;
     }
-
+    public int getUnopenedSquaresCount() {
+        return this.totalSquares - this.openedSquares;
+    }
     /**
      * Initializes the board with empty squares i.e. no mines.
      */
