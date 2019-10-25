@@ -99,4 +99,13 @@ public class BoardTest {
 
         assertEquals(false, board.board[2][2].getOpen());
     }
+
+    @Test
+    public void openingASquareDoesNotOpenFlagged() {
+        board.board[4][5].toggleFlagged();
+
+        board.open(5, 5);
+
+        assertEquals(false, board.board[4][5].getOpen());
+    }
 }

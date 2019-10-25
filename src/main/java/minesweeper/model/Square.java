@@ -28,7 +28,9 @@ public class Square {
      * Represents a "click" on this particular square, and sets the state to opened.
      */
     public void open() {
-        this.opened = true;
+        if (!isFlagged) {
+            this.opened = true;
+        }
     }
 
     /**
