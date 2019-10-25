@@ -49,32 +49,38 @@ public class GameView {
                     generator.generate(board, 10, x, y);
                     firstclick = false;
                 }
-                board.open(x, y);
                 
-                if (board.board[x][y].isMine()) {
+                if (!board.open(x,y)) {
                     button.setText("☠");
                     gameOver();
                     return; 
+                } else if (board.gameWon) {
+                    gameWon();
+                } else {
+                    updateGameGP(false);
                 }
-              
-               
-                updateGameGP(false);
             } else if (e.getButton() == MouseButton.SECONDARY) {
                 board.board[x][y].toggleFlagged();
-                
-                if (board.board[x][y].getFlagged()) {
-                    button.setText("⚐");
-                } else {
-                    button.setText("");
+                if (!board.board[x][y].getOpen()) {
+                    board.board[x][y].toggleFlagged();
+                    if (board.board[x][y].getFlagged()) {
+                        button.setText("⚐");
+                    } else {
+                        button.setText("");
+                    }
                 }
-                
                
             }
         });
 
         return button;
     }
+    public void gameWon() {
+        this.vbox.getChildren().remove(0);
+        this.vbox.getChildren().add(new Label("You won. Congratulations!"));
 
+        updateGameGP(true);
+    }
     public void gameOver() {
         this.vbox.getChildren().remove(0);
         this.vbox.getChildren().add(new Label("You lost. Get rekt"));
