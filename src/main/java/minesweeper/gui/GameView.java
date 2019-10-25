@@ -52,7 +52,7 @@ public class GameView {
                 board.open(x, y);
                 
                 if (board.board[x][y].isMine()) {
-                    button.setText("Ȱ");
+                    button.setText("☠");
                     gameOver();
                     return; 
                 }
@@ -63,7 +63,7 @@ public class GameView {
                 board.board[x][y].toggleFlagged();
                 
                 if (board.board[x][y].getFlagged()) {
-                    button.setText("¶");
+                    button.setText("⚐");
                 } else {
                     button.setText("");
                 }
@@ -101,18 +101,18 @@ public class GameView {
                 
                 if (board.board[i][j].getOpen()) {
                     if (board.board[i][j].isMine()) {
-                        newButton.setText("Ȱ");
+                        newButton.setText("☠");
 
                     } else {
                         newButton.setText("" + board.board[i][j].surroundingMines());
 
                         if (board.board[i][j].surroundingMines() == 0) {
-                            newButton.setText("⎕");
+                            newButton.setText("✹");
                         }
                     }
                 } else {
                     if (board.board[i][j].getFlagged()) {
-                        newButton.setText("¶");
+                        newButton.setText("⚐");
                     }
                 }
 
