@@ -7,6 +7,7 @@ In order to develop and build the minesweeper, you will need at least version Ja
 If your ./gradlew commands do not find your Java 11 JDK, even if you have it installed, you may get some response as follows:
 
 *$ ./gradlew build*
+
 *./gradlew: 188: exec: /usr/lib/jvm/java-11-openjdk/bin/java: not found*
 
 You can do as follows:
