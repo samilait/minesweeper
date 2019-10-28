@@ -19,6 +19,8 @@ public class MinefieldGenerator {
     }
 
     public void generate(Board board, int mines, int safeX, int safeY) {
+        board.setTotalMines(mines);
+
         int width = board.length;
         int height = board.length;
 

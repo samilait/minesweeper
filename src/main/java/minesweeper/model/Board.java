@@ -7,17 +7,18 @@ import java.util.HashSet;
 
 public class Board {
 
-    boolean gameEnd, gameWon = false;
+    public boolean gameEnd, gameWon = false;
     public Square[][] board;
+    public int totalMines;
     public final int width, length;
 
     // For debugging purposes
     public Board() {
         this.width = 10;
         this.length = 10;
-
         this.board = new Square[10][10];
         int mineCount = 2;
+        this.totalMines = 2;
         int row = 0;
         int col = 0;
         this.initialize();
@@ -37,7 +38,12 @@ public class Board {
         this.board = new Square[width][length];
         this.initialize();
     }
-
+    /** 
+     * Sets the number of total mines, used by MinefieldGenerator when generating a new board
+     */
+    public void setTotalMines(int totalMines) {
+        this.totalMines = totalMines;
+    }
     /**
      * Set a Square at a given X, Y coordinate
      */
@@ -89,7 +95,6 @@ public class Board {
                     Square square = board[v.first][v.second];
                     
                     board[v.first][v.second].open();
-
                     // If current square has surrounding mines, ignore surrounding squares
                     if (square.surroundingMines() > 0 || square.getFlagged()) {
                         continue;
@@ -111,9 +116,22 @@ public class Board {
                 }
             }
         }
+        if (getUnopenedSquaresCount() == this.totalMines) {
+            this.gameWon = true;
+        }
         return true;
     }
-
+    public int getUnopenedSquaresCount() {
+        int unopenedSquares = 0;
+        for (int x = 0; x < this.width; x++) { 
+            for (int y = 0; y < this.length; y++) {
+                if (!board[x][y].getOpen()) {
+                    unopenedSquares++;
+                }
+            }
+        }
+        return unopenedSquares;
+    }
     /**
      * Initializes the board with empty squares i.e. no mines.
      */
