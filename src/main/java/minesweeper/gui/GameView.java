@@ -59,8 +59,6 @@ public class GameView {
                 } else {
                     updateGameGP(false);
                 }
-                this.vbox.getChildren().remove(0);
-                this.vbox.getChildren().add(new Label(""+board.getUnopenedSquaresCount()));
 
             } else if (e.getButton() == MouseButton.SECONDARY) {
                 if (!board.board[x][y].getOpen()) {
