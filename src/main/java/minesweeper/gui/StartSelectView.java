@@ -18,17 +18,17 @@ public class StartSelectView {
                 this.initButton("Hard", 16, 30, 99) };
         this.hbox = new HBox(buttons);
         this.vbox = new VBox(new Label("Select game type"), hbox);
-        this.stackPane = new StackPane(this.hbox);
+        this.stackPane = new StackPane(this.vbox);
     }
 
     private Button initButton(String label, int height, int width, int mines) {
         Button button = new Button(label);
         button.setOnMouseClicked(e -> {
-            this.hbox.setVisible(false);
+            this.vbox.setVisible(false);
             Button newGameButton = new Button("New Game");
             newGameButton.setOnMouseClicked(ev -> {
                 this.stackPane.getChildren().remove(1);
-                this.hbox.setVisible(true);
+                this.vbox.setVisible(true);
             });
             this.gameView = new GameView(height, width, new VBox(new Label("This has to be deleted"), newGameButton),
                     mines);
