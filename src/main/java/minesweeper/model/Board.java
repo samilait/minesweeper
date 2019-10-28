@@ -123,8 +123,8 @@ public class Board {
     }
     public int getUnopenedSquaresCount() {
         int unopenedSquares = 0;
-        for (int x=0; x<this.width; x++) { 
-            for (int y=0; y<this.length; y++) {
+        for (int x = 0; x < this.width; x++) { 
+            for (int y = 0; y < this.length; y++) {
                 if (!board[x][y].getOpen()) {
                     unopenedSquares++;
                 }

@@ -50,7 +50,7 @@ public class GameView {
                     firstclick = false;
                 }
                 
-                if (!board.open(x,y)) {
+                if (!board.open(x, y)) {
                     button.setText("☠");
                     gameOver();
                     return; 
