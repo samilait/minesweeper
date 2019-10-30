@@ -26,4 +26,5 @@ Friday 10-16
 - [Sprint 0](https://helsinkifi-my.sharepoint.com/:w:/g/personal/jermusto_ad_helsinki_fi/EX7DEhSqQa1Cr1Frk_s9DIoByCM3laqIdS27pmF0lMYovg?e=ZuwpOr)
 - [Sprint 1](https://helsinkifi-my.sharepoint.com/:w:/g/personal/jermusto_ad_helsinki_fi/EaCafe0NeQhIn9RvXX5NGdIBhEdWoSMhUK8QN81QgAOEiQ?e=uZb7Uu)
 - [Sprint 2](https://helsinkifi-my.sharepoint.com/:w:/g/personal/antlammi_ad_helsinki_fi/EZDDm5dJfnhEnIVKQ09PbmwBDXRmR4hKxA7fSKaOYJvkPg?e=a0EW2W)
+- [Sprint 3](https://helsinkifi-my.sharepoint.com/:w:/g/personal/jermusto_ad_helsinki_fi/EV-9zUdnmDtCoePpXSOzNYQBxyav4A66BKxKV0HMV3bKLA?e=Y9EJcM)
 
