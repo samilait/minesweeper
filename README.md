@@ -8,7 +8,7 @@ It is done as part of the course [TKT20007 Ohjelmistotuotantoprojekti](https://g
 
 Monday 10-13.30
 
-Wednesday 14.30-18 (to be updated)
+Wednesday 10-14 
 
 Friday 10-16
 
