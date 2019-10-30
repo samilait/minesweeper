@@ -6,23 +6,19 @@ package minesweeper;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import minesweeper.gui.GameView;
+import minesweeper.gui.StartSelectView;
 
 public class App extends Application {
     @Override
     public void start(Stage stage) {
-        String javaVersion = System.getProperty("java.version");
-        String javafxVersion = System.getProperty("javafx.version");
-        VBox vb = new VBox();
-        Label l = new Label("Hello, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
-        GameView gv = new GameView(10, 10, vb);
-
-        
-        vb.getChildren().addAll(l, gv.getView());
-        Scene scene = new Scene(vb);
+        StartSelectView startScreen = new StartSelectView();
+        Scene scene = new Scene(startScreen.get());
         stage.setScene(scene);
+        stage.setMaximized(true);
         stage.show();
     }
 

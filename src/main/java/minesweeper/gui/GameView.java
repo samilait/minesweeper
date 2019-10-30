@@ -13,14 +13,17 @@ public class GameView {
     private Board board;
     private VBox vbox;
     private int sizeX, sizeY;
+    private int mineCount;
     private MinefieldGenerator generator;
     private boolean firstclick = true;
     
-    public GameView(int x, int y, VBox vbox) {
+    public GameView(int x, int y, VBox vbox, int mines) {
         this.vbox = vbox;
         sizeX = x;
         sizeY = y;
+        mineCount = mines;
         gameGP = new GridPane();
+        vbox.getChildren().add(gameGP);
         board = new Board(x, y);
 
         generator = new MinefieldGenerator();
@@ -32,8 +35,8 @@ public class GameView {
             }
         }
     }
-    public GridPane getView() {
-        return this.gameGP;
+    public VBox getView() {
+        return this.vbox;
     }
 
     public Button buildButton(int size, int x, int y) {
@@ -46,7 +49,7 @@ public class GameView {
         button.setOnMouseClicked((e) -> {
             if (e.getButton() == MouseButton.PRIMARY) {
                 if (firstclick) {
-                    generator.generate(board, 10, x, y);
+                    generator.generate(board, mineCount, x, y);
                     firstclick = false;
                 }
                 
