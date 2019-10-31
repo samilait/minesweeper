@@ -5,11 +5,11 @@ package minesweeper;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+// import javafx.scene.control.Label;
+// import javafx.scene.layout.StackPane;
+// import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import minesweeper.gui.GameView;
+// import minesweeper.gui.GameView;
 import minesweeper.gui.StartSelectView;
 
 public class App extends Application {

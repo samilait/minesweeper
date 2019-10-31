@@ -15,7 +15,7 @@ public class StartSelectView {
 
     
     public StartSelectView() {
-        this.buttons = new Button[] { 
+        this.buttons = new Button[] {
             this.initButton("Easy ", 9, 9, 10), 
             this.initButton("Intermediate", 16, 16, 40),
             this.initButton("Hard", 16, 30, 99) };
@@ -33,7 +33,9 @@ public class StartSelectView {
                 this.stackPane.getChildren().remove(1);
                 this.vbox.setVisible(true);
             });
-            this.gameView = new GameView(height, width, new VBox(new Label("This has to be deleted"), newGameButton), mines);
+            this.gameView = new GameView(height, width, 
+                            new VBox(new Label("This has to be deleted"), 
+                            newGameButton), mines);
             this.stackPane.getChildren().add(gameView.getView());
         });
         button.setWrapText(false);
