@@ -23,7 +23,9 @@ public class StartSelectView {
         this.vbox = new VBox(new Label("Select game type"), hbox);
         this.stackPane = new StackPane(this.vbox);  
     }
-
+    /**
+     * Button that initiates a new game with the difficulty (based on size of the board)
+     */
     private Button initButton(String label, int height, int width, int mines) {
         Button button = new Button(label);
         button.setOnMouseClicked(e -> {
@@ -41,7 +43,9 @@ public class StartSelectView {
         button.setWrapText(false);
         return button;
     }
-
+    /**
+     * Returns the underlying StackPane on which the rest of the elements are added.
+     */
     public StackPane get() {
         return this.stackPane;
     }

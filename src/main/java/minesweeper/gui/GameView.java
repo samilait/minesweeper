@@ -35,10 +35,16 @@ public class GameView {
             }
         }
     }
+    /**
+     * Returns a VBox with the view including a GridPane with the gamestate
+     */
     public VBox getView() {
         return this.vbox;
     }
 
+    /**
+     * Builds a new button with the required functionality for flagging and opening squares
+     */
     public Button buildButton(int size, int x, int y) {
         Button button = new Button();
         button.setMinWidth(size);
@@ -48,11 +54,11 @@ public class GameView {
 
         button.setOnMouseClicked((e) -> {
             if (e.getButton() == MouseButton.PRIMARY) {
+                //If the first click of the game, generate a new board
                 if (firstclick) {
                     generator.generate(board, mineCount, x, y);
                     firstclick = false;
                 }
-                
                 if (!board.open(x, y)) {
                     button.setText("☠");
                     gameOver();
@@ -64,6 +70,7 @@ public class GameView {
                 }
 
             } else if (e.getButton() == MouseButton.SECONDARY) {
+                //If a right click, flag or unflag a Square
                 if (!board.board[x][y].getOpen()) {
                     board.board[x][y].toggleFlagged();
                     if (board.board[x][y].getFlagged()) {
@@ -78,12 +85,18 @@ public class GameView {
 
         return button;
     }
+    /**
+     * Updates the view to show that the game has been won.
+     */
     public void gameWon() {
         this.vbox.getChildren().remove(0);
         this.vbox.getChildren().add(new Label("You won. Congratulations!"));
 
         updateGameGP(true);
     }
+    /**
+     * Updates the view to show that the game has been lost.
+     */
     public void gameOver() {
         this.vbox.getChildren().remove(0);
         this.vbox.getChildren().add(new Label("You lost. Get rekt"));
@@ -92,22 +105,29 @@ public class GameView {
         
     }
     
+    /**
+     * Updates the view with the current boardstate. If the game is over buttons are disabled.
+     */
     public void updateGameGP(Boolean end) {
         GridPane originalGP = this.gameGP;
         this.gameGP = new GridPane();
         for (int i = 0; i < sizeX; i++) {
             for (int j = 0; j < sizeY; j++) {
+                //Builds new buttons for each Square on the board.
                 Button newButton = new Button();
                 if (end) {
+                    //Disabled buttons if the game is over.
                     newButton.setMinHeight(30);
                     newButton.setMaxHeight(30);
                     newButton.setMinWidth(30);
                     newButton.setMaxWidth(30);
                 } else {
+                    //Functional buttons when game is underway.
                     newButton = buildButton(30, i, j);
                 }
                 
-                
+                //Updates the button in the current location with the correct 
+                //visual representation of the Square.
                 if (board.board[i][j].getOpen()) {
                     if (board.board[i][j].isMine()) {
                         newButton.setText("☠");
