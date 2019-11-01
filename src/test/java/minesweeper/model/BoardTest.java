@@ -103,9 +103,98 @@ public class BoardTest {
     @Test
     public void openingASquareDoesNotOpenFlagged() {
         board.board[4][5].toggleFlagged();
+        
+        assertEquals(true, board.board[4][5].getFlagged());
 
         board.open(5, 5);
 
         assertEquals(false, board.board[4][5].getOpen());
+    }
+
+    @Test
+    public void chordedOpenDoesNotOpenFlagged() {
+        board.board[4][5].setMine();
+        board.board[4][5].toggleFlagged();
+        board.incrementAdjacentSquares(4, 5);
+
+        board.board[4][4].setMine();
+        board.board[4][4].toggleFlagged();
+        board.incrementAdjacentSquares(4, 5);
+
+        board.board[6][5].setMine();
+        board.board[6][5].toggleFlagged();
+        board.incrementAdjacentSquares(4, 5);
+
+        board.board[5][5].open();
+        board.chordedOpen(5, 5);
+
+        assertEquals(false, board.board[4][5].getOpen());
+        assertEquals(false, board.board[4][4].getOpen());
+        assertEquals(false, board.board[6][5].getOpen());
+    }
+
+    @Test
+    public void chordedOpenOpensUnflagged() {
+        board.board[4][5].setMine();
+        board.board[4][5].toggleFlagged();
+        board.incrementAdjacentSquares(4, 5);
+
+        board.board[4][4].setMine();
+        board.board[4][4].toggleFlagged();
+        board.incrementAdjacentSquares(4, 5);
+
+        board.board[6][5].setMine();
+        board.board[6][5].toggleFlagged();
+        board.incrementAdjacentSquares(4, 5);
+
+        board.board[5][5].open();
+        board.chordedOpen(5, 5);
+
+        for (int xInc = -1; xInc <= 1; xInc++) {
+            for (int yInc = -1; yInc <= 1; yInc++) {
+                if (!board.board[5 + xInc][5 + yInc].getFlagged()) {
+                    assertEquals(true, board.board[5 + xInc][5 + yInc].getOpen());
+                }
+            }
+        }
+    }
+
+    @Test
+    public void chordedOpenReturnsFalseForMineHit() {
+        board.board[4][5].setMine();
+        board.board[4][5].toggleFlagged();
+        board.incrementAdjacentSquares(4, 5);
+
+        board.board[4][4].setMine();
+        board.incrementAdjacentSquares(4, 5);
+
+        board.board[6][6].toggleFlagged();
+
+        board.board[6][5].setMine();
+        board.board[6][5].toggleFlagged();
+        board.incrementAdjacentSquares(4, 5);
+
+        board.board[5][5].open();
+        assertEquals(false, board.chordedOpen(5, 5));
+    }
+
+    @Test
+    public void chordedOpenWillNotRunIfSurroundingMinesAndFlagsDoNotMatch() {
+        board.board[4][5].setMine();
+        board.board[4][5].toggleFlagged();
+        board.incrementAdjacentSquares(4, 5);
+
+        board.board[4][4].setMine();
+        board.incrementAdjacentSquares(4, 5);
+
+        board.board[6][5].setMine();
+        board.board[6][5].toggleFlagged();
+        board.incrementAdjacentSquares(4, 5);
+
+        board.board[5][5].open();
+
+        assertEquals(true, board.chordedOpen(5, 5));
+
+        assertEquals(false, board.board[6][6].getOpen());
     }
 }

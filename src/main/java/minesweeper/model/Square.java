@@ -46,11 +46,9 @@ public class Square {
      * @return true if this is a mine Square and it has been opened already, false otherwise
      */
     public boolean isMine() {
-        if (this.opened) {
-            return isMine;
-        }
+        assert (this.opened);
 
-        return false;
+        return isMine;
     }
 
     public void setMine() {
@@ -78,11 +76,9 @@ public class Square {
      * @return 0 if this square has not been opened, otherwise the amount of surrounding Squares that have a mine.
      */
     public int surroundingMines() {
-        if (this.opened) {
-            return surroundingMines;
-        }
+        assert (this.opened);
 
-        return 0;
+        return surroundingMines;
     }
 
     /**
