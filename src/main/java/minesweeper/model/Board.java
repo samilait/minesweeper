@@ -12,26 +12,6 @@ public class Board {
     public int totalMines;
     public final int width, length;
 
-    // For debugging purposes
-    public Board() {
-        this.width = 10;
-        this.length = 10;
-        this.board = new Square[10][10];
-        int mineCount = 2;
-        this.totalMines = 2;
-        int row = 0;
-        int col = 0;
-        this.initialize();
-        while (mineCount-- > 0) {
-            this.board[row][col] = new Square(true);
-            this.incrementAdjacentSquares(row, col);
-            if (++col >= this.width) {
-                col = 0;
-                row++;
-            }
-        }
-    }
-
     public Board(int width, int length) {
         this.width = width;
         this.length = length;
@@ -94,7 +74,12 @@ public class Board {
                 if (withinBoard(v.first, v.second)) {
                     Square square = board[v.first][v.second];
                     
-                    board[v.first][v.second].open();
+                    if (square.getFlagged()) {
+                        continue;
+                    }
+
+                    square.open();
+
                     // If current square has surrounding mines, ignore surrounding squares
                     if (square.surroundingMines() > 0 || square.getFlagged()) {
                         continue;
@@ -121,6 +106,50 @@ public class Board {
         }
         return true;
     }
+
+    /**
+     * Execute a chorded open move on a previously opened square
+     * If the number of adjacent flagged squares equals to
+     * the number of surrounding mines of a given square, opens
+     * all adjacent, unflagged squares.
+     *
+     * @param x X coordinate
+     * @param y Y coordinate
+     * @return True if no mines were hit, false otherwise
+     */
+    public boolean chordedOpen(int x, int y) {
+        int surroundingFlagged = 0;
+
+        for (int xInc = -1; xInc <= 1; xInc++) {
+            for (int yInc = -1; yInc <= 1; yInc++) {
+                if (board[x + xInc][y + yInc].getFlagged()) {
+                    surroundingFlagged++;
+                }
+            }
+        }
+
+        Square square = board[x][y];
+
+        // If number of flagged squares equals number of surrounding mines
+        // open all adjacent squares that are not flagged
+        if (square.getOpen() && square.surroundingMines() == surroundingFlagged) {
+            for (int xInc = -1; xInc <= 1; xInc++) {
+                for (int yInc = -1; yInc <= 1; yInc++) {
+                    if (!board[x + xInc][y + yInc].getFlagged() && 
+                        !this.open(x + xInc, y + yInc)) {
+                        // If we hit a mine, we return immediately
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Return the number of unopened squares left on the board
+     */
     public int getUnopenedSquaresCount() {
         int unopenedSquares = 0;
         for (int x = 0; x < this.width; x++) { 
@@ -132,6 +161,7 @@ public class Board {
         }
         return unopenedSquares;
     }
+
     /**
      * Initializes the board with empty squares i.e. no mines.
      */

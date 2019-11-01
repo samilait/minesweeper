@@ -26,12 +26,27 @@ public class SquareTest {
 
     @Test
     public void unopenedSquareWillNotRevealNumberOfSurrounding() {
-        assertEquals(0, square.surroundingMines());
+        assertEquals(false, square.getOpen());
+
+        try {
+            square.surroundingMines();
+        } catch (AssertionError err) {
+            return;
+        }
+
+        assert(false);
     }
 
     @Test
     public void unopenedSquareWillNotRevealIfMine() {
         square.setMine();
-        assertEquals(false, square.isMine());
+
+        try {
+            square.isMine();
+        } catch (AssertionError err) {
+            return;
+        }
+
+        assert(false);
     }
 }
