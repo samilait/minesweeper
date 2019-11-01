@@ -17,6 +17,7 @@ public class App extends Application {
     public void start(Stage stage) {
         StartSelectView startScreen = new StartSelectView();
         Scene scene = new Scene(startScreen.get());
+        scene.getStylesheets().add("stylesheet.css");
         stage.setScene(scene);
         stage.setMaximized(true);
         stage.show();

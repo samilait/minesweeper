@@ -23,6 +23,8 @@ public class GameView {
         sizeY = y;
         mineCount = mines;
         gameGP = new GridPane();
+        gameGP.setMaxWidth(sizeX*30);
+        gameGP.getStyleClass().add("custom-gridpane");
         vbox.getChildren().add(gameGP);
         board = new Board(x, y);
 
@@ -51,7 +53,6 @@ public class GameView {
         button.setMaxWidth(size);
         button.setMinHeight(size);
         button.setMaxHeight(size);
-
         button.setOnMouseClicked((e) -> {
             if (e.getButton() == MouseButton.PRIMARY) {
                 //If the first click of the game, generate a new board
@@ -111,6 +112,8 @@ public class GameView {
     public void updateGameGP(Boolean end) {
         GridPane originalGP = this.gameGP;
         this.gameGP = new GridPane();
+        gameGP.setMaxWidth(sizeX*30);
+        gameGP.getStyleClass().add("custom-gridpane");
         for (int i = 0; i < sizeX; i++) {
             for (int j = 0; j < sizeY; j++) {
                 //Builds new buttons for each Square on the board.
@@ -129,15 +132,13 @@ public class GameView {
                 //Updates the button in the current location with the correct 
                 //visual representation of the Square.
                 if (board.board[i][j].getOpen()) {
+
+                    newButton.getStyleClass().add("opened-button");
                     if (board.board[i][j].isMine()) {
                         newButton.setText("☠");
 
-                    } else {
+                    } else if (board.board[i][j].surroundingMines() != 0){
                         newButton.setText("" + board.board[i][j].surroundingMines());
-
-                        if (board.board[i][j].surroundingMines() == 0) {
-                            newButton.setText("⎕");
-                        }
                     }
                 } else {
                     if (board.board[i][j].getFlagged()) {
