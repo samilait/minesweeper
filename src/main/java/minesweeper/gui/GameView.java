@@ -23,7 +23,7 @@ public class GameView {
         sizeY = y;
         mineCount = mines;
         gameGP = new GridPane();
-        gameGP.setMaxWidth(sizeX*30);
+        gameGP.setMaxWidth(sizeX * 30);
         gameGP.getStyleClass().add("custom-gridpane");
         vbox.getChildren().add(gameGP);
         board = new Board(x, y);
@@ -112,7 +112,7 @@ public class GameView {
     public void updateGameGP(Boolean end) {
         GridPane originalGP = this.gameGP;
         this.gameGP = new GridPane();
-        gameGP.setMaxWidth(sizeX*30);
+        gameGP.setMaxWidth(sizeX * 30);
         gameGP.getStyleClass().add("custom-gridpane");
         for (int i = 0; i < sizeX; i++) {
             for (int j = 0; j < sizeY; j++) {
@@ -137,7 +137,7 @@ public class GameView {
                     if (board.board[i][j].isMine()) {
                         newButton.setText("☠");
 
-                    } else if (board.board[i][j].surroundingMines() != 0){
+                    } else if (board.board[i][j].surroundingMines() != 0) {
                         newButton.setText("" + board.board[i][j].surroundingMines());
                         setOpenedButtonColor(newButton, board.board[i][j].surroundingMines());
             
@@ -157,7 +157,7 @@ public class GameView {
     
     private void setOpenedButtonColor(Button button, int mines) {
         String labelStyle = "custom-label-";
-        labelStyle = labelStyle.concat(""+mines);
+        labelStyle = labelStyle.concat("" + mines);
         button.getStyleClass().add(labelStyle);
     }
 }
