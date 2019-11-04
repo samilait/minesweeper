@@ -11,6 +11,8 @@ public class Square {
     private boolean isMine, opened, isFlagged = false;
     private int surroundingMines = 0; //Number of surrounding squares with mines
 
+    public Highlight highlight = Highlight.NONE;
+
     /**
      * Generates new Square wih no mine
      */

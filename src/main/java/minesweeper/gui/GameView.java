@@ -148,6 +148,17 @@ public class GameView {
                     }
                 }
 
+                // Dirty hacks to add highlights to the board
+                // If we can do this without concatenating CSS that would be fantastic
+                switch (board.board[i][j].highlight) {
+                    case RED: 
+                        newButton.setStyle(newButton.getStyle() + " -fx-border-color: red;");
+                        break;
+                    case GREEN: 
+                        newButton.setStyle(newButton.getStyle() + " -fx-border-color: green;");
+                        break;
+                }
+
                 gameGP.add(newButton, i, j);
             }
         }
