@@ -139,6 +139,8 @@ public class GameView {
 
                     } else if (board.board[i][j].surroundingMines() != 0){
                         newButton.setText("" + board.board[i][j].surroundingMines());
+                        setOpenedButtonColor(newButton, board.board[i][j].surroundingMines());
+            
                     }
                 } else {
                     if (board.board[i][j].getFlagged()) {
@@ -153,4 +155,9 @@ public class GameView {
         this.vbox.getChildren().add(gameGP);
     }
     
+    private void setOpenedButtonColor(Button button, int mines) {
+        String labelStyle = "custom-label-";
+        labelStyle = labelStyle.concat(""+mines);
+        button.getStyleClass().add(labelStyle);
+    }
 }

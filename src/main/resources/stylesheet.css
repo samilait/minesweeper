@@ -1,2 +1,10 @@
 .opened-button { -fx-background-color: rgba(169, 169, 169, 0) }
-.custom-gridpane { -fx-background-color: rgb(170, 178, 179) }
+.custom-gridpane { -fx-background-color: rgb(231, 231, 231) }
+.custom-label-1 { -fx-text-fill: rgb(8, 88, 238) }
+.custom-label-2 { -fx-text-fill: rgb(21, 179, 0) }
+.custom-label-3 { -fx-text-fill: rgb(255, 36, 36) }
+.custom-label-4 { -fx-text-fill: rgb(18, 0, 122) }
+.custom-label-5 { -fx-text-fill: rgb(117, 3, 3) }
+.custom-label-6 { -fx-text-fill: rgb(0, 156, 156) }
+.custom-label-7 { -fx-text-fill: rgb(0, 0, 0) }
+.custom-label-8 { -fx-text-fill: rgb(88, 61, 61) }
