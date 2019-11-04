@@ -47,7 +47,7 @@ public class StartSelectView {
     }
 
     /**
-     * Return the ObservableList of the root node of this class, used for resizing pruposes in the Main app class
+     * Return the ObservableList of the root node of this class, used for resizing purposes in the App class
      */
     public ObservableList<Node> rootChildren(){
         return this.stackPane.getChildren();

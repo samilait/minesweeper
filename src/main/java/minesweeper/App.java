@@ -18,9 +18,8 @@ public class App extends Application {
         Scene scene = new Scene(startScreen.get());
         scene.getStylesheets().add("stylesheet.css");
         stage.setScene(scene);
-        //stage.setMaximized(true);
-        stage.sizeToScene();
         stage.show();
+        // Add a general listener to the root view (StackPane), any changes to its childre will cause the stage to automagically resize itself to everything.
         startScreen.rootChildren().addListener((ListChangeListener.Change<? extends Node> change) -> {
                 stage.sizeToScene();
         });
