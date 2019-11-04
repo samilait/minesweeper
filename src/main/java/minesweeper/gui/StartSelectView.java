@@ -1,5 +1,7 @@
 package minesweeper.gui;
 
+import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -21,7 +23,7 @@ public class StartSelectView {
             this.initButton("Hard", 16, 30, 99) };
         this.hbox = new HBox(buttons);
         this.vbox = new VBox(new Label("Select game type"), hbox);
-        this.stackPane = new StackPane(this.vbox);  
+        this.stackPane = new StackPane(this.vbox);
     }
     /**
      * Button that initiates a new game with the difficulty (based on size of the board)
@@ -43,6 +45,14 @@ public class StartSelectView {
         button.setWrapText(false);
         return button;
     }
+
+    /**
+     * Return the ObservableList of the root node of this class, used for resizing pruposes in the Main app class
+     */
+    public ObservableList<Node> rootChildren(){
+        return this.stackPane.getChildren();
+    }
+
     /**
      * Returns the underlying StackPane on which the rest of the elements are added.
      */
