@@ -41,6 +41,7 @@ public class Board {
         }
 
         this.board[x][y].open();
+
         if (board[x][y].isMine()) {
             this.gameEnd = true;
             return false;
@@ -85,18 +86,14 @@ public class Board {
                         continue;
                     } else if (square.surroundingMines() == 0) {
                         // No surrounding mines, all surrounding squares can be opened
-                        
-                        toVisit.push(new Pair(v.first - 1, v.second));
-                        toVisit.push(new Pair(v.first + 1, v.second));
-
-                        toVisit.push(new Pair(v.first, v.second - 1));
-                        toVisit.push(new Pair(v.first, v.second + 1));
-
-                        toVisit.push(new Pair(v.first - 1, v.second - 1));
-                        toVisit.push(new Pair(v.first - 1, v.second + 1));
-
-                        toVisit.push(new Pair(v.first + 1, v.second - 1));
-                        toVisit.push(new Pair(v.first + 1, v.second + 1));
+                        for (int xInc = -1; xInc <= 1; xInc++) {
+                            for (int yInc = -1; yInc <= 1; yInc++) {
+                                if (withinBoard(v.first + xInc, v.second + yInc) && 
+                                        !board[v.first + xInc][v.second + yInc].getOpen()) {
+                                    toVisit.push(new Pair(v.first + xInc, v.second + yInc));
+                                }
+                            }
+                        }
                     }
                 }
             }
