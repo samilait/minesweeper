@@ -119,7 +119,8 @@ public class Board {
 
         for (int xInc = -1; xInc <= 1; xInc++) {
             for (int yInc = -1; yInc <= 1; yInc++) {
-                if (board[x + xInc][y + yInc].getFlagged()) {
+                if (withinBoard(x + xInc, y + yInc) 
+                        && board[x + xInc][y + yInc].getFlagged()) {
                     surroundingFlagged++;
                 }
             }
