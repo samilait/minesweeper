@@ -135,7 +135,8 @@ public class Board {
         if (square.getOpen() && square.surroundingMines() == surroundingFlagged) {
             for (int xInc = -1; xInc <= 1; xInc++) {
                 for (int yInc = -1; yInc <= 1; yInc++) {
-                    if (!board[x + xInc][y + yInc].getFlagged() 
+                    if (withinBoard(x + xInc, y + yInc) 
+                            && !board[x + xInc][y + yInc].getFlagged() 
                             && !this.open(x + xInc, y + yInc)) {
                         // If we hit a mine, we return immediately
                         return false;
