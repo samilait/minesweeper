@@ -1,5 +1,10 @@
 .opened-button { -fx-background-color: rgba(169, 169, 169, 0); }
+
+.red-highlight { -fx-border-color: red; }
+.green-highlight { -fx-border-color: green; }
+
 .custom-gridpane { -fx-background-color: rgb(231, 231, 231); }
+
 .custom-label-1 { -fx-text-fill: rgb(8, 88, 238); }
 .custom-label-2 { -fx-text-fill: rgb(21, 179, 0); }
 .custom-label-3 { -fx-text-fill: rgb(255, 36, 36); }

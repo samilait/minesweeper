@@ -131,6 +131,17 @@ public class GameView {
                 
                 //Updates the button in the current location with the correct 
                 //visual representation of the Square.
+                switch (board.board[i][j].highlight) {
+                    case RED: 
+                        newButton.getStyleClass().add("red-highlight");
+                        break;
+                    case GREEN: 
+                        newButton.getStyleClass().add("green-highlight");
+                        break;
+                    default:
+                        break;
+                }
+
                 if (board.board[i][j].getOpen()) {
 
                     newButton.getStyleClass().add("opened-button");
@@ -146,19 +157,6 @@ public class GameView {
                     if (board.board[i][j].getFlagged()) {
                         newButton.setText("⚐");
                     }
-                }
-
-                // Dirty hacks to add highlights to the board
-                // If we can do this without concatenating CSS that would be fantastic
-                switch (board.board[i][j].highlight) {
-                    case RED: 
-                        newButton.setStyle(newButton.getStyle() + " -fx-border-color: red;");
-                        break;
-                    case GREEN: 
-                        newButton.setStyle(newButton.getStyle() + " -fx-border-color: green;");
-                        break;
-                    default:
-                        break;
                 }
 
                 gameGP.add(newButton, i, j);
