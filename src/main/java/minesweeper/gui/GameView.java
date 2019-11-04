@@ -131,6 +131,17 @@ public class GameView {
                 
                 //Updates the button in the current location with the correct 
                 //visual representation of the Square.
+                switch (board.board[i][j].highlight) {
+                    case RED: 
+                        newButton.getStyleClass().add("red-highlight");
+                        break;
+                    case GREEN: 
+                        newButton.getStyleClass().add("green-highlight");
+                        break;
+                    default:
+                        break;
+                }
+
                 if (board.board[i][j].getOpen()) {
 
                     newButton.getStyleClass().add("opened-button");
