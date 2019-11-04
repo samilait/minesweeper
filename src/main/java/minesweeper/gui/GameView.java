@@ -157,6 +157,8 @@ public class GameView {
                     case GREEN: 
                         newButton.setStyle(newButton.getStyle() + " -fx-border-color: green;");
                         break;
+                    default:
+                        break;
                 }
 
                 gameGP.add(newButton, i, j);
