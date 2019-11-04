@@ -147,6 +147,14 @@ public class Board {
         return true;
     }
 
+    public void clearHighlights() {
+        for (int x = 0; x < this.width; x++) {
+            for (int y = 0; y < this.length; y++) {
+                this.board[x][y].highlight = Highlight.NONE;
+            }
+        }
+    }
+
     /**
      * Return the number of unopened squares left on the board
      */

@@ -8,6 +8,9 @@ import javafx.scene.input.MouseButton;
 import minesweeper.model.*;
 import minesweeper.generator.MinefieldGenerator;
 
+import minesweeper.bot.TestBot;
+import minesweeper.bot.Bot;
+
 public class GameView {
     private GridPane gameGP;
     private Board board;
@@ -16,12 +19,27 @@ public class GameView {
     private int mineCount;
     private MinefieldGenerator generator;
     private boolean firstclick = true;
+    private Bot bot;
     
     public GameView(int x, int y, VBox vbox, int mines) {
         this.vbox = vbox;
         sizeX = x;
         sizeY = y;
         mineCount = mines;
+
+        this.bot = new TestBot();
+
+        Button botButton = new Button("Help (bot)");
+        botButton.setOnMouseClicked(e -> {
+            if (this.bot.makeMove(this.board)) {
+                this.updateGameGP(false);
+            } else {
+                this.gameOver();
+            }
+        });
+
+        vbox.getChildren().add(botButton);
+
         gameGP = new GridPane();
         gameGP.setMaxWidth(sizeX * 30);
         gameGP.getStyleClass().add("custom-gridpane");
@@ -33,7 +51,6 @@ public class GameView {
             for (int j = 0; j < y; j++) {
                 Button button = buildButton(30, i, j);
                 gameGP.add(button, i, j);
-                
             }
         }
     }
