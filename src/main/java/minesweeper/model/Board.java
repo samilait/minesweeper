@@ -100,8 +100,8 @@ public class Board {
                         // No surrounding mines, all surrounding squares can be opened
                         for (int xInc = -1; xInc <= 1; xInc++) {
                             for (int yInc = -1; yInc <= 1; yInc++) {
-                                if (withinBoard(v.first + xInc, v.second + yInc) && 
-                                        !board[v.first + xInc][v.second + yInc].getOpen()) {
+                                if (withinBoard(v.first + xInc, v.second + yInc) 
+                                    && !board[v.first + xInc][v.second + yInc].getOpen()) {
                                     toVisit.push(new Pair(v.first + xInc, v.second + yInc));
                                 }
                             }

@@ -74,14 +74,13 @@ public class GameView {
         button.setMaxHeight(size);
         button.setOnMouseClicked((e) -> {
             if ((e.getButton() == MouseButton.PRIMARY && e.isSecondaryButtonDown()
-            ||(e.getButton() == MouseButton.SECONDARY&& e.isPrimaryButtonDown()))
-            && board.board[x][y].getOpen()) {
-                if (!board.chordedOpen(x,y)) {
+                || (e.getButton() == MouseButton.SECONDARY && e.isPrimaryButtonDown()))
+                && board.board[x][y].getOpen()) {
+                if (!board.chordedOpen(x, y)) {
                     gameOver();
                 } else {
                     updateGameGP(false);
                 }
-                
             } else if (e.getButton() == MouseButton.PRIMARY) {
                 //If the first click of the game, generate a new board
                 if (!board.open(x, y)) {

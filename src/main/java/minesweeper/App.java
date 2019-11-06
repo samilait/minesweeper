@@ -19,9 +19,10 @@ public class App extends Application {
         scene.getStylesheets().add("stylesheet.css");
         stage.setScene(scene);
         stage.show();
-        // Add a general listener to the root view (StackPane), any changes to its childre will cause the stage to automagically resize itself to everything.
+        // Add a general listener to the root view (StackPane), any changes to its children
+        // will cause the stage to automagically resize itself to everything.
         startScreen.rootChildren().addListener((ListChangeListener.Change<? extends Node> change) -> {
-                stage.sizeToScene();
+            stage.sizeToScene();
         });
     }
 
