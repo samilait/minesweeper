@@ -43,6 +43,6 @@ A Square object provides access to the state of an individual Square on the boar
 It has methods for querying whether a Square is a mine, how many adjacent mines it has
 and allows flagging/unflagging the square.
 
-*NOTE:* A Square must be opened before you can check if it's a mine or how many adjacent
+**NOTE:** A Square must be opened before you can check if it's a mine or how many adjacent
 mines it has. Attempting to read the full state of a closed Square will result in an
 AssertionError.
