@@ -8,7 +8,9 @@ package minesweeper.model;
  * @see model.Board
  */
 public class Square {
-    private boolean isMine, opened, isFlagged = false;
+    private boolean isMine = false;
+    private boolean opened = false; 
+    private boolean isFlagged = false;
     private int surroundingMines = 0; //Number of surrounding squares with mines
 
     public Highlight highlight = Highlight.NONE;
@@ -21,6 +23,7 @@ public class Square {
 
     /**
      * Generates a new Square as Square with mine.
+     * @param isMine
      */
     public Square(boolean isMine) {
         this.isMine = isMine;
