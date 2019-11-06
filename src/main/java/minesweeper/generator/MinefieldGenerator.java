@@ -14,7 +14,7 @@ public class MinefieldGenerator {
     private boolean isSafeArea(int currentX, int currentY, int safeOriginX, int safeOriginY) {
         for (int x = -1; x <= 1; x++) {
             for (int y = -1; y <= 1; y++) {
-                if (safeOriginX + x == currentX || safeOriginX + y == currentY) {
+                if (safeOriginX + x == currentX && safeOriginX + y == currentY) {
                     return true;
                 }
             }
