@@ -1,5 +1,16 @@
 .opened-button { -fx-background-color: rgba(169, 169, 169, 0); }
-
+.flagged-button { 
+    -fx-background-image: url('Flag.png');
+    -fx-background-size: 15px 15px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+.mine {
+    -fx-background-image: url('Mine.png');
+    -fx-background-size: 15px 15px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
 .red-highlight { -fx-border-color: red; }
 .green-highlight { -fx-border-color: green; }
 
