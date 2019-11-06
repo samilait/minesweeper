@@ -6,14 +6,17 @@ import org.junit.After;
 import org.junit.Before;
 import static org.junit.Assert.*;
 
-
+import minesweeper.generator.MinefieldGenerator;
 
 public class BoardTest {
     Board board;
+    MinefieldGenerator generator;
 
     @Before
     public void setUp() {
-        board = new Board(10, 10);
+        generator = new MinefieldGenerator();
+        board = new Board(generator, 10, 10, 3);
+        board.firstMove = false;
     } 
 
     @After
@@ -32,7 +35,7 @@ public class BoardTest {
 
     @Test
     public void boardIsInitializedWithCorrectWidthAndHeight() {
-        board = new Board(10, 10);
+        board = new Board(generator, 10, 10, 3);
 
         assertEquals(10, board.length);
         assertEquals(10, board.width);
