@@ -19,7 +19,7 @@ public class StartSelectView {
         this.buttons = new Button[] { 
             this.initButton("Easy ", 9, 9, 10), 
             this.initButton("Intermediate", 16, 16, 40),
-            this.initButton("Hard", 16, 30, 99) };
+            this.initButton("Hard", 30, 16, 99) };
         this.hbox = new HBox(buttons);
         this.vbox = new VBox(new Label("Select game type"), hbox);
         this.stackPane = new StackPane(this.vbox);
