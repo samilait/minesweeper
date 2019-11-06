@@ -25,6 +25,7 @@ public class Board {
         this.totalMines = totalMines;
         this.initialize();
     }
+
     /** 
      * Sets the number of total mines, used by MinefieldGenerator when generating a new board
      */
@@ -36,6 +37,13 @@ public class Board {
      */
     public void addSquare(Square square, int xCoord, int yCoord) {
         this.board[xCoord][yCoord] = square;
+    }
+
+    /**
+     * Get a Square at a given X, Y coordinate
+     */
+    public Square getSquareAt(int x, int y) {
+        return this.board[x][y];
     }
 
     /**
