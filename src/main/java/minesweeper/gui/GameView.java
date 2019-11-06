@@ -84,7 +84,7 @@ public class GameView {
             } else if (e.getButton() == MouseButton.PRIMARY) {
                 //If the first click of the game, generate a new board
                 if (!board.open(x, y)) {
-                    button.setText("☠");
+                    button.getStyleClass().add("mine");
                     gameOver();
                     return; 
                 } else if (board.gameWon) {
@@ -98,9 +98,9 @@ public class GameView {
                 if (!board.board[x][y].getOpen()) {
                     board.board[x][y].toggleFlagged();
                     if (board.board[x][y].getFlagged()) {
-                        button.setText("⚐");
+                        button.getStyleClass().add("flagged-button");
                     } else {
-                        button.setText("");
+                        button.getStyleClass().remove("flagged-button");
                     }
                 }
                
@@ -169,7 +169,7 @@ public class GameView {
 
                     newButton.getStyleClass().add("opened-button");
                     if (board.board[i][j].isMine()) {
-                        newButton.setText("☠");
+                        newButton.getStyleClass().add("mine");
 
                     } else if (board.board[i][j].surroundingMines() != 0) {
                         newButton.setText("" + board.board[i][j].surroundingMines());
@@ -178,7 +178,7 @@ public class GameView {
                     }
                 } else {
                     if (board.board[i][j].getFlagged()) {
-                        newButton.setText("⚐");
+                        newButton.getStyleClass().add("flagged-button");
                     }
                 }
 
