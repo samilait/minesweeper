@@ -200,4 +200,17 @@ public class BoardTest {
 
         assertEquals(false, board.board[6][6].getOpen());
     }
+
+    @Test
+    public void boardHighlightsCanBeCleared() {
+        board.board[5][5].highlight = Highlight.RED;
+
+        board.clearHighlights();
+
+        for (int y = 0; y < board.length; y++) {
+            for (int x = 0; x < board.width; x++) {
+                assertEquals(Highlight.NONE, board.board[x][y].highlight);
+            }
+        }
+    }
 }
