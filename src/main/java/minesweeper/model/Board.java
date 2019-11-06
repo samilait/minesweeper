@@ -12,7 +12,8 @@ public class Board {
     public boolean gameEnd, gameWon = false;
     public Square[][] board;
     public int totalMines;
-    public final int width, length;
+    public final int width;
+    public final int length;
 
     private MinefieldGenerator generator;
     public boolean firstMove = true;

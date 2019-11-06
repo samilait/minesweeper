@@ -5,7 +5,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.input.MouseButton;
-import minesweeper.model.*;
+import minesweeper.model.Board;
 import minesweeper.generator.MinefieldGenerator;
 
 import minesweeper.bot.TestBot;
@@ -15,7 +15,9 @@ public class GameView {
     private GridPane gameGP;
     private Board board;
     private VBox vbox;
-    private int sizeX, sizeY, remainingUnflaggedMines;
+    private int sizeX;
+    private int sizeY;
+    private int remainingUnflaggedMines;
     private MinefieldGenerator generator;
     private Bot bot;
     private Label endLabel = new Label("Mines: ");

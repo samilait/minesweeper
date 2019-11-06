@@ -33,6 +33,13 @@ public class SquareTest {
     }
     
     @Test
+    public void openedSquareDoesNotToggle() {
+        square.open();       
+        square.toggleFlagged();
+        assertEquals(true, square.getOpen());
+    }
+    
+    @Test
     public void unopenedSquareWillNotRevealNumberOfSurrounding() {
         assertEquals(false, square.getOpen());
 
@@ -56,4 +63,10 @@ public class SquareTest {
         }
 
     }
+    
+    @Test
+    public void returnXWhenUnopened() {  
+        assertEquals("X", square.toString());
+    }
+
 }
