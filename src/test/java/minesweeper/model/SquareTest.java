@@ -7,7 +7,8 @@ import org.junit.Before;
 import static org.junit.Assert.assertEquals;
 
 public class SquareTest {
-    Square square;
+    
+   Square square;
 
     @Before
     public void setUp() {
@@ -16,7 +17,7 @@ public class SquareTest {
 
     @After
     public void tearDown() {
-
+// intentionally empty
     }
 
     @Test
@@ -25,8 +26,9 @@ public class SquareTest {
     }
 
     @Test
-    public void flaggedSquareIsNotOpened() {
-        square.getFlagged();
+    public void flaggedSquareIsNotOpened() {  
+        square.toggleFlagged();
+        square.open();
         assertEquals(false, square.getOpen());
     }
     

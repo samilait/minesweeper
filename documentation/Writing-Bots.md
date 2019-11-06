@@ -1,4 +1,3 @@
-
 # Writing Minesweeper bots
 
 This document describes the required Java interfaces and the general functionality

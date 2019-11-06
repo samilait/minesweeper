@@ -11,7 +11,7 @@ public class Square {
     private boolean isMine;
     private boolean opened; 
     private boolean isFlagged;
-    private int surroundingMines = 0; //Number of surrounding squares with mines
+    private int surroundingMines; //Number of surrounding squares with mines
 
     public Highlight highlight = Highlight.NONE;
 
@@ -19,9 +19,10 @@ public class Square {
      * Generates a new Square with no mines
      */
     public Square() {
-        isMine = false;
-        opened = false;
-        isFlagged = false;
+        this.isMine = false;
+        this.opened = false;
+        this.isFlagged = false;
+        this.surroundingMines = 0;
     }
 
     /**
@@ -84,7 +85,7 @@ public class Square {
     public int surroundingMines() {
         assert (this.opened);
 
-        return surroundingMines;
+        return this.surroundingMines;
     }
 
     /**
@@ -104,7 +105,7 @@ public class Square {
             return "X";
         }
 
-        return this.isMine ? "*" : "" + surroundingMines;
+        return this.isMine ? "*" : "" + this.surroundingMines;
     }
 
 
