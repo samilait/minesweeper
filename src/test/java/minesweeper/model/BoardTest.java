@@ -9,8 +9,8 @@ import static org.junit.Assert.*;
 import minesweeper.generator.MinefieldGenerator;
 
 public class BoardTest {
-    Board board;
-    MinefieldGenerator generator;
+    private Board board;
+    private MinefieldGenerator generator;
 
     @Before
     public void setUp() {
