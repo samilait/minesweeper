@@ -3,7 +3,7 @@ package minesweeper.model;
 
 /**
  * Represent a single square on the board.
- * All the methods ragarding the information of this square, 
+ * All the methods regarding the information of this square, 
  * i.e. amount of surrounding mines and whether this Square has a mine are only accessible if the square has been opened
  * @see model.Board
  */
@@ -16,7 +16,7 @@ public class Square {
     public Highlight highlight = Highlight.NONE;
 
     /**
-     * Generates new Square wih no mine
+     * Generates a new Square with no mines
      */
     public Square() {
     }
@@ -30,7 +30,7 @@ public class Square {
     }
 
     /**
-     * Represents a "click" on this particular square, and sets the state to opened.
+     * Represents a "click" on this particular square, and sets the state to opened
      */
     public void open() {
         if (!isFlagged) {
@@ -39,7 +39,7 @@ public class Square {
     }
 
     /**
-     * Wheter this Square is opened
+     * Whether this Square is opened
      * @return true if it is opened already, else false
      */
     public boolean getOpen() {
@@ -73,8 +73,6 @@ public class Square {
             this.isFlagged = !this.isFlagged;
         }
     }
-
-   
 
     /**
      * amount of surrounding Squares that have a mine.

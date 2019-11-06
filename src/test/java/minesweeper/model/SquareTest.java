@@ -31,10 +31,9 @@ public class SquareTest {
         try {
             square.surroundingMines();
         } catch (AssertionError err) {
-            return;
+            assert(true);
         }
 
-        assert(false);
     }
 
     @Test
@@ -44,9 +43,7 @@ public class SquareTest {
         try {
             square.isMine();
         } catch (AssertionError err) {
-            return;
+            assert(true);
         }
-
-        assert(false);
     }
 }

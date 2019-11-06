@@ -16,7 +16,7 @@ public class StartSelectView {
     private StackPane stackPane;
 
     public StartSelectView() {
-        this.buttons = new Button[] { 
+        this.buttons = new Button[] {
             this.initButton("Easy ", 9, 9, 10), 
             this.initButton("Intermediate", 16, 16, 40),
             this.initButton("Hard", 30, 16, 99) };
