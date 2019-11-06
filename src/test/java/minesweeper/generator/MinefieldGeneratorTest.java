@@ -37,20 +37,12 @@ public class MinefieldGeneratorTest {
 
     @Test
     public void safeAreaAroundFirstEdgeCase() {
-        int[] edge = new int[] { 0, 9 };
         generator.generate(board, 100, 0, 0);
-
         int[] displacement = new int[] { -1, 0, 1 };
-        for (int x : edge) {
-            for (int y : edge) {
-                this.board = new Board(generator, 10, 10, 3);
-                generator.generate(board, 100, x, y);
-                for (int dx : displacement) {
-                    for (int dy : displacement) {
-                        if (board.withinBoard(x + dx, y + dy)) {
-                            assert (board.open(x + dx, y + dy));
-                        }
-                    }
+        for (int dx : displacement) {
+            for (int dy : displacement) {
+                if(board.withinBoard(dx, dy)){
+                    assert (board.open(dx, dy));
                 }
             }
         }
