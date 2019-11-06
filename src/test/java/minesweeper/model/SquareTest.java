@@ -30,7 +30,6 @@ public class SquareTest {
 
         try {
             square.surroundingMines();
-            assert(false);
         } catch (AssertionError err) {
             assert(true);
         }
@@ -40,10 +39,10 @@ public class SquareTest {
     @Test
     public void unopenedSquareWillNotRevealIfMine() {
         square.setMine();
-
+        assertEquals(false, square.getOpen());
+        
         try {
             square.isMine();
-            assert(false);
         } catch (AssertionError err) {
             assert(true);
         }
