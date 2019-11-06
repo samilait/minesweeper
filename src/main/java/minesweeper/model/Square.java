@@ -8,9 +8,9 @@ package minesweeper.model;
  * @see model.Board
  */
 public class Square {
-    private boolean isMine = false;
-    private boolean opened = false; 
-    private boolean isFlagged = false;
+    private boolean isMine;
+    private boolean opened; 
+    private boolean isFlagged;
     private int surroundingMines = 0; //Number of surrounding squares with mines
 
     public Highlight highlight = Highlight.NONE;
@@ -19,6 +19,9 @@ public class Square {
      * Generates a new Square with no mines
      */
     public Square() {
+        isMine = false;
+        opened = false;
+        isFlagged = false;
     }
 
     /**

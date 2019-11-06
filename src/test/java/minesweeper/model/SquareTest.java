@@ -4,7 +4,7 @@ package minesweeper.model;
 import org.junit.Test;
 import org.junit.After;
 import org.junit.Before;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class SquareTest {
     Square square;
@@ -24,6 +24,12 @@ public class SquareTest {
         assertEquals(false, square.getOpen());
     }
 
+    @Test
+    public void flaggedSquareIsNotOpened() {
+        square.getFlagged();
+        assertEquals(false, square.getOpen());
+    }
+    
     @Test
     public void unopenedSquareWillNotRevealNumberOfSurrounding() {
         assertEquals(false, square.getOpen());
