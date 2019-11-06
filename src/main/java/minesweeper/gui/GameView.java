@@ -2,6 +2,8 @@ package minesweeper.gui;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.collections.ListChangeListener;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.input.MouseButton;
@@ -18,8 +20,8 @@ public class GameView {
     private int sizeX, sizeY;
     private int mineCount;
     private MinefieldGenerator generator;
-    private boolean firstclick = true;
     private Bot bot;
+    private Label endLabel = new Label("");
 
     private Button botButton;
     
@@ -41,6 +43,7 @@ public class GameView {
         });
 
         vbox.getChildren().add(botButton);
+        vbox.getChildren().add(this.endLabel);
 
         gameGP = new GridPane();
         gameGP.setMaxWidth(sizeX * 30);
@@ -74,9 +77,9 @@ public class GameView {
         button.setMaxHeight(size);
         button.setOnMouseClicked((e) -> {
             if ((e.getButton() == MouseButton.PRIMARY && e.isSecondaryButtonDown()
-                || (e.getButton() == MouseButton.SECONDARY && e.isPrimaryButtonDown()))
-                && board.board[x][y].getOpen()) {
-                if (!board.chordedOpen(x, y)) {
+            || (e.getButton() == MouseButton.SECONDARY&& e.isPrimaryButtonDown()))
+            && board.board[x][y].getOpen()) {
+                if (!board.chordedOpen(x,y)) {
                     gameOver();
                 } else {
                     updateGameGP(false);
@@ -113,18 +116,14 @@ public class GameView {
      * Updates the view to show that the game has been won.
      */
     public void gameWon() {
-        this.vbox.getChildren().remove(0);
-        this.vbox.getChildren().add(new Label("You won. Congratulations!"));
-
+        this.endLabel.setText("You won. Congratulations!");
         updateGameGP(true);
     }
     /**
      * Updates the view to show that the game has been lost.
      */
     public void gameOver() {
-        this.vbox.getChildren().remove(0);
-        this.vbox.getChildren().add(new Label("You lost. Get rekt"));
-        
+        this.endLabel.setText("You lost. Get rekt");
         updateGameGP(true);
     }
     
@@ -147,6 +146,7 @@ public class GameView {
                     newButton.setMinWidth(30);
                     newButton.setMaxWidth(30);
                     botButton.setDisable(true);
+                    this.board.open(i, j);
                 } else {
                     //Functional buttons when game is underway.
                     newButton = buildButton(30, i, j);
@@ -171,7 +171,7 @@ public class GameView {
                     if (board.board[i][j].isMine()) {
                         newButton.getStyleClass().add("mine");
 
-                    } else if (board.board[i][j].surroundingMines() != 0) {
+                    } else if (board.board[i][j].surroundingMines() != 0 && !end) {
                         newButton.setText("" + board.board[i][j].surroundingMines());
                         setOpenedButtonColor(newButton, board.board[i][j].surroundingMines());
             
