@@ -13,8 +13,9 @@ public class MinefieldGeneratorTest {
 
     @Before
     public void setUp() {
-        board = new Board(10, 10);
         generator = new MinefieldGenerator();
+        board = new Board(generator, 10, 10, 3);
+        board.firstMove = false;
     }
 
     @After
@@ -42,7 +43,7 @@ public class MinefieldGeneratorTest {
         int[] displacement = new int[] { -1, 0, 1 };
         for (int x : edge) {
             for (int y : edge) {
-                this.board = new Board(10,10);
+                this.board = new Board(generator, 10, 10, 3);
                 generator.generate(board, 100, x, y);
                 for (int dx : displacement) {
                     for (int dy : displacement) {

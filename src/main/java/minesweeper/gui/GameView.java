@@ -8,6 +8,9 @@ import javafx.scene.input.MouseButton;
 import minesweeper.model.*;
 import minesweeper.generator.MinefieldGenerator;
 
+import minesweeper.bot.TestBot;
+import minesweeper.bot.Bot;
+
 public class GameView {
     private GridPane gameGP;
     private Board board;
@@ -16,24 +19,40 @@ public class GameView {
     private int mineCount;
     private MinefieldGenerator generator;
     private boolean firstclick = true;
+    private Bot bot;
+
+    private Button botButton;
     
     public GameView(int x, int y, VBox vbox, int mines) {
         this.vbox = vbox;
         sizeX = x;
         sizeY = y;
         mineCount = mines;
+
+        this.bot = new TestBot();
+
+        botButton = new Button("Help (bot)");
+        botButton.setOnMouseClicked(e -> {
+            if (this.bot.makeMove(this.board)) {
+                this.updateGameGP(false);
+            } else {
+                this.gameOver();
+            }
+        });
+
+        vbox.getChildren().add(botButton);
+
         gameGP = new GridPane();
         gameGP.setMaxWidth(sizeX * 30);
         gameGP.getStyleClass().add("custom-gridpane");
         vbox.getChildren().add(gameGP);
-        board = new Board(x, y);
-
         generator = new MinefieldGenerator();
+        board = new Board(generator, x, y, mineCount);
+
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
                 Button button = buildButton(30, i, j);
                 gameGP.add(button, i, j);
-                
             }
         }
     }
@@ -65,10 +84,6 @@ public class GameView {
                 
             } else if (e.getButton() == MouseButton.PRIMARY) {
                 //If the first click of the game, generate a new board
-                if (firstclick) {
-                    generator.generate(board, mineCount, x, y);
-                    firstclick = false;
-                }
                 if (!board.open(x, y)) {
                     button.setText("☠");
                     gameOver();
@@ -112,7 +127,6 @@ public class GameView {
         this.vbox.getChildren().add(new Label("You lost. Get rekt"));
         
         updateGameGP(true);
-        
     }
     
     /**
@@ -133,6 +147,7 @@ public class GameView {
                     newButton.setMaxHeight(30);
                     newButton.setMinWidth(30);
                     newButton.setMaxWidth(30);
+                    botButton.setDisable(true);
                 } else {
                     //Functional buttons when game is underway.
                     newButton = buildButton(30, i, j);

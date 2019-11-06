@@ -5,6 +5,8 @@ import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import minesweeper.generator.MinefieldGenerator;
+
 public class Board {
 
     public boolean gameEnd, gameWon = false;
@@ -12,10 +14,15 @@ public class Board {
     public int totalMines;
     public final int width, length;
 
-    public Board(int width, int length) {
+    private MinefieldGenerator generator;
+    public boolean firstMove = true;
+
+    public Board(MinefieldGenerator generator, int width, int length, int totalMines) {
         this.width = width;
         this.length = length;
         this.board = new Square[width][length];
+        this.generator = generator;
+        this.totalMines = totalMines;
         this.initialize();
     }
     /** 
@@ -36,6 +43,11 @@ public class Board {
      * and all surrounding squares that are not mines
      */
     public boolean open(int x, int y) {
+        if (this.firstMove) {
+            generator.generate(this, totalMines, x, y);
+            this.firstMove = false;
+        }
+
         if (this.board[x][y].getFlagged()) {
             return true;
         }
@@ -144,6 +156,14 @@ public class Board {
         }
 
         return true;
+    }
+
+    public void clearHighlights() {
+        for (int x = 0; x < this.width; x++) {
+            for (int y = 0; y < this.length; y++) {
+                this.board[x][y].highlight = Highlight.NONE;
+            }
+        }
     }
 
     /**
