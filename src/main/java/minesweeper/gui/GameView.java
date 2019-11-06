@@ -2,8 +2,6 @@ package minesweeper.gui;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import javafx.collections.ListChangeListener;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.input.MouseButton;
@@ -17,11 +15,10 @@ public class GameView {
     private GridPane gameGP;
     private Board board;
     private VBox vbox;
-    private int sizeX, sizeY;
-    private int mineCount;
+    private int sizeX, sizeY, remainingUnflaggedMines;
     private MinefieldGenerator generator;
     private Bot bot;
-    private Label endLabel = new Label("");
+    private Label endLabel = new Label("Mines: ");
 
     private Button botButton;
     
@@ -29,7 +26,8 @@ public class GameView {
         this.vbox = vbox;
         sizeX = x;
         sizeY = y;
-        mineCount = mines;
+        remainingUnflaggedMines = mines;
+        this.endLabel.setText(this.endLabel.getText() + remainingUnflaggedMines);
 
         this.bot = new TestBot();
 
@@ -50,7 +48,7 @@ public class GameView {
         gameGP.getStyleClass().add("custom-gridpane");
         vbox.getChildren().add(gameGP);
         generator = new MinefieldGenerator();
-        board = new Board(generator, x, y, mineCount);
+        board = new Board(generator, x, y, mines);
 
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
@@ -102,8 +100,12 @@ public class GameView {
                     board.board[x][y].toggleFlagged();
                     if (board.board[x][y].getFlagged()) {
                         button.setText("⚐");
+                        this.remainingUnflaggedMines--;
+                        this.endLabel.setText("Mines: " + this.remainingUnflaggedMines);
                     } else {
                         button.setText("");
+                        this.remainingUnflaggedMines++;
+                        this.endLabel.setText("Mines: " + this.remainingUnflaggedMines);
                     }
                 }
                
@@ -146,7 +148,6 @@ public class GameView {
                     newButton.setMinWidth(30);
                     newButton.setMaxWidth(30);
                     botButton.setDisable(true);
-                    this.board.open(i, j);
                 } else {
                     //Functional buttons when game is underway.
                     newButton = buildButton(30, i, j);
@@ -171,7 +172,7 @@ public class GameView {
                     if (board.board[i][j].isMine())  {
                         newButton.setText("☠");
 
-                    } else if (board.board[i][j].surroundingMines() != 0 && !end) {
+                    } else if (board.board[i][j].surroundingMines() != 0) {
                         newButton.setText("" + board.board[i][j].surroundingMines());
                         setOpenedButtonColor(newButton, board.board[i][j].surroundingMines());
             
