@@ -15,11 +15,10 @@ public class GameView {
     private GridPane gameGP;
     private Board board;
     private VBox vbox;
-    private int sizeX, sizeY;
-    private int mineCount;
+    private int sizeX, sizeY, remainingUnflaggedMines;
     private MinefieldGenerator generator;
-    private boolean firstclick = true;
     private Bot bot;
+    private Label endLabel = new Label("Mines: ");
 
     private Button botButton;
     
@@ -27,7 +26,8 @@ public class GameView {
         this.vbox = vbox;
         sizeX = x;
         sizeY = y;
-        mineCount = mines;
+        remainingUnflaggedMines = mines;
+        this.endLabel.setText(this.endLabel.getText() + remainingUnflaggedMines);
 
         this.bot = new TestBot();
 
@@ -41,13 +41,14 @@ public class GameView {
         });
 
         vbox.getChildren().add(botButton);
+        vbox.getChildren().add(this.endLabel);
 
         gameGP = new GridPane();
         gameGP.setMaxWidth(sizeX * 30);
         gameGP.getStyleClass().add("custom-gridpane");
         vbox.getChildren().add(gameGP);
         generator = new MinefieldGenerator();
-        board = new Board(generator, x, y, mineCount);
+        board = new Board(generator, x, y, mines);
 
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
@@ -74,9 +75,9 @@ public class GameView {
         button.setMaxHeight(size);
         button.setOnMouseClicked((e) -> {
             if ((e.getButton() == MouseButton.PRIMARY && e.isSecondaryButtonDown()
-                || (e.getButton() == MouseButton.SECONDARY && e.isPrimaryButtonDown()))
-                && board.board[x][y].getOpen()) {
-                if (!board.chordedOpen(x, y)) {
+            || (e.getButton() == MouseButton.SECONDARY&& e.isPrimaryButtonDown()))
+            && board.board[x][y].getOpen()) {
+                if (!board.chordedOpen(x,y)) {
                     gameOver();
                 } else {
                     updateGameGP(false);
@@ -99,8 +100,12 @@ public class GameView {
                     board.board[x][y].toggleFlagged();
                     if (board.board[x][y].getFlagged()) {
                         button.getStyleClass().add("flagged-button");
+                        this.remainingUnflaggedMines--;
+                        this.endLabel.setText("Mines: " + this.remainingUnflaggedMines);
                     } else {
                         button.getStyleClass().remove("flagged-button");
+                        this.remainingUnflaggedMines++;
+                        this.endLabel.setText("Mines: " + this.remainingUnflaggedMines);
                     }
                 }
                
@@ -113,18 +118,14 @@ public class GameView {
      * Updates the view to show that the game has been won.
      */
     public void gameWon() {
-        this.vbox.getChildren().remove(0);
-        this.vbox.getChildren().add(new Label("You won. Congratulations!"));
-
+        this.endLabel.setText("You won. Congratulations!");
         updateGameGP(true);
     }
     /**
      * Updates the view to show that the game has been lost.
      */
     public void gameOver() {
-        this.vbox.getChildren().remove(0);
-        this.vbox.getChildren().add(new Label("You lost. Get rekt"));
-        
+        this.endLabel.setText("You lost. Get rekt");
         updateGameGP(true);
     }
     

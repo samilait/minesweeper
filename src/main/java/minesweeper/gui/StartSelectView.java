@@ -15,18 +15,19 @@ public class StartSelectView {
     private GameView gameView;
     private StackPane stackPane;
 
-    
     public StartSelectView() {
-        this.buttons = new Button[] {
+        this.buttons = new Button[] { 
             this.initButton("Easy ", 9, 9, 10), 
             this.initButton("Intermediate", 16, 16, 40),
-            this.initButton("Hard", 16, 30, 99) };
+            this.initButton("Hard", 30, 16, 99) };
         this.hbox = new HBox(buttons);
         this.vbox = new VBox(new Label("Select game type"), hbox);
         this.stackPane = new StackPane(this.vbox);
     }
+
     /**
-     * Button that initiates a new game with the difficulty (based on size of the board)
+     * Button that initiates a new game with the difficulty (based on size of the
+     * board)
      */
     private Button initButton(String label, int height, int width, int mines) {
         Button button = new Button(label);
@@ -37,9 +38,7 @@ public class StartSelectView {
                 this.stackPane.getChildren().remove(1);
                 this.vbox.setVisible(true);
             });
-            this.gameView = new GameView(height, width, 
-                            new VBox(new Label("This has to be deleted"), 
-                            newGameButton), mines);
+            this.gameView = new GameView(height, width, new VBox(newGameButton), mines);
             this.stackPane.getChildren().add(gameView.getView());
         });
         button.setWrapText(false);
@@ -47,7 +46,8 @@ public class StartSelectView {
     }
 
     /**
-     * Return the ObservableList of the root node of this class, used for resizing purposes in the App class
+     * Return the ObservableList of the root node of this class, used for resizing
+     * purposes in the App class
      */
     public ObservableList<Node> rootChildren() {
         return this.stackPane.getChildren();
