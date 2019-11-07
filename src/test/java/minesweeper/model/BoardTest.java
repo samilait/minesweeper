@@ -4,7 +4,7 @@ package minesweeper.model;
 import org.junit.Test;
 import org.junit.After;
 import org.junit.Before;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import minesweeper.generator.MinefieldGenerator;
 
@@ -91,7 +91,6 @@ public class BoardTest {
             }
         }
     }
-
 
     @Test
     public void openingASquareDoesNotOpenMines() {

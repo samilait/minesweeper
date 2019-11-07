@@ -33,10 +33,16 @@ public class SquareTest {
     }
     
     @Test
-    public void openedSquareDoesNotToggle() {
+    public void openedSquareDoesNotToggleFlag() {
         square.open();       
         square.toggleFlagged();
         assertEquals(true, square.getOpen());
+    }
+ 
+    @Test
+    public void unopenedSquareTogglesFlag() {     
+        square.toggleFlagged();
+        assertEquals(false, square.getOpen());
     }
     
     @Test
@@ -68,5 +74,11 @@ public class SquareTest {
     public void returnXWhenUnopened() {  
         assertEquals("X", square.toString());
     }
-
+      
+    @Test
+    public void return0WhenOpened() {  
+        square.open();
+        assertEquals("0", square.toString());
+    }  
+    
 }

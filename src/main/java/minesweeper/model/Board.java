@@ -9,7 +9,8 @@ import minesweeper.generator.MinefieldGenerator;
 
 public class Board {
 
-    public boolean gameEnd, gameWon = false;
+    public boolean gameEnd = false;
+    public boolean  gameWon = false;
     public Square[][] board;
     public int totalMines;
     public final int width;
