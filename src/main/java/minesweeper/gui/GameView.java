@@ -18,13 +18,13 @@ public class GameView {
     private int sizeX;
     private int sizeY;
     private int remainingUnflaggedMines;
-    private MinefieldGenerator generator;
     private Bot bot;
     private Label endLabel = new Label("Mines: ");
 
     private Button botButton;
     
     public GameView(int x, int y, VBox vbox, int mines) {
+        MinefieldGenerator generator;
         this.vbox = vbox;
         sizeX = x;
         sizeY = y;

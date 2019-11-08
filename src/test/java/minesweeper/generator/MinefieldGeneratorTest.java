@@ -20,7 +20,7 @@ public class MinefieldGeneratorTest {
 
     @After
     public void tearDown() {
-
+// empty method
     }
 
     @Test
