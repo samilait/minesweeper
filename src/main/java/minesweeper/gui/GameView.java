@@ -11,6 +11,8 @@ import minesweeper.generator.MinefieldGenerator;
 import minesweeper.bot.TestBot;
 import minesweeper.bot.Bot;
 
+import minesweeper.model.Move;
+
 public class GameView {
     private GridPane gameGP;
     private Board board;
@@ -35,8 +37,31 @@ public class GameView {
 
         botButton = new Button("Help (bot)");
         botButton.setOnMouseClicked(e -> {
-            if (this.bot.makeMove(this.board)) {
+            this.board.clearHighlights();
+
+            Move move = this.bot.makeMove(board);
+
+            switch (move.type) {
+                case HIGHLIGHT:
+                    this.board.getSquareAt(move.x, move.y).highlight = move.highlight;
+                    break;
+                case FLAG:
+                    this.board.getSquareAt(move.x, move.y).toggleFlagged();
+                    break;
+                case OPEN:
+                    this.board.open(move.x, move.y); 
+                    break;
+                case CHORD:
+                    this.board.chordedOpen(move.x, move.y); 
+                    break;
+                default:
+                    break;
+            }
+
+            if (!board.gameEnd) {
                 this.updateGameGP(false);
+            } else if (board.gameWon) {
+                this.gameWon();
             } else {
                 this.gameOver();
             }
