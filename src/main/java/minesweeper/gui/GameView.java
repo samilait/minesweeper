@@ -41,8 +41,6 @@ public class GameView {
 
             Move move = this.bot.makeMove(board);
 
-            boolean alive = true;
-
             switch (move.type) {
                 case HIGHLIGHT:
                     this.board.getSquareAt(move.x, move.y).highlight = move.highlight;
@@ -51,17 +49,19 @@ public class GameView {
                     this.board.getSquareAt(move.x, move.y).toggleFlagged();
                     break;
                 case OPEN:
-                    alive = this.board.open(move.x, move.y); 
+                    this.board.open(move.x, move.y); 
                     break;
                 case CHORD:
-                    alive = this.board.chordedOpen(move.x, move.y); 
+                    this.board.chordedOpen(move.x, move.y); 
                     break;
                 default:
                     break;
             }
 
-            if (alive) {
+            if (!board.gameEnd) {
                 this.updateGameGP(false);
+            } else if (board.gameWon) {
+                this.gameWon();
             } else {
                 this.gameOver();
             }
