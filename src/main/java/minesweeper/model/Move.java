@@ -4,7 +4,8 @@ package minesweeper.model;
 public class Move {
     public MoveType type;
 
-    public int x, y;
+    public int x;
+    public int y;
 
     public Highlight highlight = Highlight.NONE;
 

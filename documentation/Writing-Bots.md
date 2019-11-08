@@ -29,11 +29,11 @@ by the application to update the board state.
 
 The Move class represents a single move taken in the game. The Move class has two
 constructors you can use to represent new moves:
-```
+```java
 public Move(MoveType type, int x, int y)
 ```
 and
-```
+```java
 public Move(int x, int y, Highlight highlight)
 ```
 

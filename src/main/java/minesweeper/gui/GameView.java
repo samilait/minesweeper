@@ -12,7 +12,6 @@ import minesweeper.bot.TestBot;
 import minesweeper.bot.Bot;
 
 import minesweeper.model.Move;
-import minesweeper.model.MoveType;
 
 public class GameView {
     private GridPane gameGP;
