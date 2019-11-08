@@ -17,6 +17,6 @@ public class TestBot implements Bot {
         int x = rng.nextInt(board.width);
         int y = rng.nextInt(board.length);
 
-        return new Move(MoveType.HIGHLIGHT, x, y);
+        return new Move(MoveType.FLAG, x, y);
     }
 }

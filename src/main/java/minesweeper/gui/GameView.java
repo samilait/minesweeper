@@ -38,9 +38,11 @@ public class GameView {
 
         botButton = new Button("Help (bot)");
         botButton.setOnMouseClicked(e -> {
+            this.board.clearHighlights();
+
             Move move = this.bot.makeMove(board);
 
-            boolean alive = false;
+            boolean alive = true;
 
             switch (move.type) {
                 case HIGHLIGHT:

@@ -6,7 +6,7 @@ public class Move {
 
     public int x, y;
 
-    public Highlight highlight;
+    public Highlight highlight = Highlight.NONE;
 
     public Move(MoveType type, int x, int y) {
         this.type = type;
