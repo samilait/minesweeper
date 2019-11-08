@@ -14,15 +14,35 @@ which any bots must implement.
 
 The interface defines a single method 
 ```java
-public boolean makeMove(Board board)
+public Move makeMove(Board board)
 ```
 which is used by the Minesweeper to relay information to the bot and ask the bot to make
 a decision. As a parameter, the current state of the board is given in the form of a
-Board object. The return value represents whether the Bot opened a mine of not.
+Board object. The bot returns the action it has taken in the form of a Move object.
 
 In the bot implementations, this function must be overridden with your own custom
-functionality that represents a single round being played. The bot can take actions
-by directly modifying the state of the Board object using its methods.
+functionality that represents a single round being played. The bot doesn't modify the
+state of the board directly but instead returns a Move object, which is processed
+by the application to update the board state.
+
+## Move class
+
+The Move class represents a single move taken in the game. The Move class has two
+constructors you can use to represent new moves:
+```
+public Move(MoveType type, int x, int y)
+```
+and
+```
+public Move(int x, int y, Highlight highlight)
+```
+
+The first constructor is a generic constructor for constructing any type of move.
+The type is defined in the MoveType enum and can be HIGHLIGHT, OPEN, CHORD or FLAG.
+The x and y variables refer to the grid coordinate.
+
+The other constructor exclusively constructs Highlight-type moves and allow the bot
+to highlight squares on the board with green or red colour.
 
 ## Board class
 
@@ -31,10 +51,9 @@ board state within the application. It is based on a two dimensional array conta
 all of the individual squares as Square objects.
 
 The primary interaction with the board happens via the ```public Square getSquareAt(int x, int y)```
-and ```public boolean open(int x, int y)``` methods. These allow you to read the state of a square
-at a given coordinate and opening a square at a given coordinate. There is also a method
-for chording called ```public boolean chordedOpen(int x, int y)```. You can read about
-chording [here](http://www.minesweeper.info/wiki/Chord).
+method, which allows you to inspect a Square at a given coordinate.
+
+The Board also provides methods for opening squares, but the bot shouldn't use these itself.
 
 ## Square class
 
