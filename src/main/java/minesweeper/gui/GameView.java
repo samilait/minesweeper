@@ -22,7 +22,7 @@ public class GameView {
     private Label endLabel = new Label("Mines: ");
 
     private Button botButton;
-    
+    private Button botGame;
     public GameView(int x, int y, VBox vbox, int mines) {
         MinefieldGenerator generator;
         this.vbox = vbox;
@@ -41,8 +41,12 @@ public class GameView {
                 this.gameOver();
             }
         });
-
+        botGame = new Button("Bot Game");
+        botGame.setOnMouseClicked(e -> {
+            this.botGameLoop();
+        });
         vbox.getChildren().add(botButton);
+        vbox.getChildren().add(botGame);
         vbox.getChildren().add(this.endLabel);
 
         gameGP = new GridPane();
@@ -191,7 +195,19 @@ public class GameView {
         this.vbox.getChildren().remove(originalGP);
         this.vbox.getChildren().add(gameGP);
     }
-    
+
+    private void botGameLoop() {
+        //Called as if game is over to disable human input
+        updateGameGP(true); 
+        //Start the bot thread
+        /* while loop commented out so program wont freeze before implementation
+        while(!board.gameEnd) { 
+            //Poll the queue for the next move, might need try catch if bot is slow
+            //Update the board
+            //Update the GridPane
+            //
+        }*/
+    }
     private void setOpenedButtonColor(Button button, int mines) {
         String labelStyle = "custom-label-";
         labelStyle = labelStyle.concat("" + mines);
