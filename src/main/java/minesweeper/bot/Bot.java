@@ -2,7 +2,8 @@
 package minesweeper.bot;
 
 import minesweeper.model.Board;
+import minesweeper.model.Move;
 
 public interface Bot {
-    boolean makeMove(Board board);
+    Move makeMove(Board board);
 }
