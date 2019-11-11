@@ -22,12 +22,9 @@ public class MinefieldGenerator {
         this.seedSet = true;
     }
 
-<<<<<<< 2db59276405679bffdde2dce2e704737780f1666
     /**
      * Checks if a given X,Y coordinate is within the safe area
      */
-=======
->>>>>>> added game seeding and board for bots
     private boolean isSafeArea(int currentX, int currentY, int safeOriginX, int safeOriginY) {
         for (int x = -1; x <= 1; x++) {
             for (int y = -1; y <= 1; y++) {
