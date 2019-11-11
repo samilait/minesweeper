@@ -264,6 +264,8 @@ public class GameView {
         }
         System.out.println("Updating");
         board.makeMove(move);
+
+        board.getSquareAt(move.x, move.y).highlight = Highlight.BLACK;
         updateGameGP(true);
 
         board.getSquareAt(move.x, move.y).highlight = Highlight.NONE;
