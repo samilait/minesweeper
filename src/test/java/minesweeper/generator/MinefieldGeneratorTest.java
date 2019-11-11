@@ -8,6 +8,7 @@ import static org.junit.Assert.assertEquals;
 
 import minesweeper.model.Board;
 import minesweeper.model.Square;
+import static org.junit.Assert.assertTrue;
 
 public class MinefieldGeneratorTest {
     Board board;
@@ -32,7 +33,7 @@ public class MinefieldGeneratorTest {
         int[] displacement = new int[] { -1, 0, 1 };
         for (int dx : displacement) {
             for (int dy : displacement) {
-                assert (board.open(5 + dx, 5 + dy));
+                assertTrue(board.open(5 + dx, 5 + dy));
             }
         }
     }
@@ -44,7 +45,7 @@ public class MinefieldGeneratorTest {
         for (int dx : displacement) {
             for (int dy : displacement) {
                 if(board.withinBoard(dx, dy)){
-                    assert (board.open(dx, dy));
+                    assertTrue(board.open(dx, dy));
                 }
             }
         }
