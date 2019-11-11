@@ -1,3 +1,4 @@
+
 package minesweeper.generator;
 
 import java.util.ArrayList;

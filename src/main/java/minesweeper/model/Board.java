@@ -234,4 +234,25 @@ public class Board {
         return x >= 0 && x < this.width && y >= 0 && y < this.length;
     }
 
+    /**
+     * Make move from enum classes 
+     * @param move
+     * @return true if the move is valid
+     */
+    public boolean makeMove(Move move){
+        switch (move.type) {
+            case HIGHLIGHT:
+                this.getSquareAt(move.x, move.y).highlight = move.highlight;
+                return true;
+            case FLAG:
+                this.getSquareAt(move.x, move.y).toggleFlagged();
+                return true;
+            case OPEN:
+                return this.open(move.x, move.y);
+            case CHORD:
+                return this.chordedOpen(move.x, move.y);
+            default:
+            return false;
+            }
+    }
 }
