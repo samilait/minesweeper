@@ -7,6 +7,9 @@ import minesweeper.model.Board;
 import minesweeper.model.Move;
 import minesweeper.model.MoveType;
 
+/**
+ * A basic bot template for testing purposes
+ */
 public class TestBot implements Bot {
     
     @Override

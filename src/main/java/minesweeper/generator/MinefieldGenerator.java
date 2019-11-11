@@ -6,6 +6,9 @@ import java.util.Random;
 import minesweeper.model.Board;
 import minesweeper.model.Pair;
 
+/**
+ * Generator for initializing board with mines
+ */
 public class MinefieldGenerator {
     private boolean seedSet = false;
     private long seed;
@@ -18,6 +21,9 @@ public class MinefieldGenerator {
         this.seedSet = true;
     }
 
+    /**
+     * Checks if a given X,Y coordinate is within the safe area
+     */
     private boolean isSafeArea(int currentX, int currentY, int safeOriginX, int safeOriginY) {
         for (int x = -1; x <= 1; x++) {
             for (int y = -1; y <= 1; y++) {
@@ -29,6 +35,14 @@ public class MinefieldGenerator {
         return false;
     }
 
+    /**
+     * Generates a minefield on a given board while leaving a 3x3 safe area
+     * around the given X,Y coordinate
+     * @param board The Board to be updated
+     * @param mines The number of mines to be placed
+     * @param safeX The X coordinate of the safe area
+     * @param safeY The Y coordinate of the safe area
+     */
     public void generate(Board board, int mines, int safeX, int safeY) {
         board.setTotalMines(mines);
 
