@@ -4,8 +4,10 @@ package minesweeper.generator;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import minesweeper.model.Board;
+import minesweeper.model.Square;
 
 public class MinefieldGeneratorTest {
     Board board;
@@ -46,5 +48,31 @@ public class MinefieldGeneratorTest {
                 }
             }
         }
+    }
+
+    @Test
+    public void twoFieldsWithSameSeedAreEqual() {
+        generator = new MinefieldGenerator(666);
+
+        Board board1 = new Board(generator, 100, 100, 30);
+        Board board2 = new Board(generator, 100, 100, 30);
+
+        for (int y = 0; y < 100; y++) {
+            for (int x = 0; x < 100; x++) {
+                board1.open(x, y);
+                board2.open(x, y);
+            }
+        }
+
+        for (int y = 0; y < 100; y++) {
+            for (int x = 0; x < 100; x++) {
+                Square square1 = board1.getSquareAt(x, y);
+                Square square2 = board2.getSquareAt(x, y);
+
+                assertEquals(square1.isMine(), square2.isMine());
+                assertEquals(square1.surroundingMines(), square2.surroundingMines());
+            }
+        }
+
     }
 }
