@@ -1,3 +1,4 @@
+
 package minesweeper.generator;
 
 import java.util.ArrayList;
@@ -7,8 +8,15 @@ import minesweeper.model.Board;
 import minesweeper.model.Pair;
 
 public class MinefieldGenerator {
+    private boolean seedSet = false;
+    private long seed;
 
     public MinefieldGenerator() {
+    }
+
+    public MinefieldGenerator(long seed) {
+        this.seed = seed;
+        this.seedSet = true;
     }
 
     private boolean isSafeArea(int currentX, int currentY, int safeOriginX, int safeOriginY) {
@@ -39,6 +47,10 @@ public class MinefieldGenerator {
         }
 
         Random rng = new Random();
+
+        if (this.seedSet) {
+            rng.setSeed(this.seed);
+        }
 
         for (int i = 0; i < mines; i++) {
             if (squares.isEmpty()) {

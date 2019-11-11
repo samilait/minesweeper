@@ -2,7 +2,6 @@ package minesweeper.gui;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.input.MouseButton;
@@ -20,6 +19,7 @@ import minesweeper.model.Move;
 public class GameView {
     private GridPane gameGP;
     private Board board;
+    private Board botBoard;
     private VBox vbox;
     private int sizeX;
     private int sizeY;
@@ -84,8 +84,11 @@ public class GameView {
         gameGP.setMaxWidth(sizeX * 30);
         gameGP.getStyleClass().add("custom-gridpane");
         vbox.getChildren().add(gameGP);
-        generator = new MinefieldGenerator();
+        long seed = System.nanoTime()/ 2l;
+        System.out.println("" + seed);
+        generator = new MinefieldGenerator(seed);
         board = new Board(generator, x, y, mines);
+        botBoard = new Board(generator, x, y, mines);
 
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
@@ -238,19 +241,20 @@ public class GameView {
         currentNanotime[0] = System.nanoTime();
         AnimationTimer timer = new AnimationTimer() {
             public void handle(long currentNanoTime) {
-                long deltaTime = TimeUnit.MILLISECONDS.convert(currentNanoTime - currentNanotime[0], TimeUnit.NANOSECONDS);
-                if(deltaTime >= 1000){
+                long deltaTime = TimeUnit.MILLISECONDS.convert(currentNanoTime - currentNanotime[0],
+                        TimeUnit.NANOSECONDS);
+                if (deltaTime >= 1000) {
                     System.out.println("Starting update routine");
                     updater(moveQueue, board);
                     currentNanotime[0] = System.nanoTime();
                     System.out.println("Ending update routine");
                 }
-                if(board.gameEnd){
+                if (board.gameEnd) {
                     this.stop();
                 }
             }
         };
-        BotExecutor botThread = new BotExecutor(moveQueue, bot, board);
+        BotExecutor botThread = new BotExecutor(moveQueue, bot, botBoard);
         timer.start();
         botThread.start();
     }
@@ -262,31 +266,28 @@ public class GameView {
     }
 
     public void updater(LinkedBlockingQueue<Move> moveQueue, Board board) {
-          
-                            Move move = moveQueue.poll();
-                            if (move == null) {
-                                return;
-                            }
-                            System.out.println("Updating");
-                            switch (move.type) {
-                            case HIGHLIGHT:
-                                board.getSquareAt(move.x, move.y).highlight = move.highlight;
-                                break;
-                            case FLAG:
-                                board.getSquareAt(move.x, move.y).toggleFlagged();
-                                break;
-                            case OPEN:
-                                board.open(move.x, move.y);
-                                break;
-                            case CHORD:
-                                board.chordedOpen(move.x, move.y);
-                                break;
-                            default:
-                                break;
-                            }
-                            updateGameGP(true);
-                        }
-    
+        Move move = moveQueue.poll();
+        if (move == null) {
+            return;
+        }
+        System.out.println("Updating");
+        switch (move.type) {
+        case HIGHLIGHT:
+            board.getSquareAt(move.x, move.y).highlight = move.highlight;
+            break;
+        case FLAG:
+            board.getSquareAt(move.x, move.y).toggleFlagged();
+            break;
+        case OPEN:
+            board.open(move.x, move.y);
+            break;
+        case CHORD:
+            board.chordedOpen(move.x, move.y);
+            break;
+        default:
+            break;
+        }
+        updateGameGP(true);
+    }
+
 }
-
-
