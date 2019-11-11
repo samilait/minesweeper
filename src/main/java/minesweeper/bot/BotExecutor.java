@@ -30,22 +30,7 @@ public class BotExecutor extends Thread {
             }
             Move move = this.bot.makeMove(this.board);
             this.queue.offer(move);
-            switch (move.type) {
-                case HIGHLIGHT:
-                    board.getSquareAt(move.x, move.y).highlight = move.highlight;
-                    break;
-                case FLAG:
-                    board.getSquareAt(move.x, move.y).toggleFlagged();
-                    break;
-                case OPEN:
-                    board.open(move.x, move.y);
-                    break;
-                case CHORD:
-                    board.chordedOpen(move.x, move.y);
-                    break;
-                default:
-                    break;
-                }
+            this.board.makeMove(move);
         }
     }
 
