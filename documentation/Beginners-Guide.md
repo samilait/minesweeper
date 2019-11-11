@@ -10,7 +10,7 @@ If your ./gradlew commands do not find your Java 11 JDK, even if you have it ins
 
 ```./gradlew: 188: exec: /usr/lib/jvm/java-11-openjdk/bin/java: not found```
 
-You can do as follows:
+You can give the following command:
 
 ```$ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/```
 

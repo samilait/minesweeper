@@ -14,7 +14,7 @@ Friday 10-16
 
 ## Documentation
 -   [Definition of Done](https://helsinkifi-my.sharepoint.com/:w:/g/personal/jermusto_ad_helsinki_fi/Ea7I4Fxar9dEjPrevnzOXaMBuWZ7h_ZDH5jQdJm7uQ_Sjw)
--   [Beginner's guide for minesweeper bot setup](https://github.com/TiraLabra/minesweeper/blob/master/documentation/Beginners_guide.md)
+-   [Beginner's guide for minesweeper bot setup](https://github.com/TiraLabra/minesweeper/blob/master/documentation/Beginners-Guide.md)
 
 ## Project progress
 -   [Working hours](https://helsinkifi-my.sharepoint.com/:x:/g/personal/jermusto_ad_helsinki_fi/EWKQox0uvixEupOQ90-N2u0BDQv4EVi05rhoQAP-vzImlg?e=zcIxHE)
