@@ -60,6 +60,9 @@ public class Square {
         return isMine;
     }
 
+    /**
+     * Sets the Square as a mine
+     */
     public void setMine() {
         this.isMine = true;
     }
@@ -107,17 +110,4 @@ public class Square {
 
         return this.isMine ? "*" : "" + this.surroundingMines;
     }
-
-
-
-/*
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        Square newObj = new Square();
-        newObj.isMine = this.isMine;
-        newObj.surrounding = this.surrounding;
-        return (Object) newObj;
-    }
-*/
-    
 }
