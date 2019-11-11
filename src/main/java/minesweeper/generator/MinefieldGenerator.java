@@ -10,7 +10,8 @@ public class MinefieldGenerator {
     private boolean seedSet = false;
     private long seed;
 
-// Empty constructor - is unnecessary
+    public MinefieldGenerator() {
+    }
 
     public MinefieldGenerator(long seed) {
         this.seed = seed;
