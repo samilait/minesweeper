@@ -7,8 +7,15 @@ import minesweeper.model.Board;
 import minesweeper.model.Pair;
 
 public class MinefieldGenerator {
+    private boolean seedSet = false;
+    private long seed;
 
 // Empty constructor - is unnecessary
+
+    public MinefieldGenerator(long seed) {
+        this.seed = seed;
+        this.seedSet = true;
+    }
 
     private boolean isSafeArea(int currentX, int currentY, int safeOriginX, int safeOriginY) {
         for (int x = -1; x <= 1; x++) {
@@ -38,6 +45,10 @@ public class MinefieldGenerator {
         }
 
         Random rng = new Random();
+
+        if (this.seedSet) {
+            rng.setSeed(this.seed);
+        }
 
         for (int i = 0; i < mines; i++) {
             if (squares.isEmpty()) {
