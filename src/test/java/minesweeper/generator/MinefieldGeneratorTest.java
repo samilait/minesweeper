@@ -11,8 +11,8 @@ import minesweeper.model.Square;
 import static org.junit.Assert.assertTrue;
 
 public class MinefieldGeneratorTest {
-    Board board;
-    MinefieldGenerator generator;
+    private Board board;
+    private MinefieldGenerator generator;
 
     @Before
     public void setUp() {
@@ -39,7 +39,7 @@ public class MinefieldGeneratorTest {
     }
 
     @Test
-    public void safeAreaAroundFirstEdgeCase() {
+    public void safeAreaAroundFirstEdgeCase() {    
         generator.generate(board, 100, 0, 0);
         int[] displacement = new int[] { -1, 0, 1 };
         for (int dx : displacement) {

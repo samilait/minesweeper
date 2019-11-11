@@ -239,7 +239,7 @@ public class Board {
      * @param move
      * @return true if the move is valid
      */
-    public boolean makeMove(Move move){
+    public boolean makeMove(Move move) {
         switch (move.type) {
             case HIGHLIGHT:
                 this.getSquareAt(move.x, move.y).highlight = move.highlight;
@@ -252,7 +252,7 @@ public class Board {
             case CHORD:
                 return this.chordedOpen(move.x, move.y);
             default:
-            return false;
-            }
+                return false;
+        }
     }
 }

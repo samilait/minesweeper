@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 
 public class MoveTest {
     
-   Move move;
+    private Move move;
 
     @Before
     public void setUp() {

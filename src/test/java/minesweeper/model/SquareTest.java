@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 
 public class SquareTest {
     
-   Square square;
+   private Square square;
 
     @Before
     public void setUp() {
@@ -40,7 +40,7 @@ public class SquareTest {
     }
  
     @Test
-    public void unopenedSquareTogglesFlag() {     
+    public void unopenedSquareTogglesFlag() {
         square.toggleFlagged();
         assertEquals(false, square.getOpen());
     }
@@ -71,14 +71,14 @@ public class SquareTest {
     }
     
     @Test
-    public void returnXWhenUnopened() {  
+    public void returnXWhenUnopened() {
         assertEquals("X", square.toString());
     }
       
     @Test
-    public void return0WhenOpened() {  
+    public void return0WhenOpened() {
         square.open();
         assertEquals("0", square.toString());
     }  
-    
+  
 }

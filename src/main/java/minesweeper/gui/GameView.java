@@ -68,7 +68,7 @@ public class GameView {
         gameGP.setMaxWidth(sizeX * 30);
         gameGP.getStyleClass().add("custom-gridpane");
         vbox.getChildren().add(gameGP);
-        long seed = System.nanoTime()/ 2l;
+        long seed = System.nanoTime() / 2L;
         System.out.println("" + seed);
         generator = new MinefieldGenerator(seed);
         board = new Board(generator, x, y, mines);
@@ -185,18 +185,18 @@ public class GameView {
                 // Updates the button in the current location with the correct
                 // visual representation of the Square.
                 switch (board.board[i][j].highlight) {
-                case RED:
-                    newButton.getStyleClass().add("red-highlight");
-                    break;
-                case GREEN:
-                    newButton.getStyleClass().add("green-highlight");
-                    break;
-                case BLACK:
-                    newButton.getStyleClass().add("black-highlight");
-                    break;
+                    case RED:
+                        newButton.getStyleClass().add("red-highlight");
+                        break;
+                    case GREEN:
+                        newButton.getStyleClass().add("green-highlight");
+                        break;
+                    case BLACK:
+                        newButton.getStyleClass().add("black-highlight");
+                        break;
 
-                default:
-                    break;
+                    default:
+                        break;
                 }
 
                 if (board.board[i][j].getOpen()) {
@@ -234,7 +234,8 @@ public class GameView {
         AnimationTimer timer = new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 // Time that has passed since last update
-                long deltaTime = TimeUnit.MILLISECONDS.convert(currentNanoTime - currentNanotime[0], TimeUnit.NANOSECONDS);
+                long deltaTime = TimeUnit.MILLISECONDS.convert(currentNanoTime 
+                        - currentNanotime[0], TimeUnit.NANOSECONDS);
                 // Updates the board only if certain time has passed
                 if (deltaTime >= 100) {
                     updater(moveQueue, board);
@@ -247,7 +248,9 @@ public class GameView {
                 }
             }
         };
-        // This encapsulates the bot as a thread, bot gets its own board (deep copy of the guis board) that it uses to make its moves
+        // This encapsulates the bot as a thread, bot gets its own board 
+        // (deep copy of the guis board) that it uses to make its moves
+        
         BotExecutor botThread = new BotExecutor(moveQueue, bot, botBoard);
 
         // Starts the gui updater and the bot thread
