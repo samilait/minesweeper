@@ -46,23 +46,7 @@ public class GameView {
             this.board.clearHighlights();
 
             Move move = this.bot.makeMove(board);
-
-            switch (move.type) {
-            case HIGHLIGHT:
-                this.board.getSquareAt(move.x, move.y).highlight = move.highlight;
-                break;
-            case FLAG:
-                this.board.getSquareAt(move.x, move.y).toggleFlagged();
-                break;
-            case OPEN:
-                this.board.open(move.x, move.y);
-                break;
-            case CHORD:
-                this.board.chordedOpen(move.x, move.y);
-                break;
-            default:
-                break;
-            }
+            board.makeMove(move);
 
             if (!board.gameEnd) {
                 this.updateGameGP(false);
@@ -243,7 +227,7 @@ public class GameView {
             public void handle(long currentNanoTime) {
                 long deltaTime = TimeUnit.MILLISECONDS.convert(currentNanoTime - currentNanotime[0],
                         TimeUnit.NANOSECONDS);
-                if (deltaTime >= 1000) {
+                if (deltaTime >= 100) {
                     System.out.println("Starting update routine");
                     updater(moveQueue, board);
                     currentNanotime[0] = System.nanoTime();
@@ -265,28 +249,14 @@ public class GameView {
         button.getStyleClass().add(labelStyle);
     }
 
+    // Used byt the board 
     public void updater(LinkedBlockingQueue<Move> moveQueue, Board board) {
         Move move = moveQueue.poll();
         if (move == null) {
             return;
         }
         System.out.println("Updating");
-        switch (move.type) {
-        case HIGHLIGHT:
-            board.getSquareAt(move.x, move.y).highlight = move.highlight;
-            break;
-        case FLAG:
-            board.getSquareAt(move.x, move.y).toggleFlagged();
-            break;
-        case OPEN:
-            board.open(move.x, move.y);
-            break;
-        case CHORD:
-            board.chordedOpen(move.x, move.y);
-            break;
-        default:
-            break;
-        }
+        board.makeMove(move);
         updateGameGP(true);
     }
 
