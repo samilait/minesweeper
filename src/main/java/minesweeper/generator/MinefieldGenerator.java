@@ -8,8 +8,7 @@ import minesweeper.model.Pair;
 
 public class MinefieldGenerator {
 
-    public MinefieldGenerator() {
-    }
+// Empty constructor - is unnecessary
 
     private boolean isSafeArea(int currentX, int currentY, int safeOriginX, int safeOriginY) {
         for (int x = -1; x <= 1; x++) {

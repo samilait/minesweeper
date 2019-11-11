@@ -17,6 +17,7 @@ public class App extends Application {
         StartSelectView startScreen = new StartSelectView();
         Scene scene = new Scene(startScreen.get());
         scene.getStylesheets().add("stylesheet.css");
+        stage.setTitle("Minesweeper");
         stage.setScene(scene);
         stage.show();
         // Add a general listener to the root view (StackPane), any changes to its children

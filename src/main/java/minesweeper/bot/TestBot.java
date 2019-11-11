@@ -6,7 +6,6 @@ import java.util.Random;
 import minesweeper.model.Board;
 import minesweeper.model.Move;
 import minesweeper.model.MoveType;
-import minesweeper.model.Highlight;
 
 public class TestBot implements Bot {
     
