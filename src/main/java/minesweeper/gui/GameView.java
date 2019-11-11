@@ -11,6 +11,7 @@ import minesweeper.generator.MinefieldGenerator;
 import java.util.concurrent.*;
 import javafx.animation.*;
 
+import minesweeper.model.Highlight;
 import minesweeper.bot.TestBot;
 import minesweeper.bot.Bot;
 import minesweeper.bot.BotExecutor;
@@ -191,6 +192,10 @@ public class GameView {
                 case GREEN:
                     newButton.getStyleClass().add("green-highlight");
                     break;
+                case BLACK:
+                    newButton.getStyleClass().add("black-highlight");
+                    break;
+
                 default:
                     break;
                 }
@@ -252,12 +257,18 @@ public class GameView {
     // Used byt the board 
     public void updater(LinkedBlockingQueue<Move> moveQueue, Board board) {
         Move move = moveQueue.poll();
+
+            
         if (move == null) {
             return;
         }
         System.out.println("Updating");
         board.makeMove(move);
         updateGameGP(true);
+
+        board.getSquareAt(move.x, move.y).highlight = Highlight.NONE;
+            
+        
     }
 
 }

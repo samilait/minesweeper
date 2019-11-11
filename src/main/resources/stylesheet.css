@@ -13,7 +13,7 @@
 }
 .red-highlight { -fx-border-color: red; }
 .green-highlight { -fx-border-color: green; }
-
+.black-highlight { -fx-border-color: black; }
 .custom-gridpane { -fx-background-color: rgb(201, 231, 231); }
 
 .custom-label-1 { -fx-text-fill: rgb(8, 88, 238); }
