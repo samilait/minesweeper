@@ -7,10 +7,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.input.MouseButton;
 import minesweeper.model.Board;
 import minesweeper.generator.MinefieldGenerator;
-
-import java.util.concurrent.*;
-import javafx.animation.*;
-
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
+import javafx.animation.AnimationTimer;
 import minesweeper.model.Highlight;
 import minesweeper.bot.TestBot;
 import minesweeper.bot.Bot;

@@ -2,7 +2,8 @@
 package minesweeper.bot;
 
 import java.util.concurrent.BlockingQueue;
-import minesweeper.model.*;
+import minesweeper.model.Board;
+import minesweeper.model.Move;
 
 public class BotExecutor extends Thread {
 
