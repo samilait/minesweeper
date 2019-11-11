@@ -104,9 +104,7 @@ public class Board {
                     square.open();
 
                     // If current square has surrounding mines, ignore surrounding squares
-                    if (square.surroundingMines() > 0 || square.getFlagged()) {
-                        continue;
-                    } else if (square.surroundingMines() == 0) {
+                    if ((square.surroundingMines() == 0) && (!square.getFlagged())) {
                         // No surrounding mines, all surrounding squares can be opened
                         for (int xInc = -1; xInc <= 1; xInc++) {
                             for (int yInc = -1; yInc <= 1; yInc++) {
@@ -168,6 +166,9 @@ public class Board {
         return true;
     }
 
+    /**
+     * Removes all highlights from any of the Squares
+     */
     public void clearHighlights() {
         for (int x = 0; x < this.width; x++) {
             for (int y = 0; y < this.length; y++) {

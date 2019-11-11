@@ -4,8 +4,11 @@ package minesweeper.generator;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import minesweeper.model.Board;
+import minesweeper.model.Square;
+import static org.junit.Assert.assertTrue;
 
 public class MinefieldGeneratorTest {
     Board board;
@@ -30,7 +33,7 @@ public class MinefieldGeneratorTest {
         int[] displacement = new int[] { -1, 0, 1 };
         for (int dx : displacement) {
             for (int dy : displacement) {
-                assert (board.open(5 + dx, 5 + dy));
+                assertTrue(board.open(5 + dx, 5 + dy));
             }
         }
     }
@@ -42,9 +45,35 @@ public class MinefieldGeneratorTest {
         for (int dx : displacement) {
             for (int dy : displacement) {
                 if(board.withinBoard(dx, dy)){
-                    assert (board.open(dx, dy));
+                    assertTrue(board.open(dx, dy));
                 }
             }
         }
+    }
+
+    @Test
+    public void twoFieldsWithSameSeedAreEqual() {
+        generator = new MinefieldGenerator(666);
+
+        Board board1 = new Board(generator, 100, 100, 30);
+        Board board2 = new Board(generator, 100, 100, 30);
+
+        for (int y = 0; y < 100; y++) {
+            for (int x = 0; x < 100; x++) {
+                board1.open(x, y);
+                board2.open(x, y);
+            }
+        }
+
+        for (int y = 0; y < 100; y++) {
+            for (int x = 0; x < 100; x++) {
+                Square square1 = board1.getSquareAt(x, y);
+                Square square2 = board2.getSquareAt(x, y);
+
+                assertEquals(square1.isMine(), square2.isMine());
+                assertEquals(square1.surroundingMines(), square2.surroundingMines());
+            }
+        }
+
     }
 }

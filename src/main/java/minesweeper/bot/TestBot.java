@@ -6,8 +6,10 @@ import java.util.Random;
 import minesweeper.model.Board;
 import minesweeper.model.Move;
 import minesweeper.model.MoveType;
-import minesweeper.model.Highlight;
 
+/**
+ * A basic bot template for testing purposes
+ */
 public class TestBot implements Bot {
     
     @Override

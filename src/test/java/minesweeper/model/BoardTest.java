@@ -7,6 +7,7 @@ import org.junit.Before;
 import static org.junit.Assert.assertEquals;
 
 import minesweeper.generator.MinefieldGenerator;
+import static org.junit.Assert.assertTrue;
 
 public class BoardTest {
     private Board board;
@@ -21,14 +22,14 @@ public class BoardTest {
 
     @After
     public void tearDown() {
-
+    // empty method
     }
 
     @Test
     public void boardInitializesAllSquares() {
         for (int y = 0; y < 10; y++) {
             for (int x = 0; x < 10; x++) {
-                assert(board.board[y][x] != null);
+                assertTrue(board.board[y][x] != null);
             }
         }
     }
@@ -45,7 +46,7 @@ public class BoardTest {
     public void withinBoardReturnsTrueForWithinBoard() {
         for (int y = 0; y < 10; y++) {
             for (int x = 0; x < 10; x++) {
-                assert(board.withinBoard(x, y));
+                assertTrue(board.withinBoard(x, y));
             }
         }
     }
@@ -64,7 +65,7 @@ public class BoardTest {
 
         board.open(5, 5);
 
-        assert(board.board[5][5].isMine());
+        assertTrue(board.board[5][5].isMine());
     }
 
     @Test
@@ -87,7 +88,7 @@ public class BoardTest {
 
         for (int y = 0; y < 10; y++) {
             for (int x = 0; x < 10; x++) {
-                assert(board.board[y][x].getOpen());
+                assertTrue(board.board[y][x].getOpen());
             }
         }
     }

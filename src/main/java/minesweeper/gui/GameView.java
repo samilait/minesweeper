@@ -223,27 +223,35 @@ public class GameView {
         this.vbox.getChildren().add(gameGP);
     }
 
+    /**
+     * This method is called when user presses the bot game button.
+     */
     private void botGameLoop() {
         // Called as if game is over to disable human input
         updateGameGP(true);
         LinkedBlockingQueue<Move> moveQueue = new LinkedBlockingQueue<>();
         currentNanotime[0] = System.nanoTime();
+        // This timer updates the gui board with the moves that bot makes
         AnimationTimer timer = new AnimationTimer() {
             public void handle(long currentNanoTime) {
-                long deltaTime = TimeUnit.MILLISECONDS.convert(currentNanoTime - currentNanotime[0],
-                        TimeUnit.NANOSECONDS);
+                // Time that has passed since last update
+                long deltaTime = TimeUnit.MILLISECONDS.convert(currentNanoTime - currentNanotime[0], TimeUnit.NANOSECONDS);
+                // Updates the board only if certain time has passed
                 if (deltaTime >= 100) {
-                    System.out.println("Starting update routine");
                     updater(moveQueue, board);
+                    //Set the time since last update to current time
                     currentNanotime[0] = System.nanoTime();
-                    System.out.println("Ending update routine");
                 }
+                // Kills the timer update routine if the game has ended
                 if (board.gameEnd) {
                     this.stop();
                 }
             }
         };
+        // This encapsulates the bot as a thread, bot gets its own board (deep copy of the guis board) that it uses to make its moves
         BotExecutor botThread = new BotExecutor(moveQueue, bot, botBoard);
+
+        // Starts the gui updater and the bot thread
         timer.start();
         botThread.start();
     }
@@ -254,8 +262,9 @@ public class GameView {
         button.getStyleClass().add(labelStyle);
     }
 
-    // Used byt the board 
+    // Used by the gui updater timer to updat the board of the gui
     public void updater(LinkedBlockingQueue<Move> moveQueue, Board board) {
+        // Takes a move that has bot has made
         Move move = moveQueue.poll();
 
             
@@ -263,6 +272,7 @@ public class GameView {
             return;
         }
         System.out.println("Updating");
+        //Makes move to the gui board and updates the gui buttons
         board.makeMove(move);
 
         board.getSquareAt(move.x, move.y).highlight = Highlight.BLACK;
