@@ -5,6 +5,8 @@ import org.junit.Test;
 import org.junit.After;
 import org.junit.Before;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class SquareTest {
     
@@ -74,7 +76,7 @@ public class SquareTest {
     public void squareCanBeFlagged() {
         square.toggleFlagged();
 
-        assert(square.getFlagged());
+        assertTrue(square.getFlagged());
     }
     
     @Test
@@ -82,7 +84,7 @@ public class SquareTest {
         square.toggleFlagged();
         square.toggleFlagged();
 
-        assert(!square.getFlagged());
+        assertFalse(square.getFlagged());
     }
 
     @Test

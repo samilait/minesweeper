@@ -225,7 +225,7 @@ public class BoardTest {
     public void makingOpenMoveOpensSquare() {
         board.makeMove(new Move(MoveType.OPEN, 5, 5));
 
-        assert (board.getSquareAt(5, 5).getOpen());
+        assertTrue(board.getSquareAt(5, 5).getOpen());
     }
 
     @Test
@@ -252,13 +252,13 @@ public class BoardTest {
     public void makingFlagMoveFlagsSquare() {
         board.makeMove(new Move(MoveType.FLAG, 5, 5));
 
-        assert (board.getSquareAt(5, 5).getFlagged());
+        assertTrue(board.getSquareAt(5, 5).getFlagged());
     }
 
     @Test
     public void makingHighlightMoveHighlightsSquare() {
         board.makeMove(new Move(5, 5, Highlight.RED));
 
-        assert (board.getSquareAt(5, 5).highlight == Highlight.RED);
+        assertEquals(Highlight.RED, board.getSquareAt(5, 5).highlight);
     }
 }
