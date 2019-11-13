@@ -118,7 +118,7 @@ public class BoardTest {
     public void openingASquareAddsToOpenedSquares() {
         board.open(5, 5);
 
-        assert (board.getOpenSquares().contains(board.getSquareAt(5, 5)));
+        assertTrue(board.getOpenSquares().contains(board.getSquareAt(5, 5)));
     }
 
     @Test
