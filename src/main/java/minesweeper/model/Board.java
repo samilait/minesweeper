@@ -254,4 +254,14 @@ public class Board {
                 return false;
         }
     }
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder("Field \n");
+        Arrays.stream(board).forEach(row -> {
+            Arrays.stream(row).forEach(square -> builder.append(square));
+            builder.append("\n");
+        });
+        return builder.toString();
+    }
+
 }
