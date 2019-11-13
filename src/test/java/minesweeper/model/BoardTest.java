@@ -115,6 +115,13 @@ public class BoardTest {
     }
 
     @Test
+    public void openingASquareAddsToOpenedSquares() {
+        board.open(5, 5);
+
+        assert(board.getOpenSquares().contains(board.getSquareAt(5, 5)));
+    }
+
+    @Test
     public void chordedOpenDoesNotOpenFlagged() {
         board.board[4][5].setMine();
         board.board[4][5].toggleFlagged();
@@ -212,5 +219,46 @@ public class BoardTest {
                 assertEquals(Highlight.NONE, board.board[x][y].highlight);
             }
         }
+    }
+
+    @Test
+    public void makingOpenMoveOpensSquare() {
+        board.makeMove(new Move(MoveType.OPEN, 5, 5));
+
+        assert(board.getSquareAt(5, 5).getOpen());
+    }
+
+    @Test
+    public void makingChordMoveOpensSquares() {
+        board.firstMove = false;
+
+        board.board[4][5].setMine();
+        board.board[4][5].toggleFlagged();
+        board.incrementAdjacentSquares(4, 5);
+        board.open(5,5);
+
+        board.makeMove(new Move(MoveType.CHORD, 5, 5));
+
+        for (int xInc = -1; xInc <= 1; xInc++) {
+            for (int yInc = -1; yInc <= 1; yInc++) {
+                if (!board.board[5 + xInc][5 + yInc].getFlagged()) {
+                    assertEquals(true, board.board[5 + xInc][5 + yInc].getOpen());
+                }
+            }
+        }
+    }
+
+    @Test
+    public void makingFlagMoveFlagsSquare() {
+        board.makeMove(new Move(MoveType.FLAG, 5, 5));
+
+        assert(board.getSquareAt(5, 5).getFlagged());
+    }
+
+    @Test
+    public void makingHighlightMoveHighlightsSquare() {
+        board.makeMove(new Move(5, 5, Highlight.RED));
+
+        assert(board.getSquareAt(5, 5).highlight == Highlight.RED);
     }
 }

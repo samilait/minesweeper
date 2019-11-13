@@ -19,12 +19,15 @@ public class Board {
     private MinefieldGenerator generator;
     public boolean firstMove = true;
 
+    private HashSet<Square> openSquares;
+
     public Board(MinefieldGenerator generator, int width, int length, int totalMines) {
         this.width = width;
         this.length = length;
         this.board = new Square[width][length];
         this.generator = generator;
         this.totalMines = totalMines;
+        this.openSquares = new HashSet<>();
         this.initialize();
     }
 
@@ -48,6 +51,10 @@ public class Board {
         return this.board[x][y];
     }
 
+    public HashSet<Square> getOpenSquares() {
+        return this.openSquares;
+    }
+
     /**
      * Opens a square in the given X, Y coordinate
      * and all surrounding squares that are not mines
@@ -63,6 +70,7 @@ public class Board {
         }
 
         this.board[x][y].open();
+        this.openSquares.add(board[x][y]);
 
         if (board[x][y].isMine()) {
             this.gameEnd = true;
@@ -102,6 +110,7 @@ public class Board {
                     }
 
                     square.open();
+                    this.openSquares.add(square);
 
                     // If current square has surrounding mines, ignore surrounding squares
                     if ((square.surroundingMines() == 0) && (!square.getFlagged())) {
@@ -201,16 +210,6 @@ public class Board {
         }).toArray(Square[][]::new);
     }
 
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder("Field \n");
-        Arrays.stream(board).forEach(row -> {
-            Arrays.stream(row).forEach(square -> builder.append(square));
-            builder.append("\n");
-        });
-        return builder.toString();
-    }
-    
     /**
      * Increments the surrounding mine counter for tiles surrounding given square
      */
