@@ -10,7 +10,7 @@ public class BotExecutor extends Thread {
     private BlockingQueue<Move> queue;
     private Bot bot;
     private Board board;
-
+    private Move lastMove;
 
     /**
      * This class is used to encapsulate the bot to a thread so it can be run concurrently with the gui updater
@@ -33,6 +33,16 @@ public class BotExecutor extends Thread {
             } catch (Exception e) { }
             // Bot makes moves to its own board and then the move is added to the supply queue
             Move move = this.bot.makeMove(this.board);
+
+            if (lastMove != null) {
+                // Pythagorean theorem:
+                double distance = Math.hypot(lastMove.x - move.x, lastMove.y - move.y);
+                System.out.println("Distance: " + distance);
+                move.setEuclideanDistance(distance);
+            }
+
+            lastMove = move;
+
             this.queue.offer(move);
             this.board.makeMove(move);
         }

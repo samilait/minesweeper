@@ -4,7 +4,7 @@ package minesweeper.model;
 import org.junit.Test;
 import org.junit.After;
 import org.junit.Before;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class MoveTest {
     
@@ -46,5 +46,20 @@ public class MoveTest {
         move = new Move(5, 5, Highlight.GREEN);
 
         assertEquals(MoveType.HIGHLIGHT, move.type);
+    }
+
+    @Test
+    public void moveTimestampsAreNotEqual() {
+        move = new Move(MoveType.OPEN, 5, 5);
+
+        try {
+            Thread.sleep(100);
+        } catch(InterruptedException e) {
+
+        }
+
+        Move move2 = new Move(MoveType.OPEN, 5, 5);
+
+        assertTrue(move.timestamp != move2.timestamp);
     }
 }
