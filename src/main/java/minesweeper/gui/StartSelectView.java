@@ -9,18 +9,16 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class StartSelectView {
-    private HBox hbox;
     private VBox vbox;
-    private Button[] buttons;
     private GameView gameView;
     private StackPane stackPane;
 
-    public StartSelectView() {
-        this.buttons = new Button[] {
+    public StartSelectView() {       
+        Button[] buttons = new Button[] {
             this.initButton("Easy ", 9, 9, 10), 
             this.initButton("Intermediate", 16, 16, 40),
-            this.initButton("Hard", 30, 16, 99) };
-        this.hbox = new HBox(buttons);
+            this.initButton("Hard", 30, 16, 99)};
+        HBox hbox = new HBox(buttons);
         this.vbox = new VBox(new Label("Select game type"), hbox);
         this.stackPane = new StackPane(this.vbox);
     }

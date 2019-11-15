@@ -31,7 +31,6 @@ public class GameView {
     private Label endLabel = new Label("Mines: ");
     private Slider animationSlider;
     private Button botButton;
-    private Button botGame;
     public final long[] currentNanotime = new long[1];
 
     public GameView(int x, int y, VBox vbox, int mines) {
@@ -59,7 +58,7 @@ public class GameView {
                 this.gameOver();
             }
         });
-        botGame = new Button("Bot Game");
+        Button botGame = new Button("Bot Game");
         botGame.setOnMouseClicked(e -> {
             this.botGameLoop();
         });
