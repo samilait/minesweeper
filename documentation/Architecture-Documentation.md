@@ -7,15 +7,15 @@ interaction is.
 
 ## Application package hierarchy
 
-  - minesweeper
+- minesweeper
     - App.java
 
-  - bot
+- bot
     - Bot.java
     - BotExecutor.java
     - TestBot.java
 
-  - model
+- model
     - Board.java
     - Highlight.java
     - Move.java
@@ -23,10 +23,10 @@ interaction is.
     - Pair.java
     - Square.java
 
-  - generator
+- generator
     - MinefieldGenerator.java
 
-  - gui
+- gui
     - GameView.java
     - StartSelectView.java
 
