@@ -1,31 +1,33 @@
-
 # Architecture Documentation
 
 This document describes the architecture of the entire application
 on a package and class level. It explains roughly what each class does
-and what other classes it interacts with and what the purpose of that
+and how other classes interact with it and what the purpose of that
 interaction is.
 
 ## Application package hierarchy
 
-- minesweeper
-    - App.java
-    - bot
-        - Bot.java
-        - BotExecutor.java
-        - TestBot.java
-    - model
-        - Board.java
-        - Highlight.java
-        - Move.java
-        - MoveType.java
-        - Pair.java
-        - Square.java
-    - generator
-        - MinefieldGenerator.java
-    - gui
-        - GameView.java
-        - StartSelectView.java
+* minesweeper
+    * App.java
+    * bot
+        * Bot.java
+        * BotExecutor.java
+        * TestBot.java
+
+    * model
+        * Board.java
+        * Highlight.java
+        * Move.java
+        * MoveType.java
+        * Pair.java
+        * Square.java
+
+    * generator
+        * MinefieldGenerator.java
+
+    * gui
+        * GameView.java
+        * StartSelectView.java
 
 ## Top-level package
 
@@ -69,12 +71,12 @@ data structure.
 The BotExecutor's constructor takes the BlockingQueue object, a Bot
 object and a Board object. Note that the Board must not be shared
 across threads and instead the threads must access separate Boards.
-You can ensure the boards are equivalent by initializing them
+You can ensure that the boards are equivalent by initializing them
 with MinefieldGenerators that have the same seed value and by
-making sure the same Moves are run on both boards in the same
+making sure that the same Moves are run on both boards in the same
 order.
 
-The BotExecutor is used in the GameView.java class to run bot games,
+The BotExecutor is used to run bot games in the GameView.java class,
 where the bot can generate moves while the GUI remains responsive and
 updates the visible board with a delay to make the bot's actions
 more clearly recognizable.
@@ -83,7 +85,7 @@ more clearly recognizable.
 
 TestBot.java contains the default Bot implementation. This bot is not programmed
 to effectively clear minefields but instead functions as a conceptual example
-and demonstrates the different kinds of actions the bots can take.
+and demonstrates the different kinds of actions that the bots can take.
 
 TestBot will make entirely random moves and thus it will typically quickly fail.
 
@@ -100,7 +102,7 @@ number of mines on the field.
 The Board's constructor takes a MinefieldGenerator, width, length and the number
 of mines.
 
-By default the Board is lazily generated when the first square is opened using the
+By default the Board is lately generated when the first square is opened using the
 MinefieldGenerator that was supplied to the Board in the constructor. The generator
 ensures a 3x3 safe area around the square that was opened.
 
@@ -119,7 +121,7 @@ programmed to not reveal important details of its state without having been
 opened first. Attempting to read such important data (like if a Square is
 a mine or how many adjacent mines a Square has) will result in an AssertionException.
 
-Squares should not be opened directly by the Bot, this action should rather
+Squares should not be opened directly by the Bot. This action should rather
 be taken through the Board object in the application logic itself.
 
 ### Highlight.java
@@ -146,7 +148,8 @@ Moves also have fields for a timestamp and an Euclidian distance. These
 are used for bot statistics and should not be modified by the bots
 themselves. The timestamp is set in the Move's constructor and
 the Euclidian distance is calculated by BotExecutor in comparison
-with the previous Move.
+with the previous Move. (Euclidian distance be used as one criterion
+to compare bot efficiencies.)
 
 ### MoveType.java
 
@@ -181,7 +184,7 @@ solvable and may generate minefields that require a degree of luck and guess wor
 The GUI package contains classes related to JavaFX and the defining of
 graphical aspects of the application.
 
-**Not:** This package will contain little useful information for writing bots.
+**Note:** This package contains just little useful information for writing bots.
 
 ### GameView.java
 

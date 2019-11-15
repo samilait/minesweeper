@@ -93,9 +93,16 @@ public class SquareTest {
     }
       
     @Test
-    public void return0WhenOpened() {
+    public void return0WhenOpenedAndNotMine() {
         square.open();
         assertEquals("0", square.toString());
-    }  
+    }
+    
+    @Test
+    public void returnStarWhenMineOpened() {
+        square.setMine();
+        square.open();
+        assertEquals("*", square.toString());
+    } 
   
 }
