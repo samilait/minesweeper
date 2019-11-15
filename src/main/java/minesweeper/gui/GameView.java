@@ -296,7 +296,9 @@ public class GameView {
         //Makes move to the gui board and updates the gui buttons
         board.makeMove(move);
 
-        board.getSquareAt(move.x, move.y).highlight = Highlight.BLACK;
+        if (board.getSquareAt(move.x, move.y).highlight == Highlight.NONE) {
+            board.getSquareAt(move.x, move.y).highlight = Highlight.BLACK;
+        }
         updateGameGP(true);
 
         board.getSquareAt(move.x, move.y).highlight = Highlight.NONE;
