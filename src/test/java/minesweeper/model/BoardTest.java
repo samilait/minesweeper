@@ -7,6 +7,7 @@ import org.junit.Before;
 import static org.junit.Assert.assertEquals;
 
 import minesweeper.generator.MinefieldGenerator;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class BoardTest {
@@ -114,6 +115,13 @@ public class BoardTest {
         assertEquals(false, board.board[4][5].getOpen());
     }
 
+    @Test
+    public void flaggedSquareReturnsTrueWhenOpened() {
+        board.board[5][5].toggleFlagged();
+        
+        assertTrue(board.open(5, 5));
+    }
+    
     @Test
     public void openingASquareAddsToOpenedSquares() {
         board.open(5, 5);

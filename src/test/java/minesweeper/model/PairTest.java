@@ -32,8 +32,9 @@ public class PairTest {
     @Test
     public void twoSimilarPairsEqual() {
         Pair pair2 = new Pair(5,5);
-        
         assertTrue(pair.equals(pair2));
+        
+        assertTrue(pair.equals(pair));
     }
 
     @Test
