@@ -4,6 +4,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
+import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
 import minesweeper.model.Board;
 import minesweeper.generator.MinefieldGenerator;
@@ -40,7 +42,7 @@ public class GameView {
         this.endLabel.setText(this.endLabel.getText() + remainingUnflaggedMines);
 
         this.bot = new TestBot();
-
+        
         botButton = new Button("Help (bot)");
         botButton.setOnMouseClicked(e -> {
             this.board.clearHighlights();
@@ -60,10 +62,21 @@ public class GameView {
         botGame.setOnMouseClicked(e -> {
             this.botGameLoop();
         });
-        vbox.getChildren().add(botButton);
-        vbox.getChildren().add(botGame);
-        vbox.getChildren().add(this.endLabel);
-
+       
+        Button newGame = new Button();
+        for (Node n : vbox.getChildren()) {
+            if (n instanceof Button) {
+                newGame = (Button) n;
+            }
+        }
+        HBox hb = new HBox();
+        hb.getChildren().add(newGame);
+        hb.getChildren().add(botButton);
+        hb.getChildren().add(botGame);
+        
+        this.vbox.getChildren().add(hb);
+        this.vbox.getChildren().add(this.endLabel);
+        
         gameGP = new GridPane();
         gameGP.setMaxWidth(sizeX * 30);
         gameGP.getStyleClass().add("custom-gridpane");
