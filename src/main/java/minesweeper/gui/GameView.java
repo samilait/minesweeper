@@ -31,11 +31,11 @@ public class GameView {
     private Label endLabel = new Label("Mines: ");
     private Slider animationSlider;
     private Button botButton;
-    private Button botGame;
     public final long[] currentNanotime = new long[1];
 
     public GameView(int x, int y, VBox vbox, int mines) {
         MinefieldGenerator generator;
+        Button botGame;
         this.vbox = vbox;
         sizeX = x;
         sizeY = y;
@@ -288,7 +288,6 @@ public class GameView {
         // Takes a move that has bot has made
         Move move = moveQueue.poll();
 
-            
         if (move == null) {
             return;
         }
@@ -299,9 +298,7 @@ public class GameView {
         board.getSquareAt(move.x, move.y).highlight = Highlight.BLACK;
         updateGameGP(true);
 
-        board.getSquareAt(move.x, move.y).highlight = Highlight.NONE;
-            
-        
+        board.getSquareAt(move.x, move.y).highlight = Highlight.NONE;  
     }
     private void initializeSlider() {
         this.animationSlider = new Slider(100, 2000, 1050);

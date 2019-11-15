@@ -7,7 +7,6 @@ import org.junit.Before;
 import static org.junit.Assert.assertEquals;
 
 import minesweeper.generator.MinefieldGenerator;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class BoardTest {
