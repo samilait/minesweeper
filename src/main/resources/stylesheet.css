@@ -1,4 +1,7 @@
-.opened-button { -fx-background-color: rgba(169, 169, 169, 0); }
+.opened-button { 
+    -fx-background-color: rgba(169, 169, 169, 0); 
+    -fx-border-color: rgb(139, 138, 138); 
+}
 .flagged-button { 
     -fx-background-image: url('Flag.png');
     -fx-background-size: 15px 15px;
@@ -11,13 +14,13 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
-.red-highlight { -fx-border-color: red; }
-.green-highlight { -fx-border-color: green; }
+.red-highlight { -fx-background-color: rgba(253, 136, 136, 0.500); -fx-border-color: black; }
+.green-highlight { -fx-background-color: rgba(76, 160, 76, 0.500); -fx-border-color: black; }
 .black-highlight { -fx-border-color: black; }
-.custom-gridpane { -fx-background-color: rgb(201, 231, 231); }
+.custom-gridpane { -fx-background-color: rgb(205, 206, 206); }
 
 .custom-label-1 { -fx-text-fill: rgb(8, 88, 238); }
-.custom-label-2 { -fx-text-fill: rgb(21, 179, 0); }
+.custom-label-2 { -fx-text-fill: rgb(19, 133, 4); }
 .custom-label-3 { -fx-text-fill: rgb(255, 36, 36); }
 .custom-label-4 { -fx-text-fill: rgb(18, 0, 122); }
 .custom-label-5 { -fx-text-fill: rgb(117, 3, 3); }
