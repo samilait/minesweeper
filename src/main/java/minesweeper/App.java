@@ -5,6 +5,7 @@ package minesweeper;
 
 import javafx.application.Application;
 import javafx.collections.ListChangeListener;
+
 import javafx.scene.Scene;
 import javafx.scene.Node;
 import javafx.stage.Stage;
