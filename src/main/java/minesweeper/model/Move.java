@@ -12,14 +12,21 @@ public class Move {
 
     public Highlight highlight = Highlight.NONE;
 
+    // Timestamp in nanoseconds
+    public long timestamp;
+
+    // Distance between the last move and this one
+    // NOTE:    This value is initialized externally
+    //          by BotExecutor, bots need not and
+    //          should not modify this value
+    public double euclideanDistance;
+
     /**
      * Create a Move of a specific type at given X.Y coordinates
      * @param type Move type
      */
     public Move(MoveType type, int x, int y) {
-        this.type = type;
-        this.x = x;
-        this.y = y;
+        this(type, x, y, Highlight.NONE);
     }
 
     /**
@@ -27,9 +34,31 @@ public class Move {
      * @param highlight Highlight colour
      */
     public Move(int x, int y, Highlight highlight) {
-        this.type = MoveType.HIGHLIGHT;
-        this.highlight = highlight;
+        this(MoveType.HIGHLIGHT, x, y, highlight);
+    }
+
+    /**
+     * Base constructor for Moves
+     */
+    public Move(MoveType type, int x, int y, Highlight highlight) {
+        this.type = type;
+        
         this.x = x;
         this.y = y;
+
+        this.highlight = highlight;
+
+        this.timestamp = System.nanoTime();
+    }
+
+    /**
+     * Sets the euclidean distance travelled since last move
+     * This function is called by BotExecutor, bots need not
+     * worry about this.
+     *
+     * @param distance The length of the direct line between last move location and current one
+     */
+    public void setEuclideanDistance(double distance) {
+        this.euclideanDistance = distance;
     }
 }
