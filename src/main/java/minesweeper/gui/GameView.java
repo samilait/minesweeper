@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.Node;
+import javafx.scene.control.Slider;
 import javafx.scene.input.MouseButton;
 import minesweeper.model.Board;
 import minesweeper.generator.MinefieldGenerator;
@@ -28,7 +29,7 @@ public class GameView {
     private int remainingUnflaggedMines;
     private Bot bot;
     private Label endLabel = new Label("Mines: ");
-
+    private Slider animationSlider;
     private Button botButton;
     private Button botGame;
     public final long[] currentNanotime = new long[1];
@@ -75,8 +76,12 @@ public class GameView {
         hb.getChildren().add(botGame);
         
         this.vbox.getChildren().add(hb);
+      
+        this.vbox.getChildren().add(new Label("Bot game animation speed: "));
+        initializeSlider();
+        this.vbox.getChildren().add(this.animationSlider);
         this.vbox.getChildren().add(this.endLabel);
-        
+
         gameGP = new GridPane();
         gameGP.setMaxWidth(sizeX * 30);
         gameGP.getStyleClass().add("custom-gridpane");
@@ -249,8 +254,8 @@ public class GameView {
                 // Time that has passed since last update
                 long deltaTime = TimeUnit.MILLISECONDS.convert(currentNanoTime 
                         - currentNanotime[0], TimeUnit.NANOSECONDS);
-                // Updates the board only if certain time has passed
-                if (deltaTime >= 100) {
+                // Updates the board only if certain time has passed    
+                if (deltaTime >= 2200 - animationSlider.getValue()) {
                     updater(moveQueue, board);
                     //Set the time since last update to current time
                     currentNanotime[0] = System.nanoTime();
@@ -259,6 +264,7 @@ public class GameView {
                 if (board.gameEnd) {
                     this.stop();
                 }
+
             }
         };
         // This encapsulates the bot as a thread, bot gets its own board 
@@ -297,5 +303,10 @@ public class GameView {
             
         
     }
-
+    private void initializeSlider() {
+        this.animationSlider = new Slider(100, 2000, 1050);
+        this.animationSlider.setMajorTickUnit(200f);
+        this.animationSlider.setBlockIncrement(10f);
+        this.animationSlider.setMaxWidth(sizeX * 30);
+    }
 }
