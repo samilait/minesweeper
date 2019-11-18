@@ -1,5 +1,5 @@
 .opened-button { 
-    -fx-background-color: rgb(191, 191, 191); 
+    -fx-background-color: rgb(223, 219, 219); 
     -fx-border-color: rgb(161, 161, 161);
     -fx-border-width: 1;
     -fx-background-radius: 0;
@@ -7,7 +7,7 @@
 .unopened-button {
     -fx-border-color: rgb(149, 149, 149) rgb(116, 116, 116) rgb(116, 116, 116) rgb(149, 149, 149);
     -fx-border-width: 1;
-    -fx-background-color:linear-gradient(rgb(200,200,200), rgb(175, 175, 175));
+    -fx-background-color:linear-gradient(rgb(201, 196, 196), rgb(167, 167, 161));
     -fx-background-radius: 0;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 5, 0.0 , 0 , 0 ); 
 }
@@ -37,3 +37,4 @@
 .custom-label-6 { -fx-text-fill: rgb(0, 156, 156); -fx-font-weight: bold; -fx-font-size: 110%; }
 .custom-label-7 { -fx-text-fill: rgb(0, 0, 0); -fx-font-weight: bold; -fx-font-size: 110%; }
 .custom-label-8 { -fx-text-fill: rgb(88, 61, 61); -fx-font-weight: bold; -fx-font-size: 110%; }
+.no-click { -fx-opacity: 1; }

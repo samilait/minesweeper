@@ -62,16 +62,17 @@ public class GameView {
 
         botButton = new Button("Help (bot)");
         botButton.setOnMouseClicked(e -> {
-            this.board.clearHighlights();
-
+            this.clearAllHighlights();
             Move move = this.bot.makeMove(board);
             board.makeMove(move);
 
             if (!board.gameEnd) {
                 this.updateGameGP(move.x, move.y);
             } else {
+                this.updateGameGP(move.x, move.y);
                 this.gameOver();
             }
+           
         });
         botGame = new Button("Bot Game");
         botGame.setOnMouseClicked(e -> {
@@ -144,6 +145,8 @@ public class GameView {
         button.setMaxWidth(size);
         button.setMinHeight(size);
         button.setMaxHeight(size);
+        button.getStyleClass().add("unopened-button");
+       
         button.setOnMouseReleased((e) -> {
             boolean nonEndingMove = true;
             switch (e.getButton()) {
@@ -195,10 +198,11 @@ public class GameView {
      * Updates the view with the current boardstate.
      */
     public void updateGameGP(int x, int y) {
+        
         gameGP.setMaxWidth(sizeX * 30);
         // gameGP.getStyleClass().add("custom-gridpane");
         Button updatedButton = this.buttonGrid[x][y];
-        updatedButton = buildButton(updatedButton, 30, x, y);
+
         // Updates the button in the current location with the correct
         // visual representation of the Square.
         switch (board.board[x][y].highlight) {
@@ -214,7 +218,9 @@ public class GameView {
             default:
                 break;
         }
-        if (board.board[x][y].getOpen()) {
+        if (board.board[x][y].getOpen()) {        
+
+            updatedButton.getStyleClass().remove("unopened-button");
             updatedButton.getStyleClass().add("opened-button");
             if (board.board[x][y].isMine()) {
                 updatedButton.getStyleClass().add("mine");
@@ -233,6 +239,7 @@ public class GameView {
     }
 
     public void clearAllHighlights() {
+        this.board.clearHighlights();
         for (Button[] buttonRow : this.buttonGrid) {
             for (Button button : buttonRow) {
                 button.getStyleClass().remove("red-highlight");
