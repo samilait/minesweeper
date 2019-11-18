@@ -1,4 +1,17 @@
-.opened-button { -fx-background-color: rgba(169, 169, 169, 0); }
+.opened-button { 
+    -fx-background-color: rgb(223, 219, 219); 
+    -fx-border-color: rgb(161, 161, 161);
+    -fx-border-width: 1;
+    -fx-background-radius: 0;
+}
+.unopened-button {
+    -fx-border-color: rgb(149, 149, 149) rgb(116, 116, 116) rgb(116, 116, 116) rgb(149, 149, 149);
+    -fx-border-width: 1;
+    -fx-background-color:linear-gradient(rgb(201, 196, 196), rgb(167, 167, 161));
+    -fx-background-radius: 0;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 5, 0.0 , 0 , 0 ); 
+}
+
 .flagged-button { 
     -fx-background-image: url('Flag.png');
     -fx-background-size: 15px 15px;
@@ -11,17 +24,17 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
-.red-highlight { -fx-border-color: red; }
-.green-highlight { -fx-border-color: green; }
+.red-highlight { -fx-background-color: rgba(253, 136, 136, 0.500); -fx-border-color: black; }
+.green-highlight { -fx-background-color: rgba(76, 160, 76, 0.500); -fx-border-color: black; }
 .black-highlight { -fx-border-color: black; }
-.custom-gridpane { -fx-background-color: rgb(201, 231, 231); }
+.custom-gridpane { -fx-background-color: rgb(205, 206, 206); }
 
-.custom-label-1 { -fx-text-fill: rgb(8, 88, 238); }
-.custom-label-2 { -fx-text-fill: rgb(21, 179, 0); }
-.custom-label-3 { -fx-text-fill: rgb(255, 36, 36); }
-.custom-label-4 { -fx-text-fill: rgb(18, 0, 122); }
-.custom-label-5 { -fx-text-fill: rgb(117, 3, 3); }
-.custom-label-6 { -fx-text-fill: rgb(0, 156, 156); }
-.custom-label-7 { -fx-text-fill: rgb(0, 0, 0); }
-.custom-label-8 { -fx-text-fill: rgb(88, 61, 61); }
-.no-click { -fx-opacity: 1;}
+.custom-label-1 { -fx-text-fill: rgb(8, 88, 238); -fx-font-weight: bold; -fx-font-size: 110%; }
+.custom-label-2 { -fx-text-fill: rgb(19, 133, 4); -fx-font-weight: bold; -fx-font-size: 110%; }
+.custom-label-3 { -fx-text-fill: rgb(255, 36, 36); -fx-font-weight: bold; -fx-font-size: 110%;}
+.custom-label-4 { -fx-text-fill: rgb(18, 0, 122); -fx-font-weight: bold; -fx-font-size: 110%; }
+.custom-label-5 { -fx-text-fill: rgb(117, 3, 3); -fx-font-weight: bold; -fx-font-size: 110%; }
+.custom-label-6 { -fx-text-fill: rgb(0, 156, 156); -fx-font-weight: bold; -fx-font-size: 110%; }
+.custom-label-7 { -fx-text-fill: rgb(0, 0, 0); -fx-font-weight: bold; -fx-font-size: 110%; }
+.custom-label-8 { -fx-text-fill: rgb(88, 61, 61); -fx-font-weight: bold; -fx-font-size: 110%; }
+.no-click { -fx-opacity: 1; }
