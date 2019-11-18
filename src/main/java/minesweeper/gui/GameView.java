@@ -306,7 +306,7 @@ public class GameView {
         board.getSquareAt(move.x, move.y).highlight = Highlight.BLACK;
         updateGameGP(move.x, move.y);
         board.getSquareAt(move.x, move.y).highlight = Highlight.NONE;
-        remainingUnflaggedMines += board.board[x][y].getFlagged() ? -1 : 1;
+        remainingUnflaggedMines += board.board[move.x][move.x].getFlagged() ? -1 : 1;
     }
 
     private void initializeSlider() {
