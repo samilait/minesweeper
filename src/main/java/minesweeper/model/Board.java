@@ -180,7 +180,7 @@ public class Board {
                         }
                         return false;
                     }
-                    if (this.isObserved) { 
+                    if (this.isObserved && withinBoard(x + xInc, y + yInc)) { 
                         this.observerCallback.apply(this.board[x + xInc][y + yInc]);
                     }
                 }
