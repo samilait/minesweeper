@@ -268,4 +268,18 @@ public class BoardTest {
 
         assertEquals(Highlight.RED, board.getSquareAt(5, 5).highlight);
     }
+    
+
+    @Test
+    public void findUnopenedNotFlaggedSquareFindsOne() {
+        // at first, all squares are closed
+        for (int i=0; i < 10; i++) {
+            for (int j=0; j < 8; j++) {        
+                board.board[i][j].open();
+            }
+        }
+        // enough unopened squares so that random finding does not take too long
+        int value = board.findUnopenedNotFlaggedSquare();
+        assertEquals(false, board.board[value / 1000][value % 1000].isOpened());
+    }
 }

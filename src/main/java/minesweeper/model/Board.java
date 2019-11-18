@@ -4,6 +4,7 @@ package minesweeper.model;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Random;
 
 import minesweeper.generator.MinefieldGenerator;
 
@@ -254,6 +255,25 @@ public class Board {
                 return false;
         }
     }
+    
+    public int findUnopenedNotFlaggedSquare() {
+        Square square;
+        Random rng = new Random();
+        int x = -1;
+        int y = -1;
+        Boolean wasOpened = true;
+        while (wasOpened) {
+            x = rng.nextInt(this.width);
+            y = rng.nextInt(this.length);
+            square = this.getSquareAt(x, y);
+            if (!square.getFlagged()) {
+                wasOpened = square.isOpened();
+            }
+        }
+// coding to one value because java cannot return two values at the same time
+        return 1000 * x + y;
+    }
+    
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder("Field \n");
