@@ -33,7 +33,13 @@ public class GameView {
     private Button botButton;
     public final long[] currentNanotime = new long[1];
 
+    private long seed;
+
     public GameView(int x, int y, VBox vbox, int mines) {
+        this(x, y, vbox, mines, System.nanoTime() / 2L);
+    }
+
+    public GameView(int x, int y, VBox vbox, int mines, long seed) {
         MinefieldGenerator generator;
         Button botGame;
         this.vbox = vbox;
@@ -41,6 +47,8 @@ public class GameView {
         sizeY = y;
         remainingUnflaggedMines = mines;
         this.endLabel.setText(this.endLabel.getText() + remainingUnflaggedMines);
+
+        this.seed = seed;
 
         this.bot = new TestBot();
         
@@ -86,7 +94,7 @@ public class GameView {
         gameGP.setMaxWidth(sizeX * 30);
         gameGP.getStyleClass().add("custom-gridpane");
         vbox.getChildren().add(gameGP);
-        long seed = System.nanoTime() / 2L;
+
         System.out.println("" + seed);
         generator = new MinefieldGenerator(seed);
         board = new Board(generator, x, y, mines);
