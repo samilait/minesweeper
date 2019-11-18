@@ -33,8 +33,6 @@ public class GameView {
     private Button botButton;
     public final long[] currentNanotime = new long[1];
 
-    private long seed;
-
     /**
      * Constructor for a game view of given size and mine count
      * Seed for the minefield is generated from system's time
@@ -54,8 +52,6 @@ public class GameView {
         sizeY = y;
         remainingUnflaggedMines = mines;
         this.endLabel.setText(this.endLabel.getText() + remainingUnflaggedMines);
-
-        this.seed = seed;
 
         this.bot = new TestBot();
         

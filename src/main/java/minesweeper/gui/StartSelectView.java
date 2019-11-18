@@ -57,7 +57,7 @@ public class StartSelectView {
             public void handle(KeyEvent event) {
                 // java.lang.String does not define a isNumeric method, so we check each character
                 // individually
-                boolean isNumeric = seedText.getText().chars().allMatch( Character::isDigit );
+                boolean isNumeric = seedText.getText().chars().allMatch(Character::isDigit);
 
                 if (!isNumeric) {
                     seedErrorLabel.setText("Seed must be an integer value!");
