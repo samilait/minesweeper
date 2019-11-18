@@ -9,6 +9,10 @@ import static org.junit.Assert.assertEquals;
 import minesweeper.generator.MinefieldGenerator;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.function.Function;
+
 public class BoardTest {
     private Board board;
     private MinefieldGenerator generator;
@@ -267,5 +271,22 @@ public class BoardTest {
         board.makeMove(new Move(5, 5, Highlight.RED));
 
         assertEquals(Highlight.RED, board.getSquareAt(5, 5).highlight);
+    }
+
+    @Test
+    public void observedBoardSendsNeededCallbacks(){
+        this.board = new Board(generator, 2, 2, 0);
+        Square[] neededSquares = new Square[]{this.board.board[0][0], this.board.board[0][1], this.board.board[1][0]};
+        ArrayList<Square> gotSquares = new ArrayList<Square>();
+        Function<Square,Void> callback = new Function<Square,Void>() {
+            @Override
+            public Void apply(Square t) {
+                gotSquares.add(t);
+                return null;
+            }
+        };
+        board.setChangeObserver(callback);
+        board.open(1,1);
+        assertTrue(gotSquares.containsAll(Arrays.asList(neededSquares)));
     }
 }
