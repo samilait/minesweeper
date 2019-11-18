@@ -4,6 +4,7 @@ package minesweeper.model;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.function.Function;
 
 import minesweeper.generator.MinefieldGenerator;
 
@@ -19,6 +20,8 @@ public class Board {
     private MinefieldGenerator generator;
     public boolean firstMove = true;
 
+    private Function<Square,Void> observerCallback;
+    private boolean isObserved = false;
     private HashSet<Square> openSquares;
 
     public Board(MinefieldGenerator generator, int width, int length, int totalMines) {
@@ -29,6 +32,11 @@ public class Board {
         this.totalMines = totalMines;
         this.openSquares = new HashSet<>();
         this.initialize();
+    }
+
+    public void setChangeObserver(Function<Square,Void> callbackFunction){
+        this.observerCallback = callbackFunction;
+        this.isObserved = true;
     }
 
     /** 
@@ -111,6 +119,9 @@ public class Board {
 
                     square.open();
                     this.openSquares.add(square);
+                    if(this.isObserved){
+                        this.observerCallback.apply(square);
+                    }
 
                     // If current square has surrounding mines, ignore surrounding squares
                     if ((square.surroundingMines() == 0) && (!square.getFlagged())) {
@@ -159,20 +170,19 @@ public class Board {
 
         // If number of flagged squares equals number of surrounding mines
         // open all adjacent squares that are not flagged
+        boolean mineOpened = false;
         if (square.getOpen() && square.surroundingMines() == surroundingFlagged) {
             for (int xInc = -1; xInc <= 1; xInc++) {
                 for (int yInc = -1; yInc <= 1; yInc++) {
-                    if (withinBoard(x + xInc, y + yInc) 
-                            && !board[x + xInc][y + yInc].getFlagged() 
-                            && !this.open(x + xInc, y + yInc)) {
-                        // If we hit a mine, we return immediately
-                        return false;
+                    if (withinBoard(x + xInc, y + yInc) && !board[x + xInc][y + yInc].getFlagged()){
+                            mineOpened = this.open(x + xInc, y + yInc);
+                            this.observerCallback.apply(board[x + xInc][y + yInc]);
                     }
                 }
             }
         }
 
-        return true;
+        return mineOpened;
     }
 
     /**
@@ -205,9 +215,16 @@ public class Board {
      * Initializes the board with empty squares i.e. no mines.
      */
     public void initialize() {
+        for (int x = 0; x < this.width; x++) { 
+            for (int y = 0; y < this.length; y++) {
+                this.board[x][y] = new Square(x, y);
+            }
+        }
+        /*
         this.board = Arrays.stream(board).map(row -> {
             return Arrays.stream(row).map(squareElement -> new Square()).toArray(Square[]::new);
         }).toArray(Square[][]::new);
+        */
     }
 
     /**

@@ -14,7 +14,7 @@ public class SquareTest {
 
     @Before
     public void setUp() {
-        square = new Square();
+        square = new Square(0,0);
     } 
 
     @After

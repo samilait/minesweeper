@@ -12,12 +12,15 @@ import minesweeper.model.Board;
 import minesweeper.generator.MinefieldGenerator;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
+
 import javafx.animation.AnimationTimer;
 import minesweeper.model.Highlight;
 import minesweeper.bot.TestBot;
 import minesweeper.bot.Bot;
 import minesweeper.bot.BotExecutor;
 import minesweeper.model.Move;
+import minesweeper.model.Square;
 
 public class GameView {
     private GridPane gameGP;
@@ -30,6 +33,7 @@ public class GameView {
     private Bot bot;
     private Label endLabel = new Label("Mines: ");
     private Slider animationSlider;
+    private Button[][] buttonGrid;
     private Button botButton;
     public final long[] currentNanotime = new long[1];
 
@@ -40,10 +44,12 @@ public class GameView {
         sizeX = x;
         sizeY = y;
         remainingUnflaggedMines = mines;
+        this.buttonGrid = new Button[x][y];
+
         this.endLabel.setText(this.endLabel.getText() + remainingUnflaggedMines);
 
         this.bot = new TestBot();
-        
+
         botButton = new Button("Help (bot)");
         botButton.setOnMouseClicked(e -> {
             this.board.clearHighlights();
@@ -52,9 +58,7 @@ public class GameView {
             board.makeMove(move);
 
             if (!board.gameEnd) {
-                this.updateGameGP(false);
-            } else if (board.gameWon) {
-                this.gameWon();
+                this.updateGameGP(move.x, move.y);
             } else {
                 this.gameOver();
             }
@@ -63,7 +67,7 @@ public class GameView {
         botGame.setOnMouseClicked(e -> {
             this.botGameLoop();
         });
-       
+
         Button newGame = new Button();
         for (Node n : vbox.getChildren()) {
             if (n instanceof Button) {
@@ -74,9 +78,9 @@ public class GameView {
         hb.getChildren().add(newGame);
         hb.getChildren().add(botButton);
         hb.getChildren().add(botGame);
-        
+
         this.vbox.getChildren().add(hb);
-      
+
         this.vbox.getChildren().add(new Label("Bot game animation speed: "));
         initializeSlider();
         this.vbox.getChildren().add(this.animationSlider);
@@ -89,13 +93,27 @@ public class GameView {
         long seed = System.nanoTime() / 2L;
         System.out.println("" + seed);
         generator = new MinefieldGenerator(seed);
-        board = new Board(generator, x, y, mines);
-        botBoard = new Board(generator, x, y, mines);
 
+        board = new Board(generator, x, y, mines);
+        Function<Square, Void> observerFunction = new Function<Square, Void>() {
+            @Override
+            public Void apply(Square observed) {
+                updateGameGP(observed.getX(), observed.getY());
+                /*
+                 * Somewhat hacky, only because java does not allow instancing Void type, and
+                 * Object cannot be parameterized nor does it suffice as a Void. This null is
+                 * not and even cannot be addressed anywhere.
+                 */
+                return null;
+            }
+        };
+        board.setChangeObserver(observerFunction);
+        botBoard = new Board(generator, x, y, mines);
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
-                Button button = buildButton(30, i, j);
+                Button button = buildButton(new Button(), 30, i, j);
                 gameGP.add(button, i, j);
+                buttonGrid[i][j] = button;
             }
         }
     }
@@ -111,133 +129,120 @@ public class GameView {
      * Builds a new button with the required functionality for flagging and opening
      * squares
      */
-    public Button buildButton(int size, int x, int y) {
-        Button button = new Button();
+    public Button buildButton(Button button, int size, int x, int y) {
         button.setMinWidth(size);
         button.setMaxWidth(size);
         button.setMinHeight(size);
         button.setMaxHeight(size);
-        button.setOnMouseClicked((e) -> {
-            if ((e.getButton() == MouseButton.PRIMARY && e.isSecondaryButtonDown()
-                    || (e.getButton() == MouseButton.SECONDARY && e.isPrimaryButtonDown()))
-                    && board.board[x][y].getOpen()) {
-                if (!board.chordedOpen(x, y)) {
-                    gameOver();
-                } else {
-                    updateGameGP(false);
+        button.setOnMouseReleased((e) -> {
+            boolean nonEndingMove = true;
+            switch (e.getButton()) {
+            case PRIMARY:
+                if (e.isSecondaryButtonDown()) {
+                    nonEndingMove = board.chordedOpen(x, y);
+                    break;
                 }
-            } else if (e.getButton() == MouseButton.PRIMARY) {
-                // If the first click of the game, generate a new board
-                if (!board.open(x, y)) {
-                    button.getStyleClass().add("mine");
-                    gameOver();
-                    return;
-                } else if (board.gameWon) {
-                    gameWon();
-                } else {
-                    updateGameGP(false);
+                nonEndingMove = board.open(x, y);
+                break;
+            case SECONDARY:
+                if (e.isPrimaryButtonDown()) {
+                    nonEndingMove = board.chordedOpen(x, y);
+                    break;
                 }
-
-            } else if (e.getButton() == MouseButton.SECONDARY) {
-                // If a right click, flag or unflag a Square
-                if (!board.board[x][y].getOpen()) {
+                if (!this.board.getSquareAt(x, y).getOpen()) {
                     board.board[x][y].toggleFlagged();
-                    if (board.board[x][y].getFlagged()) {
-                        button.getStyleClass().add("flagged-button");
-                        this.remainingUnflaggedMines--;
-                        this.endLabel.setText("Mines: " + this.remainingUnflaggedMines);
-                    } else {
-                        button.getStyleClass().remove("flagged-button");
-                        this.remainingUnflaggedMines++;
-                        this.endLabel.setText("Mines: " + this.remainingUnflaggedMines);
-                    }
+                    remainingUnflaggedMines += board.board[x][y].getFlagged() ? -1 : 1;
                 }
-
+                break;
+            default:
+                /* No such button, but don't */ 
+                break;
+            }
+            updateGameGP(x, y);
+            this.clearAllHighlights();
+            if (!nonEndingMove || this.board.gameEnd) {
+                gameOver();
             }
         });
-
         return button;
-    }
-
-    /**
-     * Updates the view to show that the game has been won.
-     */
-    public void gameWon() {
-        this.endLabel.setText("You won. Congratulations!");
-        updateGameGP(true);
     }
 
     /**
      * Updates the view to show that the game has been lost.
      */
     public void gameOver() {
-        this.endLabel.setText("You lost. Get rekt");
-        updateGameGP(true);
+        if (this.board.gameWon) {
+            this.endLabel.setText("You won. Congratulations!");
+            System.out.println("1 " + this.board.gameEnd + ", " + this.board.gameWon);
+        } else {
+            this.endLabel.setText("You lost. Get rekt");
+            System.out.println("2 " + this.board.gameEnd + ", " + this.board.gameWon);
+        }
+        this.disableAllButtons();
     }
 
     /**
-     * Updates the view with the current boardstate. If the game is over buttons are
-     * disabled.
+     * Updates the view with the current boardstate.
      */
-    public void updateGameGP(Boolean end) {
-        GridPane originalGP = this.gameGP;
-        this.gameGP = new GridPane();
+    public void updateGameGP(int x, int y) {
         gameGP.setMaxWidth(sizeX * 30);
-        gameGP.getStyleClass().add("custom-gridpane");
-        for (int i = 0; i < sizeX; i++) {
-            for (int j = 0; j < sizeY; j++) {
-                // Builds new buttons for each Square on the board.
-                Button newButton = new Button();
-                if (end) {
-                    // Disabled buttons if the game is over.
-                    newButton.setMinHeight(30);
-                    newButton.setMaxHeight(30);
-                    newButton.setMinWidth(30);
-                    newButton.setMaxWidth(30);
-                    botButton.setDisable(true);
-                } else {
-                    // Functional buttons when game is underway.
-                    newButton = buildButton(30, i, j);
-                }
-
-                // Updates the button in the current location with the correct
-                // visual representation of the Square.
-                switch (board.board[i][j].highlight) {
-                    case RED:
-                        newButton.getStyleClass().add("red-highlight");
-                        break;
-                    case GREEN:
-                        newButton.getStyleClass().add("green-highlight");
-                        break;
-                    case BLACK:
-                        newButton.getStyleClass().add("black-highlight");
-                        break;
-
-                    default:
-                        break;
-                }
-
-                if (board.board[i][j].getOpen()) {
-
-                    newButton.getStyleClass().add("opened-button");
-                    if (board.board[i][j].isMine()) {
-                        newButton.getStyleClass().add("mine");
-
-                    } else if (board.board[i][j].surroundingMines() != 0) {
-                        newButton.setText("" + board.board[i][j].surroundingMines());
-                        setOpenedButtonColor(newButton, board.board[i][j].surroundingMines());
-                    }
-                } else {
-                    if (board.board[i][j].getFlagged()) {
-                        newButton.getStyleClass().add("flagged-button");
-                    }
-                }
-
-                gameGP.add(newButton, i, j);
+        // gameGP.getStyleClass().add("custom-gridpane");
+        Button updatedButton = this.buttonGrid[x][y];
+        updatedButton = buildButton(updatedButton, 30, x, y);
+        // Updates the button in the current location with the correct
+        // visual representation of the Square.
+        switch (board.board[x][y].highlight) {
+        case RED:
+            updatedButton.getStyleClass().add("red-highlight");
+            break;
+        case GREEN:
+            updatedButton.getStyleClass().add("green-highlight");
+            break;
+        case BLACK:
+            updatedButton.getStyleClass().add("black-highlight");
+            break;
+        default:
+            break;
+        }
+        if (board.board[x][y].getOpen()) {
+            updatedButton.getStyleClass().add("opened-button");
+            if (board.board[x][y].isMine()) {
+                updatedButton.getStyleClass().add("mine");
+            } else if (board.board[x][y].surroundingMines() != 0) {
+                updatedButton.setText("" + board.board[x][y].surroundingMines());
+                setOpenedButtonColor(updatedButton, board.board[x][y].surroundingMines());
+            }
+        } else {
+            if (board.board[x][y].getFlagged()) {
+                updatedButton.getStyleClass().add("flagged-button");
+            } else {
+                updatedButton.getStyleClass().remove("flagged-button");
             }
         }
-        this.vbox.getChildren().remove(originalGP);
-        this.vbox.getChildren().add(gameGP);
+        this.endLabel.setText("Mines: " + this.remainingUnflaggedMines);
+    }
+
+    public void clearAllHighlights() {
+        for (Button[] buttonRow : this.buttonGrid) {
+            for (Button button : buttonRow) {
+                button.getStyleClass().remove("red-highlight");
+                button.getStyleClass().remove("green-highlight");
+                button.getStyleClass().remove("black-highlight");
+            }
+        }
+    }
+
+    /**
+     * Disables all buttons currently in game
+     */
+    public void disableAllButtons() {
+        this.botButton.setDisable(true);
+        for (Button[] buttonRow : this.buttonGrid) {
+            for (Button button : buttonRow) {
+                button.setDisable(true);
+                button.getStyleClass().add("no-click");
+            }
+        }
     }
 
     /**
@@ -245,31 +250,33 @@ public class GameView {
      */
     private void botGameLoop() {
         // Called as if game is over to disable human input
-        updateGameGP(true);
+        this.botButton.setDisable(true);
+        this.disableAllButtons();
         LinkedBlockingQueue<Move> moveQueue = new LinkedBlockingQueue<>();
         currentNanotime[0] = System.nanoTime();
         // This timer updates the gui board with the moves that bot makes
         AnimationTimer timer = new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 // Time that has passed since last update
-                long deltaTime = TimeUnit.MILLISECONDS.convert(currentNanoTime 
-                        - currentNanotime[0], TimeUnit.NANOSECONDS);
-                // Updates the board only if certain time has passed    
+                long deltaTime = TimeUnit.MILLISECONDS.convert(currentNanoTime - currentNanotime[0],
+                        TimeUnit.NANOSECONDS);
+                // Updates the board only if certain time has passed
                 if (deltaTime >= 2200 - animationSlider.getValue()) {
                     updater(moveQueue, board);
-                    //Set the time since last update to current time
+                    // Set the time since last update to current time
                     currentNanotime[0] = System.nanoTime();
                 }
                 // Kills the timer update routine if the game has ended
                 if (board.gameEnd) {
                     this.stop();
+                    gameOver();
                 }
 
             }
         };
-        // This encapsulates the bot as a thread, bot gets its own board 
+        // This encapsulates the bot as a thread, bot gets its own board
         // (deep copy of the guis board) that it uses to make its moves
-        
+
         BotExecutor botThread = new BotExecutor(moveQueue, bot, botBoard);
 
         // Starts the gui updater and the bot thread
@@ -292,14 +299,16 @@ public class GameView {
             return;
         }
         System.out.println("Updating");
-        //Makes move to the gui board and updates the gui buttons
+
+        this.clearAllHighlights();
+        // Makes move to the gui board and updates the gui buttons
         board.makeMove(move);
-
         board.getSquareAt(move.x, move.y).highlight = Highlight.BLACK;
-        updateGameGP(true);
-
-        board.getSquareAt(move.x, move.y).highlight = Highlight.NONE;  
+        updateGameGP(move.x, move.y);
+        board.getSquareAt(move.x, move.y).highlight = Highlight.NONE;
+        remainingUnflaggedMines += board.board[x][y].getFlagged() ? -1 : 1;
     }
+
     private void initializeSlider() {
         this.animationSlider = new Slider(100, 2000, 1050);
         this.animationSlider.setMajorTickUnit(200f);

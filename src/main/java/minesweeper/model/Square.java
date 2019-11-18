@@ -12,17 +12,28 @@ public class Square {
     private boolean opened; 
     private boolean isFlagged;
     private int surroundingMines; //Number of surrounding squares with mines
+    private int locationX, locationY;
 
     public Highlight highlight = Highlight.NONE;
 
     /**
      * Generates a new Square with no mines
      */
-    public Square() {
+    public Square(int x, int y) {
         this.isMine = false;
         this.opened = false;
         this.isFlagged = false;
         this.surroundingMines = 0;
+        this.locationX = x;
+        this.locationY = y;
+    }
+
+    public int getX(){
+        return this.locationX;
+    }
+
+    public int getY(){
+        return this.locationY;
     }
 
     /**
