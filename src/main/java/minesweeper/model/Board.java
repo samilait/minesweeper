@@ -118,7 +118,7 @@ public class Board {
                         for (int xInc = -1; xInc <= 1; xInc++) {
                             for (int yInc = -1; yInc <= 1; yInc++) {
                                 if (withinBoard(v.first + xInc, v.second + yInc) 
-                                    && !board[v.first + xInc][v.second + yInc].getOpen()) {
+                                    && !board[v.first + xInc][v.second + yInc].isOpened()) {
                                     toVisit.push(new Pair(v.first + xInc, v.second + yInc));
                                 }
                             }
@@ -159,7 +159,7 @@ public class Board {
 
         // If number of flagged squares equals number of surrounding mines
         // open all adjacent squares that are not flagged
-        if (square.getOpen() && square.surroundingMines() == surroundingFlagged) {
+        if (square.isOpened() && square.surroundingMines() == surroundingFlagged) {
             for (int xInc = -1; xInc <= 1; xInc++) {
                 for (int yInc = -1; yInc <= 1; yInc++) {
                     if (withinBoard(x + xInc, y + yInc) 
@@ -193,7 +193,7 @@ public class Board {
         int unopenedSquares = 0;
         for (int x = 0; x < this.width; x++) { 
             for (int y = 0; y < this.length; y++) {
-                if (!board[x][y].getOpen()) {
+                if (!board[x][y].isOpened()) {
                     unopenedSquares++;
                 }
             }

@@ -120,7 +120,7 @@ public class GameView {
         button.setOnMouseClicked((e) -> {
             if ((e.getButton() == MouseButton.PRIMARY && e.isSecondaryButtonDown()
                     || (e.getButton() == MouseButton.SECONDARY && e.isPrimaryButtonDown()))
-                    && board.board[x][y].getOpen()) {
+                    && board.board[x][y].isOpened()) {
                 if (!board.chordedOpen(x, y)) {
                     gameOver();
                 } else {
@@ -140,7 +140,7 @@ public class GameView {
 
             } else if (e.getButton() == MouseButton.SECONDARY) {
                 // If a right click, flag or unflag a Square
-                if (!board.board[x][y].getOpen()) {
+                if (!board.board[x][y].isOpened()) {
                     board.board[x][y].toggleFlagged();
                     if (board.board[x][y].getFlagged()) {
                         button.getStyleClass().add("flagged-button");
@@ -217,7 +217,7 @@ public class GameView {
                         break;
                 }
 
-                if (board.board[i][j].getOpen()) {
+                if (board.board[i][j].isOpened()) {
 
                     newButton.getStyleClass().add("opened-button");
                     if (board.board[i][j].isMine()) {

@@ -88,7 +88,7 @@ public class BoardTest {
 
         for (int y = 0; y < 10; y++) {
             for (int x = 0; x < 10; x++) {
-                assertTrue(board.board[y][x].getOpen());
+                assertTrue(board.board[y][x].isOpened());
             }
         }
     }
@@ -100,7 +100,7 @@ public class BoardTest {
 
         board.open(5, 5);
 
-        assertEquals(false, board.board[2][2].getOpen());
+        assertEquals(false, board.board[2][2].isOpened());
     }
 
     @Test
@@ -111,7 +111,7 @@ public class BoardTest {
 
         board.open(5, 5);
 
-        assertEquals(false, board.board[4][5].getOpen());
+        assertEquals(false, board.board[4][5].isOpened());
     }
 
     @Test
@@ -145,9 +145,9 @@ public class BoardTest {
         board.board[5][5].open();
         board.chordedOpen(5, 5);
 
-        assertEquals(false, board.board[4][5].getOpen());
-        assertEquals(false, board.board[4][4].getOpen());
-        assertEquals(false, board.board[6][5].getOpen());
+        assertEquals(false, board.board[4][5].isOpened());
+        assertEquals(false, board.board[4][4].isOpened());
+        assertEquals(false, board.board[6][5].isOpened());
     }
 
     @Test
@@ -170,7 +170,7 @@ public class BoardTest {
         for (int xInc = -1; xInc <= 1; xInc++) {
             for (int yInc = -1; yInc <= 1; yInc++) {
                 if (!board.board[5 + xInc][5 + yInc].getFlagged()) {
-                    assertEquals(true, board.board[5 + xInc][5 + yInc].getOpen());
+                    assertEquals(true, board.board[5 + xInc][5 + yInc].isOpened());
                 }
             }
         }
@@ -212,7 +212,7 @@ public class BoardTest {
 
         assertEquals(true, board.chordedOpen(5, 5));
 
-        assertEquals(false, board.board[6][6].getOpen());
+        assertEquals(false, board.board[6][6].isOpened());
     }
 
     @Test
@@ -232,7 +232,7 @@ public class BoardTest {
     public void makingOpenMoveOpensSquare() {
         board.makeMove(new Move(MoveType.OPEN, 5, 5));
 
-        assertTrue(board.getSquareAt(5, 5).getOpen());
+        assertTrue(board.getSquareAt(5, 5).isOpened());
     }
 
     @Test
@@ -249,7 +249,7 @@ public class BoardTest {
         for (int xInc = -1; xInc <= 1; xInc++) {
             for (int yInc = -1; yInc <= 1; yInc++) {
                 if (!board.board[5 + xInc][5 + yInc].getFlagged()) {
-                    assertEquals(true, board.board[5 + xInc][5 + yInc].getOpen());
+                    assertEquals(true, board.board[5 + xInc][5 + yInc].isOpened());
                 }
             }
         }
