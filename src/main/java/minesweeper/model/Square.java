@@ -28,11 +28,11 @@ public class Square {
         this.locationY = y;
     }
 
-    public int getX(){
+    public int getX() {
         return this.locationX;
     }
 
-    public int getY(){
+    public int getY() {
         return this.locationY;
     }
 

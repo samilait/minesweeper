@@ -7,7 +7,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.Node;
 import javafx.scene.control.Slider;
-import javafx.scene.input.MouseButton;
 import minesweeper.model.Board;
 import minesweeper.generator.MinefieldGenerator;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -137,26 +136,26 @@ public class GameView {
         button.setOnMouseReleased((e) -> {
             boolean nonEndingMove = true;
             switch (e.getButton()) {
-            case PRIMARY:
-                if (e.isSecondaryButtonDown() && board.open(x, y)) {
-                    nonEndingMove = board.chordedOpen(x, y);
+                case PRIMARY:
+                    if (e.isSecondaryButtonDown() && board.open(x, y)) {
+                        nonEndingMove = board.chordedOpen(x, y);
+                        break;
+                    }
+                    nonEndingMove = board.open(x, y);
                     break;
-                }
-                nonEndingMove = board.open(x, y);
-                break;
-            case SECONDARY:
-                if (e.isPrimaryButtonDown() && board.open(x, y)) {
-                    nonEndingMove = board.chordedOpen(x, y);
+                case SECONDARY:
+                    if (e.isPrimaryButtonDown() && board.open(x, y)) {
+                        nonEndingMove = board.chordedOpen(x, y);
+                        break;
+                    }
+                    if (!this.board.getSquareAt(x, y).getOpen()) {
+                        board.board[x][y].toggleFlagged();
+                        remainingUnflaggedMines += board.board[x][y].getFlagged() ? -1 : 1;
+                    }
                     break;
-                }
-                if (!this.board.getSquareAt(x, y).getOpen()) {
-                    board.board[x][y].toggleFlagged();
-                    remainingUnflaggedMines += board.board[x][y].getFlagged() ? -1 : 1;
-                }
-                break;
-            default:
-                /* No such button, but don't */ 
-                break;
+                default:
+                 /* No such button, but don't */
+                    break;
             }
             updateGameGP(x, y);
             this.clearAllHighlights();
@@ -192,17 +191,17 @@ public class GameView {
         // Updates the button in the current location with the correct
         // visual representation of the Square.
         switch (board.board[x][y].highlight) {
-        case RED:
-            updatedButton.getStyleClass().add("red-highlight");
-            break;
-        case GREEN:
-            updatedButton.getStyleClass().add("green-highlight");
-            break;
-        case BLACK:
-            updatedButton.getStyleClass().add("black-highlight");
-            break;
-        default:
-            break;
+            case RED:
+                updatedButton.getStyleClass().add("red-highlight");
+                break;
+            case GREEN:
+                updatedButton.getStyleClass().add("green-highlight");
+                break;
+            case BLACK:
+                updatedButton.getStyleClass().add("black-highlight");
+                break;
+            default:
+                break;
         }
         if (board.board[x][y].getOpen()) {
             updatedButton.getStyleClass().add("opened-button");
