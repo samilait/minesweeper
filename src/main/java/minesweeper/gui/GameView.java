@@ -170,7 +170,7 @@ public class GameView {
             }
             updateGameGP(x, y);
             this.clearAllHighlights();
-            if (!nonEndingMove || this.board.gameEnd) {
+            if (!nonEndingMove | this.board.gameEnd | this.board.gameWon) {
                 gameOver();
             }
         });
