@@ -320,9 +320,8 @@ public class GameView {
         this.clearAllHighlights();
         // Makes move to the gui board and updates the gui buttons
         board.makeMove(move);
-        board.getSquareAt(move.x, move.y).highlight = Highlight.BLACK;
+        buttonGrid[move.x][move.y].getStyleClass().add("black-highlight");
         updateGameGP(move.x, move.y);
-        board.getSquareAt(move.x, move.y).highlight = Highlight.NONE;
         remainingUnflaggedMines += this.board.board[move.x][move.y].getFlagged() ? -1 : 1;
     }
 
