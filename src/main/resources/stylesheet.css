@@ -24,3 +24,4 @@
 .custom-label-6 { -fx-text-fill: rgb(0, 156, 156); }
 .custom-label-7 { -fx-text-fill: rgb(0, 0, 0); }
 .custom-label-8 { -fx-text-fill: rgb(88, 61, 61); }
+.no-click { -fx-opacity: 1;}
