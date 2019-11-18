@@ -14,7 +14,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 import javafx.animation.AnimationTimer;
-import minesweeper.model.Highlight;
 import minesweeper.bot.TestBot;
 import minesweeper.bot.Bot;
 import minesweeper.bot.BotExecutor;
