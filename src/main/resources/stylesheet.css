@@ -1,7 +1,17 @@
 .opened-button { 
-    -fx-background-color: rgba(169, 169, 169, 0); 
-    -fx-border-color: rgb(139, 138, 138); 
+    -fx-background-color: rgb(191, 191, 191); 
+    -fx-border-color: rgb(161, 161, 161);
+    -fx-border-width: 1;
+    -fx-background-radius: 0;
 }
+.unopened-button {
+    -fx-border-color: rgb(149, 149, 149) rgb(116, 116, 116) rgb(116, 116, 116) rgb(149, 149, 149);
+    -fx-border-width: 1;
+    -fx-background-color:linear-gradient(rgb(200,200,200), rgb(175, 175, 175));
+    -fx-background-radius: 0;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 5, 0.0 , 0 , 0 ); 
+}
+
 .flagged-button { 
     -fx-background-image: url('Flag.png');
     -fx-background-size: 15px 15px;
@@ -19,12 +29,11 @@
 .black-highlight { -fx-border-color: black; }
 .custom-gridpane { -fx-background-color: rgb(205, 206, 206); }
 
-.custom-label-1 { -fx-text-fill: rgb(8, 88, 238); }
-.custom-label-2 { -fx-text-fill: rgb(19, 133, 4); }
-.custom-label-3 { -fx-text-fill: rgb(255, 36, 36); }
-.custom-label-4 { -fx-text-fill: rgb(18, 0, 122); }
-.custom-label-5 { -fx-text-fill: rgb(117, 3, 3); }
-.custom-label-6 { -fx-text-fill: rgb(0, 156, 156); }
-.custom-label-7 { -fx-text-fill: rgb(0, 0, 0); }
-.custom-label-8 { -fx-text-fill: rgb(88, 61, 61); }
-.no-click { -fx-opacity: 1;}
+.custom-label-1 { -fx-text-fill: rgb(8, 88, 238); -fx-font-weight: bold; -fx-font-size: 110%; }
+.custom-label-2 { -fx-text-fill: rgb(19, 133, 4); -fx-font-weight: bold; -fx-font-size: 110%; }
+.custom-label-3 { -fx-text-fill: rgb(255, 36, 36); -fx-font-weight: bold; -fx-font-size: 110%;}
+.custom-label-4 { -fx-text-fill: rgb(18, 0, 122); -fx-font-weight: bold; -fx-font-size: 110%; }
+.custom-label-5 { -fx-text-fill: rgb(117, 3, 3); -fx-font-weight: bold; -fx-font-size: 110%; }
+.custom-label-6 { -fx-text-fill: rgb(0, 156, 156); -fx-font-weight: bold; -fx-font-size: 110%; }
+.custom-label-7 { -fx-text-fill: rgb(0, 0, 0); -fx-font-weight: bold; -fx-font-size: 110%; }
+.custom-label-8 { -fx-text-fill: rgb(88, 61, 61); -fx-font-weight: bold; -fx-font-size: 110%; }
