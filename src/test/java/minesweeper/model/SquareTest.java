@@ -24,32 +24,32 @@ public class SquareTest {
 
     @Test
     public void byDefaultSquareIsNotOpened() {
-        assertEquals(false, square.getOpen());
+        assertEquals(false, square.isOpened());
     }
 
     @Test
     public void flaggedSquareIsNotOpened() {  
         square.toggleFlagged();
         square.open();
-        assertEquals(false, square.getOpen());
+        assertEquals(false, square.isOpened());
     }
 
     @Test
     public void openedSquareDoesNotToggleFlag() {
         square.open();       
         square.toggleFlagged();
-        assertEquals(true, square.getOpen());
+        assertEquals(true, square.isOpened());
     }
  
     @Test
     public void unopenedSquareTogglesFlag() {
         square.toggleFlagged();
-        assertEquals(false, square.getOpen());
+        assertEquals(false, square.isOpened());
     }
     
     @Test
     public void unopenedSquareWillNotRevealNumberOfSurrounding() {
-        assertEquals(false, square.getOpen());
+        assertEquals(false, square.isOpened());
 
         try {
             square.surroundingMines();
@@ -62,7 +62,7 @@ public class SquareTest {
     @Test
     public void unopenedSquareWillNotRevealIfMine() {
         square.setMine();
-        assertEquals(false, square.getOpen());
+        assertEquals(false, square.isOpened());
         
         try {
             square.isMine();

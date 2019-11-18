@@ -5,6 +5,7 @@ import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.function.Function;
+import java.util.Random;
 
 import minesweeper.generator.MinefieldGenerator;
 
@@ -129,8 +130,8 @@ public class Board {
                         // No surrounding mines, all surrounding squares can be opened
                         for (int xInc = -1; xInc <= 1; xInc++) {
                             for (int yInc = -1; yInc <= 1; yInc++) {
-                                if (withinBoard(v.first + xInc, v.second + yInc)
-                                        && !board[v.first + xInc][v.second + yInc].getOpen()) {
+                                if (withinBoard(v.first + xInc, v.second + yInc) 
+                                    && !board[v.first + xInc][v.second + yInc].isOpened()) {
                                     toVisit.push(new Pair(v.first + xInc, v.second + yInc));
                                 }
                             }
@@ -169,7 +170,7 @@ public class Board {
 
         // If number of flagged squares equals number of surrounding mines
         // open all adjacent squares that are not flagged
-        if (square.getOpen() && square.surroundingMines() == surroundingFlagged) {
+        if (square.isOpened() && square.surroundingMines() == surroundingFlagged) {
             for (int xInc = -1; xInc <= 1; xInc++) {
                 for (int yInc = -1; yInc <= 1; yInc++) {
                     if (withinBoard(x + xInc, y + yInc) && !board[x + xInc][y + yInc].getFlagged()
@@ -208,7 +209,7 @@ public class Board {
         int unopenedSquares = 0;
         for (int x = 0; x < this.width; x++) {
             for (int y = 0; y < this.length; y++) {
-                if (!board[x][y].getOpen()) {
+                if (!board[x][y].isOpened()) {
                     unopenedSquares++;
                 }
             }
@@ -277,7 +278,25 @@ public class Board {
                 return false;
         }
     }
-
+    
+    public int findUnopenedNotFlaggedSquare() {
+        Square square;
+        Random rng = new Random();
+        int x = -1;
+        int y = -1;
+        Boolean wasOpened = true;
+        while (wasOpened) {
+            x = rng.nextInt(this.width);
+            y = rng.nextInt(this.length);
+            square = this.getSquareAt(x, y);
+            if (!square.getFlagged()) {
+                wasOpened = square.isOpened();
+            }
+        }
+// coding to one value because java cannot return two values at the same time
+        return 1000 * x + y;
+    }
+    
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder("Field \n");

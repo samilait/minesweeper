@@ -58,7 +58,7 @@ public class Square {
      * Whether this Square is opened
      * @return true if it is opened already, else false
      */
-    public boolean getOpen() {
+    public boolean isOpened() {
         return this.opened;
     }
 

@@ -161,7 +161,7 @@ public class GameView {
                         nonEndingMove = board.chordedOpen(x, y);
                         break;
                     }
-                    if (!this.board.getSquareAt(x, y).getOpen()) {
+                    if (!this.board.getSquareAt(x, y).isOpened()) {
                         board.board[x][y].toggleFlagged();
                         remainingUnflaggedMines += board.board[x][y].getFlagged() ? -1 : 1;
                     }
@@ -217,7 +217,7 @@ public class GameView {
             default:
                 break;
         }
-        if (board.board[x][y].getOpen()) {        
+        if (board.board[x][y].isOpened()) {        
 
             updatedButton.getStyleClass().remove("unopened-button");
             updatedButton.getStyleClass().add("opened-button");
