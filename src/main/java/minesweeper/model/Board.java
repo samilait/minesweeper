@@ -175,7 +175,7 @@ public class Board {
             for (int xInc = -1; xInc <= 1; xInc++) {
                 for (int yInc = -1; yInc <= 1; yInc++) {
                     if (withinBoard(x + xInc, y + yInc) && !board[x + xInc][y + yInc].getFlagged()){
-                            mineOpened = this.open(x + xInc, y + yInc);
+                            mineOpened = mineOpened | this.open(x + xInc, y + yInc);
                             this.observerCallback.apply(board[x + xInc][y + yInc]);
                     }
                 }

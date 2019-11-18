@@ -138,14 +138,14 @@ public class GameView {
             boolean nonEndingMove = true;
             switch (e.getButton()) {
             case PRIMARY:
-                if (e.isSecondaryButtonDown()) {
+                if (e.isSecondaryButtonDown() && board.open(x, y)) {
                     nonEndingMove = board.chordedOpen(x, y);
                     break;
                 }
                 nonEndingMove = board.open(x, y);
                 break;
             case SECONDARY:
-                if (e.isPrimaryButtonDown()) {
+                if (e.isPrimaryButtonDown() && board.open(x, y)) {
                     nonEndingMove = board.chordedOpen(x, y);
                     break;
                 }
