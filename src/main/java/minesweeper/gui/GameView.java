@@ -117,6 +117,9 @@ public class GameView {
         button.setMaxWidth(size);
         button.setMinHeight(size);
         button.setMaxHeight(size);
+        if (!board.board[x][y].getOpen()){
+            button.getStyleClass().add("unopened-button");
+        }
         button.setOnMouseClicked((e) -> {
             if ((e.getButton() == MouseButton.PRIMARY && e.isSecondaryButtonDown()
                     || (e.getButton() == MouseButton.SECONDARY && e.isPrimaryButtonDown()))
@@ -194,6 +197,9 @@ public class GameView {
                     newButton.setMaxHeight(30);
                     newButton.setMinWidth(30);
                     newButton.setMaxWidth(30);
+                    if (!board.board[i][j].getOpen()){
+                        newButton.getStyleClass().add("unopened-button");
+                    }
                     botButton.setDisable(true);
                 } else {
                     // Functional buttons when game is underway.
