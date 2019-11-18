@@ -34,6 +34,8 @@ public class StartSelectView {
         Label seedErrorLabel = new Label("");
         seedErrorLabel.setVisible(false);
 
+        // Create event handler for toggling the pre-set seed 
+        // on and off
         seedToggle.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -49,9 +51,12 @@ public class StartSelectView {
             }
         });
 
+        // Check on each keypress if the text in the seed TextField is numeric
         seedText.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
+                // java.lang.String does not define a isNumeric method, so we check each character
+                // individually
                 boolean isNumeric = seedText.getText().chars().allMatch( Character::isDigit );
 
                 if (!isNumeric) {

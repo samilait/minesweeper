@@ -35,10 +35,17 @@ public class GameView {
 
     private long seed;
 
+    /**
+     * Constructor for a game view of given size and mine count
+     * Seed for the minefield is generated from system's time
+     */
     public GameView(int x, int y, VBox vbox, int mines) {
         this(x, y, vbox, mines, System.nanoTime() / 2L);
     }
 
+    /**
+     * Base constructor for GameView with given size, mine count and seed
+     */
     public GameView(int x, int y, VBox vbox, int mines, long seed) {
         MinefieldGenerator generator;
         Button botGame;
