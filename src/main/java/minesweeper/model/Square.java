@@ -12,7 +12,8 @@ public class Square {
     private boolean opened; 
     private boolean isFlagged;
     private int surroundingMines; //Number of surrounding squares with mines
-    private int locationX, locationY;
+    private int locationX; 
+    private int locationY;
 
     public Highlight highlight = Highlight.NONE;
 
