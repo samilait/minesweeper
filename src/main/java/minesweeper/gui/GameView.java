@@ -36,7 +36,18 @@ public class GameView {
     private Button botButton;
     public final long[] currentNanotime = new long[1];
 
+    /**
+     * Constructor for a game view of given size and mine count
+     * Seed for the minefield is generated from system's time
+     */
     public GameView(int x, int y, VBox vbox, int mines) {
+        this(x, y, vbox, mines, System.nanoTime() / 2L);
+    }
+
+    /**
+     * Base constructor for GameView with given size, mine count and seed
+     */
+    public GameView(int x, int y, VBox vbox, int mines, long seed) {
         MinefieldGenerator generator;
         Button botGame;
         this.vbox = vbox;
@@ -89,7 +100,7 @@ public class GameView {
         gameGP.setMaxWidth(sizeX * 30);
         gameGP.getStyleClass().add("custom-gridpane");
         vbox.getChildren().add(gameGP);
-        long seed = System.nanoTime() / 2L;
+
         System.out.println("" + seed);
         generator = new MinefieldGenerator(seed);
 
