@@ -294,7 +294,7 @@ public class BoardTest {
     public void findUnopenedSquareFindsOne() {
         // at first, all squares are closed
         for (int i=0; i < 10; i++) {
-            for (int j=0; j < 8; j++) {        
+            for (int j=0; j < 7; j++) {
                 board.board[i][j].open();
             }
         }

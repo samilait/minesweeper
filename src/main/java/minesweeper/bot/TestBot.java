@@ -20,7 +20,7 @@ public class TestBot implements Bot {
 //        int value = board.findUnopenedNotFlaggedSquare();
         int x = value / 1000;
         int y = value % 1000;
-        
+        System.out.println("x " + x + " y " + y);
         Random rng = new Random();
         Integer type = rng.nextInt(10);
         if (type < 5) {

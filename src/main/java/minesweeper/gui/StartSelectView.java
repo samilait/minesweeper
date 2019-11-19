@@ -23,7 +23,7 @@ public class StartSelectView {
 
     public StartSelectView() {       
         Button[] buttons = new Button[] {
-            this.initButton("Easy ", 9, 9, 10), 
+            this.initButton("Easy ", 10, 10, 10), 
             this.initButton("Intermediate", 16, 16, 40),
             this.initButton("Hard", 30, 16, 99)};
         HBox hbox = new HBox(buttons);
