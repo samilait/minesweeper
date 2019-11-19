@@ -298,28 +298,6 @@ public class Board {
         return value;
     }
     
-    // This method may not be needed
-    public int findUnopenedNotFlaggedSquare() {
-        Random rng = new Random();
-        HashSet<Square> opened = this.getOpenSquares();
-        int x = -1;
-        int y = -1;
-        Boolean flaggedOrOpened = true;
-        int value = -1;
-        while (flaggedOrOpened) {
-            x = rng.nextInt(this.width);
-            y = rng.nextInt(this.length);
-            
-            if (!opened.contains(this.board[x][y])) {
-                if (!this.board[x][y].getFlagged()) {
-                    flaggedOrOpened = false;
-                }
-            }
-        }
-        // coding to one value because java cannot return two values at the same time
-        return 1000 * x + y;
-    }
-    
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder("Field \n");

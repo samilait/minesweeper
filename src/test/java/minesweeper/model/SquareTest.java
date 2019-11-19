@@ -97,6 +97,16 @@ public class SquareTest {
         square.open();
         assertEquals("0", square.toString());
     }
+
+    @Test
+    public void getXgivesX() {
+        assertEquals(0, square.getX());
+    }
+
+    @Test
+    public void getYgivesY() {
+        assertEquals(0, square.getY());
+    }
     
     @Test
     public void returnStarWhenMineOpened() {
