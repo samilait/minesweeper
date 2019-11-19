@@ -283,23 +283,24 @@ public class Board {
         Random rng = new Random();
         Boolean unOpenedSquare = false;
         HashSet<Square> opened = this.getOpenSquares();
-        int x = -1;
-        int y = -1;
+        int x;
+        int y;
+        int value = -1;
         while (!unOpenedSquare) {
             x = rng.nextInt(this.width);
             y = rng.nextInt(this.length); 
             if (!opened.contains(this.board[x][y])) {
                 unOpenedSquare = true;
+                value = 1000 * x + y;
             }
         }
         // coding to one value because java cannot return two values at the same time
-        return 1000 * x + y;
+        return value;
     }
     
     // This method may not be needed
     public int findUnopenedNotFlaggedSquare() {
         Random rng = new Random();
-        Boolean unOpenedSquare = false;
         HashSet<Square> opened = this.getOpenSquares();
         int x = -1;
         int y = -1;

@@ -294,12 +294,15 @@ public class BoardTest {
     public void findUnopenedSquareFindsOne() {
         // at first, all squares are closed
         for (int i=0; i < 10; i++) {
-            for (int j=0; j < 7; j++) {
+            for (int j=0; j < 8; j++) {
                 board.board[i][j].open();
             }
         }
         // leave some unopened squares so that random finding does not take too long
         int value = board.findUnopenedSquare();
-        assertEquals(false, board.board[value / 1000][value % 1000].isOpened());
+        int x = value / 1000;
+        int y = value % 1000;
+        assertEquals(false, board.board[5][8].isOpened());
+        assertEquals(true, board.board[5][7].isOpened());
     }
 }
