@@ -55,14 +55,6 @@ public class Square {
     }
 
     /**
-     * Whether this Square is opened
-     * @return true if it is opened already, else false
-     */
-    public boolean isOpened() {
-        return this.opened;
-    }
-
-    /**
      * Whether this Square is a Square with mine
      * @return true if this is a mine Square and it has been opened already, false otherwise
      */
@@ -110,6 +102,14 @@ public class Square {
         this.surroundingMines++;
     }
 
+    /**
+     * Whether this Square is opened
+     * @return true if it is opened already, else false
+     */    
+    public boolean isOpened() {
+        return this.opened;
+    }
+    
     /**
      * Text representation for debugging purposes.
      * @return String

@@ -2,9 +2,8 @@
 package minesweeper.bot;
 
 import java.util.Random;
-
-import java.util.HashSet;
-import minesweeper.model.Square;
+//import java.util.HashSet;
+//import minesweeper.model.Square;
 import minesweeper.model.Board;
 import minesweeper.model.Move;
 import minesweeper.model.MoveType;
@@ -17,18 +16,12 @@ public class TestBot implements Bot {
     
     @Override
     public Move makeMove(Board board) {
+        int value = board.findUnopenedSquare();  
+//        int value = board.findUnopenedNotFlaggedSquare();
+        int x = value / 1000;
+        int y = value % 1000;
+        
         Random rng = new Random();
-        Boolean unOpenedSquare = false;
-        HashSet<Square> opened = board.getOpenSquares();
-        int x = -1;
-        int y = -1;
-        while (!unOpenedSquare) {
-            x = rng.nextInt(board.width);
-            y = rng.nextInt(board.length); 
-            if (!opened.contains(board.board[x][y])) {
-                unOpenedSquare = true;
-            }
-        }
         Integer type = rng.nextInt(10);
         if (type < 5) {
             return new Move(MoveType.OPEN, x, y);
