@@ -10,6 +10,8 @@ import javafx.scene.control.Slider;
 import minesweeper.model.Board;
 import minesweeper.model.MoveType;
 import minesweeper.generator.MinefieldGenerator;
+
+import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
@@ -36,8 +38,8 @@ public class GameView {
     public final long[] currentNanotime = new long[1];
 
     /**
-     * Constructor for a game view of given size and mine count
-     * Seed for the minefield is generated from system's time
+     * Constructor for a game view of given size and mine count Seed for the
+     * minefield is generated from system's time
      */
     public GameView(int x, int y, VBox vbox, int mines) {
         this(x, y, vbox, mines, System.nanoTime() / 2L);
@@ -54,7 +56,6 @@ public class GameView {
         sizeY = y;
         this.buttonGrid = new Button[x][y];
 
-
         this.bot = new TestBot();
 
         botButton = new Button("Help (bot)");
@@ -69,7 +70,6 @@ public class GameView {
                 this.updateGameGP(move.x, move.y);
                 this.gameOver();
             }
-           
         });
         botGame = new Button("Bot Game");
         botGame.setOnMouseClicked(e -> {
@@ -144,33 +144,32 @@ public class GameView {
         button.setMinHeight(size);
         button.setMaxHeight(size);
         button.getStyleClass().add("unopened-button");
-       
         button.setOnMouseReleased((e) -> {
             boolean nonEndingMove = true;
             switch (e.getButton()) {
-                case PRIMARY:
-                    if (e.isSecondaryButtonDown() && board.getSquareAt(x, y).isOpened()) {
-                        Move chordedOpen = new Move(MoveType.CHORD, x, y);
-                        nonEndingMove = this.board.makeMove(chordedOpen);
-                        break;
-                    }
-                    Move open = new Move(MoveType.OPEN, x, y);
-                    nonEndingMove = this.board.makeMove(open);
+            case PRIMARY:
+                if (e.isSecondaryButtonDown() && board.getSquareAt(x, y).isOpened()) {
+                    Move chordedOpen = new Move(MoveType.CHORD, x, y);
+                    nonEndingMove = this.board.makeMove(chordedOpen);
                     break;
-                case SECONDARY:
-                    if (e.isPrimaryButtonDown() && board.getSquareAt(x, y).isOpened()) {
-                        Move chordedOpen = new Move(MoveType.CHORD, x, y);
-                        nonEndingMove = this.board.makeMove(chordedOpen);
-                        break;
-                    }
-                    if (!this.board.getSquareAt(x, y).isOpened()) {
-                        Move flag = new Move(MoveType.FLAG, x, y);
-                        this.board.makeMove(flag);
-                    }
+                }
+                Move open = new Move(MoveType.OPEN, x, y);
+                nonEndingMove = this.board.makeMove(open);
+                break;
+            case SECONDARY:
+                if (e.isPrimaryButtonDown() && board.getSquareAt(x, y).isOpened()) {
+                    Move chordedOpen = new Move(MoveType.CHORD, x, y);
+                    nonEndingMove = this.board.makeMove(chordedOpen);
                     break;
-                default:
-                 /* No such button, but don't */
-                    break;
+                }
+                if (!this.board.getSquareAt(x, y).isOpened()) {
+                    Move flag = new Move(MoveType.FLAG, x, y);
+                    this.board.makeMove(flag);
+                }
+                break;
+            default:
+                /* No such button, but don't */
+                break;
             }
             updateGameGP(x, y);
             this.clearAllHighlights();
@@ -199,43 +198,48 @@ public class GameView {
      * Updates the view with the current boardstate.
      */
     public void updateGameGP(int x, int y) {
-        
+
         gameGP.setMaxWidth(sizeX * 30);
         // gameGP.getStyleClass().add("custom-gridpane");
         Button updatedButton = this.buttonGrid[x][y];
-
         // Updates the button in the current location with the correct
         // visual representation of the Square.
         switch (board.board[x][y].highlight) {
-            case RED:
-                updatedButton.getStyleClass().add("red-highlight");
-                break;
-            case GREEN:
-                updatedButton.getStyleClass().add("green-highlight");
-                break;
-            case BLACK:
-                updatedButton.getStyleClass().add("black-highlight");
-                break;
-            default:
-                break;
+        case RED:
+            updatedButton.getStyleClass().add("red-highlight");
+            break;
+        case GREEN:
+            updatedButton.getStyleClass().add("green-highlight");
+            break;
+        case BLACK:
+            updatedButton.getStyleClass().add("black-highlight");
+            break;
+        default:
+            break;
         }
-        if (board.board[x][y].isOpened()) {        
 
+        ArrayList<String> styleToAdd = new ArrayList<>();
+        if (board.board[x][y].isOpened()) {
             updatedButton.getStyleClass().remove("unopened-button");
-            updatedButton.getStyleClass().add("opened-button");
+            styleToAdd.add("opened-button");
             if (board.board[x][y].isMine()) {
-                updatedButton.getStyleClass().add("mine");
+                styleToAdd.add("mine");
             } else if (board.board[x][y].surroundingMines() != 0) {
                 updatedButton.setText("" + board.board[x][y].surroundingMines());
-                setOpenedButtonColor(updatedButton, board.board[x][y].surroundingMines());
+                styleToAdd.add(setOpenedButtonColor(updatedButton, board.board[x][y].surroundingMines()));
             }
         } else {
             if (board.board[x][y].getFlagged()) {
-                updatedButton.getStyleClass().add("flagged-button");
-            } else {
+                styleToAdd.add("flagged-button");
+            }
+            if (!board.board[x][y].getFlagged()) {
                 updatedButton.getStyleClass().remove("flagged-button");
             }
         }
+
+        styleToAdd.stream().dropWhile(style -> updatedButton.getStyleClass().contains(style))
+                .forEach(newStyle -> updatedButton.getStyleClass().add(newStyle));
+
         this.endLabel.setText("Mines: " + this.board.getUnflaggedMines());
     }
 
@@ -302,10 +306,10 @@ public class GameView {
         botThread.start();
     }
 
-    private void setOpenedButtonColor(Button button, int mines) {
+    private String setOpenedButtonColor(Button button, int mines) {
         String labelStyle = "custom-label-";
         labelStyle = labelStyle.concat("" + mines);
-        button.getStyleClass().add(labelStyle);
+        return labelStyle;
     }
 
     // Used by the gui updater timer to updat the board of the gui
