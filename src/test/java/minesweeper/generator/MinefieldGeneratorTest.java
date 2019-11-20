@@ -8,6 +8,8 @@ import static org.junit.Assert.assertEquals;
 
 import minesweeper.model.Board;
 import minesweeper.model.Square;
+import minesweeper.model.Move;
+import minesweeper.model.MoveType;
 import static org.junit.Assert.assertTrue;
 
 public class MinefieldGeneratorTest {
@@ -33,7 +35,7 @@ public class MinefieldGeneratorTest {
         int[] displacement = new int[] { -1, 0, 1 };
         for (int dx : displacement) {
             for (int dy : displacement) {
-                assertTrue(board.open(5 + dx, 5 + dy));
+                assertTrue(board.makeMove(new Move(MoveType.OPEN, 5+dx, 5+dy)));
             }
         }
     }
@@ -45,7 +47,7 @@ public class MinefieldGeneratorTest {
         for (int dx : displacement) {
             for (int dy : displacement) {
                 if(board.withinBoard(dx, dy)){
-                    assertTrue(board.open(dx, dy));
+                    assertTrue(board.makeMove(new Move(MoveType.OPEN, dx, dy)));
                 }
             }
         }
@@ -60,8 +62,8 @@ public class MinefieldGeneratorTest {
 
         for (int y = 0; y < 100; y++) {
             for (int x = 0; x < 100; x++) {
-                board1.open(x, y);
-                board2.open(x, y);
+                board1.makeMove(new Move(MoveType.OPEN, x, y));
+                board2.makeMove(new Move(MoveType.OPEN, x, y));
             }
         }
 

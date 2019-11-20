@@ -72,7 +72,7 @@ public class Board {
      * Opens a square in the given X, Y coordinate and all surrounding squares that
      * are not mines
      */
-    public boolean open(int x, int y) {
+    private boolean open(int x, int y) {
         if (this.firstMove) {
             generator.generate(this, totalMines, x, y);
             this.firstMove = false;
@@ -157,7 +157,7 @@ public class Board {
      * @param y Y coordinate
      * @return True if no mines were hit, false otherwise
      */
-    public boolean chordedOpen(int x, int y) {
+    private boolean chordedOpen(int x, int y) {
         int surroundingFlagged = 0;
 
         for (int xInc = -1; xInc <= 1; xInc++) {
