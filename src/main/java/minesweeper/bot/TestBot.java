@@ -8,6 +8,7 @@ import minesweeper.model.Board;
 import minesweeper.model.Move;
 import minesweeper.model.MoveType;
 import minesweeper.model.Highlight;
+import minesweeper.model.Pair;
 
 /**
  * A basic bot template for testing purposes
@@ -16,10 +17,9 @@ public class TestBot implements Bot {
     
     @Override
     public Move makeMove(Board board) {
-        int value = board.findUnopenedSquare();  
-//        int value = board.findUnopenedNotFlaggedSquare();
-        int x = value / 1000;
-        int y = value % 1000;
+        Pair pair = board.findUnopenedSquare();  
+        int x = (int) pair.first;
+        int y = (int) pair.second;
         Random rng = new Random();
         Integer type = rng.nextInt(10);
         if (type < 5) {

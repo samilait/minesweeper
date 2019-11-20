@@ -299,9 +299,9 @@ public class BoardTest {
             }
         }
         // leave some unopened squares so that random finding does not take too long
-        int value = board.findUnopenedSquare();
-        int x = value / 1000;
-        int y = value % 1000;
+        Pair pair = board.findUnopenedSquare();
+        int x = (int) pair.first;
+        int y = (int) pair.second;
         assertEquals(false, board.board[5][8].isOpened());
         assertEquals(true, board.board[5][7].isOpened());
     }

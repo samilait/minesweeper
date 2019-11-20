@@ -279,23 +279,22 @@ public class Board {
         }
     }
      
-    public int findUnopenedSquare() {
+    public Pair findUnopenedSquare() {
         Random rng = new Random();
         Boolean unOpenedSquare = false;
         HashSet<Square> opened = this.getOpenSquares();
         int x;
         int y;
-        int value = -1;
+        Pair pair = new Pair(0, 0);
         while (!unOpenedSquare) {
             x = rng.nextInt(this.width);
             y = rng.nextInt(this.length); 
             if (!opened.contains(this.board[x][y])) {
                 unOpenedSquare = true;
-                value = 1000 * x + y;
+                pair = new Pair(x, y);
             }
         }
-        // coding to one value because java cannot return two values at the same time
-        return value;
+        return pair;
     }
     
     @Override
