@@ -42,6 +42,28 @@ public class GameStatsTest {
 
         move = new Move(MoveType.OPEN, 5, 5);
 
+        stats.update(move);
+
         assertTrue(stats.cumulativeTime > 0);
+    }
+
+    @Test
+    public void updatingWithMovesIncreasesCumulativeDistance() {
+        Move move = new Move(MoveType.OPEN, 5, 5);
+
+        stats.update(move);
+
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+
+        }
+
+        move = new Move(MoveType.OPEN, 10, 10);
+        move.euclideanDistance = Math.hypot(10 - 5, 10 - 5);
+
+        stats.update(move);
+
+        assertTrue(stats.cumulativeEuclidianDistance > 0);
     }
 }
