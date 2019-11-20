@@ -29,6 +29,7 @@ public class StartSelectView {
         HBox hbox = new HBox(buttons);
         
         ToggleButton seedToggle = new ToggleButton("Use a pre-set seed");
+        seedToggle.getStyleClass().add("menu-button");
         TextField seedText = new TextField("...");
         seedText.setVisible(false);
         Label seedErrorLabel = new Label("");
@@ -80,6 +81,7 @@ public class StartSelectView {
      */
     private Button initButton(String label, int height, int width, int mines) {
         Button button = new Button(label);
+        button.getStyleClass().add("menu-button");
         button.setOnMouseClicked(e -> {
             this.vbox.setVisible(false);
             Button newGameButton = new Button("New Game");

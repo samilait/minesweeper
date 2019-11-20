@@ -1,3 +1,22 @@
+.menu-button {
+    -fx-padding: 1em;
+    -fx-border-insets: 0.2em;
+    -fx-background-insets: 0.2em;
+    -fx-background-color: linear-gradient(rgb(150, 147, 147), rgb(100, 99, 99));
+    -fx-border-color: rgb(40, 40, 44);
+    -fx-text-fill: white;
+}
+.slider .thumb {
+    -fx-background-color: linear-gradient(from 40% 40% to 80% 80%, rgb(170, 187, 224), rgb(187, 185, 185));
+    -fx-border-color: linear-gradient(from 40% 40% to 80% 80%, rgb(170, 187, 224), rgb(187, 185, 185));
+    -fx-border-width: 3;
+}
+.slider .track {
+    -fx-background-color: rgb(143, 142, 142);
+}
+.slider {
+    -fx-background-color: rgb(143, 142, 142);
+}
 .opened-button { 
     -fx-background-color: rgb(223, 219, 219); 
     -fx-border-color: rgb(161, 161, 161);
