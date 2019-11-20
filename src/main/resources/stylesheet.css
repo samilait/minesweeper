@@ -17,6 +17,11 @@
 .slider {
     -fx-background-color: rgb(143, 142, 142);
 }
+
+.custom-textfield { 
+    -fx-border-color: rgb(143, 142, 142);
+    -fx-padding: 1em;
+}
 .opened-button { 
     -fx-background-color: rgb(223, 219, 219); 
     -fx-border-color: rgb(161, 161, 161);

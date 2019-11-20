@@ -30,7 +30,8 @@ public class StartSelectView {
         
         ToggleButton seedToggle = new ToggleButton("Use a pre-set seed");
         seedToggle.getStyleClass().add("menu-button");
-        TextField seedText = new TextField("...");
+        TextField seedText = new TextField("123");
+        seedText.getStyleClass().add("custom-textfield");
         seedText.setVisible(false);
         Label seedErrorLabel = new Label("");
         seedErrorLabel.setVisible(false);
