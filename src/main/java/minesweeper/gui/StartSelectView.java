@@ -31,6 +31,7 @@ public class StartSelectView {
         ToggleButton seedToggle = new ToggleButton("Use a pre-set seed");
         seedToggle.getStyleClass().add("menu-button");
         TextField seedText = new TextField("1234");
+        seedText.getStyleClass().add("custom-textfield");
         seedText.setVisible(false);
         Label seedErrorLabel = new Label("");
         seedErrorLabel.setVisible(false);
@@ -70,8 +71,10 @@ public class StartSelectView {
         });
 
         HBox seedHBox = new HBox(seedToggle, seedText, seedErrorLabel);
+        Label gameType = new Label("Select game type");
+        gameType.getStyleClass().add("label-header");
 
-        this.vbox = new VBox(new Label("Select game type"), hbox, new Separator(), seedHBox);
+        this.vbox = new VBox(gameType, hbox, new Separator(), seedHBox);
         this.stackPane = new StackPane(this.vbox);
     }
 
