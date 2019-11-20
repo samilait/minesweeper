@@ -281,28 +281,7 @@ public class Board {
                 return false;
         }
     }
-     
-    public int findUnopenedSquare() {
-        Random rng = new Random();
-        Boolean unOpenedSquare = false;
-        HashSet<Square> opened = this.getOpenSquares();
-        int x;
-        int y;
-        int value = -1;
-        while (!unOpenedSquare) {
-            x = rng.nextInt(this.width);
-            y = rng.nextInt(this.length); 
-            if (!opened.contains(this.board[x][y])) {
-                unOpenedSquare = true;
-                value = 1000 * x + y;
-            }
-        }
-        // coding to one value because java cannot return two values at the same time
-        return value;
-    }
-    /**
-     * Returns current number of unflaggedMines remaining on the board
-     */
+
     public int getUnflaggedMines() {
         return this.unflaggedMines;
     }
