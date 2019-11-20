@@ -16,7 +16,7 @@ public class GameStatsTest {
 
     @After
     public void tearDown() {
-
+    // empty method
     }
 
     @Test

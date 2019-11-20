@@ -29,7 +29,6 @@ public class GameView {
     private Board botBoard;
     private VBox vbox;
     private int sizeX;
-    private int sizeY;
     private Bot bot;
     private Label endLabel = new Label("Mines: ");
     private Slider animationSlider;
@@ -53,7 +52,7 @@ public class GameView {
         Button botGame;
         this.vbox = vbox;
         sizeX = x;
-        sizeY = y;
+        int sizeY = y;
         this.buttonGrid = new Button[x][y];
 
         this.bot = new TestBot();
@@ -151,29 +150,29 @@ public class GameView {
         button.setOnMouseReleased((e) -> {
             boolean nonEndingMove = true;
             switch (e.getButton()) {
-            case PRIMARY:
-                if (e.isSecondaryButtonDown() && board.getSquareAt(x, y).isOpened()) {
-                    Move chordedOpen = new Move(MoveType.CHORD, x, y);
-                    nonEndingMove = this.board.makeMove(chordedOpen);
+                case PRIMARY:
+                    if (e.isSecondaryButtonDown() && board.getSquareAt(x, y).isOpened()) {
+                        Move chordedOpen = new Move(MoveType.CHORD, x, y);
+                        nonEndingMove = this.board.makeMove(chordedOpen);
+                        break;
+                    }
+                    Move open = new Move(MoveType.OPEN, x, y);
+                    nonEndingMove = this.board.makeMove(open);
                     break;
-                }
-                Move open = new Move(MoveType.OPEN, x, y);
-                nonEndingMove = this.board.makeMove(open);
-                break;
-            case SECONDARY:
-                if (e.isPrimaryButtonDown() && board.getSquareAt(x, y).isOpened()) {
-                    Move chordedOpen = new Move(MoveType.CHORD, x, y);
-                    nonEndingMove = this.board.makeMove(chordedOpen);
+                case SECONDARY:
+                    if (e.isPrimaryButtonDown() && board.getSquareAt(x, y).isOpened()) {
+                        Move chordedOpen = new Move(MoveType.CHORD, x, y);
+                        nonEndingMove = this.board.makeMove(chordedOpen);
+                        break;
+                    }
+                    if (!this.board.getSquareAt(x, y).isOpened()) {
+                        Move flag = new Move(MoveType.FLAG, x, y);
+                        this.board.makeMove(flag);
+                    }
                     break;
-                }
-                if (!this.board.getSquareAt(x, y).isOpened()) {
-                    Move flag = new Move(MoveType.FLAG, x, y);
-                    this.board.makeMove(flag);
-                }
-                break;
-            default:
-                /* No such button, but don't */
-                break;
+                default:
+                    /* No such button, but don't */
+                    break;
             }
             updateGameGP(x, y);
             this.clearAllHighlights();
@@ -209,17 +208,17 @@ public class GameView {
         // Updates the button in the current location with the correct
         // visual representation of the Square.
         switch (board.board[x][y].highlight) {
-        case RED:
-            updatedButton.getStyleClass().add("red-highlight");
-            break;
-        case GREEN:
-            updatedButton.getStyleClass().add("green-highlight");
-            break;
-        case BLACK:
-            updatedButton.getStyleClass().add("black-highlight");
-            break;
-        default:
-            break;
+            case RED:
+                updatedButton.getStyleClass().add("red-highlight");
+                break;
+            case GREEN:
+                updatedButton.getStyleClass().add("green-highlight");
+                break;
+            case BLACK:
+                updatedButton.getStyleClass().add("black-highlight");
+                break;
+            default:
+                break;
         }
 
         ArrayList<String> styleToAdd = new ArrayList<>();

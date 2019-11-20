@@ -5,13 +5,15 @@ import org.junit.Test;
 import org.junit.After;
 import org.junit.Before;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-import minesweeper.model.*;
+import minesweeper.model.Move;
+import minesweeper.model.Board;
 import minesweeper.generator.MinefieldGenerator;
 
 public class BotExecutorTest {
@@ -32,9 +34,9 @@ public class BotExecutorTest {
     @Test
     public void botExecutorReturnsMovesInQueue() {
         botEx.run();
-//        Move move;
         try {
             Move move = queue.poll(100l, TimeUnit.MILLISECONDS);
+            assertTrue(move.timestamp > 0);
         } catch (InterruptedException ex) {
             fail("Could not find move on the queue");
         }
