@@ -17,10 +17,11 @@ public class Board {
     public int totalMines;
     public final int width;
     public final int length;
-
+    
     private MinefieldGenerator generator;
     public boolean firstMove = true;
 
+    private int unflaggedMines;
     private Function<Square, Void> observerCallback;
     private boolean isObserved = false;
     private HashSet<Square> openSquares;
@@ -31,6 +32,7 @@ public class Board {
         this.board = new Square[width][length];
         this.generator = generator;
         this.totalMines = totalMines;
+        this.unflaggedMines = totalMines;
         this.openSquares = new HashSet<>();
         this.initialize();
     }
@@ -269,6 +271,7 @@ public class Board {
                 return true;
             case FLAG:
                 this.getSquareAt(move.x, move.y).toggleFlagged();
+                this.unflaggedMines += this.board[move.x][move.y].getFlagged() ? -1 : 1;
                 return true;
             case OPEN:
                 return this.open(move.x, move.y);
@@ -297,7 +300,13 @@ public class Board {
         // coding to one value because java cannot return two values at the same time
         return value;
     }
-    
+    /**
+     * Returns current number of unflaggedMines remaining on the board
+     */
+    public int getUnflaggedMines() {
+        return this.unflaggedMines;
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder("Field \n");
