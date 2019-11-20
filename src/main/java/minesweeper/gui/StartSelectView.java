@@ -71,8 +71,10 @@ public class StartSelectView {
         });
 
         HBox seedHBox = new HBox(seedToggle, seedText, seedErrorLabel);
+        Label gameType = new Label("Select game type");
+        gameType.getStyleClass().add("label-header");
 
-        this.vbox = new VBox(new Label("Select game type"), hbox, new Separator(), seedHBox);
+        this.vbox = new VBox(gameType, hbox, new Separator(), seedHBox);
         this.stackPane = new StackPane(this.vbox);
     }
 

@@ -6,6 +6,22 @@
     -fx-border-color: rgb(40, 40, 44);
     -fx-text-fill: white;
 }
+.menu-button:selected {
+    -fx-border-color: rgb(124, 204, 250);
+    -fx-border-width: 2;
+}
+
+.label-header {
+    -fx-font-size:200%;
+    -fx-font-weight: bold;
+    -fx-text-fill: linear-gradient(rgb(150, 147, 147), rgb(100, 99, 99));
+}
+
+.label-subheader{
+    -fx-font-size:150%;
+    -fx-font-weight: bold;
+    -fx-text-fill: linear-gradient(rgb(150, 147, 147), rgb(100, 99, 99));
+}
 .slider .thumb {
     -fx-background-color: linear-gradient(from 40% 40% to 80% 80%, rgb(170, 187, 224), rgb(187, 185, 185));
     -fx-border-color: linear-gradient(from 40% 40% to 80% 80%, rgb(170, 187, 224), rgb(187, 185, 185));
@@ -20,7 +36,10 @@
 
 .custom-textfield { 
     -fx-border-color: rgb(143, 142, 142);
-    -fx-padding: 1em;
+    -fx-padding: 0.6em;
+    -fx-border-insets: 0.2em;
+    -fx-background-insets: 0.2em;
+    -fx-font-size: 150%;
 }
 .opened-button { 
     -fx-background-color: rgb(223, 219, 219); 

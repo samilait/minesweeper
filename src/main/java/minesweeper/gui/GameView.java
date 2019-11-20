@@ -91,8 +91,9 @@ public class GameView {
         hb.getChildren().add(botGame);
 
         this.vbox.getChildren().add(hb);
-
-        this.vbox.getChildren().add(new Label("Bot game animation speed: "));
+        Label animationSpeedLabel = new Label("Bot game animation speed:");
+        animationSpeedLabel.getStyleClass().add("label-subheader");
+        this.vbox.getChildren().add(animationSpeedLabel);
         initializeSlider();
         this.vbox.getChildren().add(this.animationSlider);
         this.vbox.getChildren().add(this.endLabel);
