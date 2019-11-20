@@ -28,7 +28,6 @@ public class GameView {
     private VBox vbox;
     private int sizeX;
     private int sizeY;
-    private int remainingUnflaggedMines;
     private Bot bot;
     private Label endLabel = new Label("Mines: ");
     private Slider animationSlider;
@@ -53,10 +52,8 @@ public class GameView {
         this.vbox = vbox;
         sizeX = x;
         sizeY = y;
-        remainingUnflaggedMines = mines;
         this.buttonGrid = new Button[x][y];
 
-        this.endLabel.setText(this.endLabel.getText() + remainingUnflaggedMines);
 
         this.bot = new TestBot();
 
@@ -106,6 +103,7 @@ public class GameView {
         generator = new MinefieldGenerator(seed);
 
         board = new Board(generator, x, y, mines);
+        this.endLabel.setText(this.endLabel.getText() + board.getUnflaggedMines());
         Function<Square, Void> observerFunction = new Function<Square, Void>() {
             @Override
             public Void apply(Square observed) {
@@ -151,20 +149,23 @@ public class GameView {
             boolean nonEndingMove = true;
             switch (e.getButton()) {
                 case PRIMARY:
-                    if (e.isSecondaryButtonDown() && board.open(x, y)) {
-                        nonEndingMove = board.chordedOpen(x, y);
+                    if (e.isSecondaryButtonDown() && board.getSquareAt(x, y).isOpened()) {
+                        Move chordedOpen = new Move(MoveType.CHORD, x, y);
+                        nonEndingMove = this.board.makeMove(chordedOpen);
                         break;
                     }
-                    nonEndingMove = board.open(x, y);
+                    Move open = new Move(MoveType.OPEN, x, y);
+                    nonEndingMove = this.board.makeMove(open);
                     break;
                 case SECONDARY:
-                    if (e.isPrimaryButtonDown() && board.open(x, y)) {
-                        nonEndingMove = board.chordedOpen(x, y);
+                    if (e.isPrimaryButtonDown() && board.getSquareAt(x, y).isOpened()) {
+                        Move chordedOpen = new Move(MoveType.CHORD, x, y);
+                        nonEndingMove = this.board.makeMove(chordedOpen);
                         break;
                     }
                     if (!this.board.getSquareAt(x, y).isOpened()) {
-                        board.board[x][y].toggleFlagged();
-                        remainingUnflaggedMines += board.board[x][y].getFlagged() ? -1 : 1;
+                        Move flag = new Move(MoveType.FLAG, x, y);
+                        this.board.makeMove(flag);
                     }
                     break;
                 default:
@@ -235,7 +236,7 @@ public class GameView {
                 updatedButton.getStyleClass().remove("flagged-button");
             }
         }
-        this.endLabel.setText("Mines: " + this.remainingUnflaggedMines);
+        this.endLabel.setText("Mines: " + this.board.getUnflaggedMines());
     }
 
     public void clearAllHighlights() {
@@ -321,9 +322,6 @@ public class GameView {
         // Makes move to the gui board and updates the gui buttons
         board.makeMove(move);
         buttonGrid[move.x][move.y].getStyleClass().add("black-highlight");
-        if (move.type == MoveType.FLAG) {
-            remainingUnflaggedMines += this.board.board[move.x][move.y].getFlagged() ? -1 : 1;
-        }
         updateGameGP(move.x, move.y);
     }
 

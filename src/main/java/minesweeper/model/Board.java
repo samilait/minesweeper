@@ -17,10 +17,11 @@ public class Board {
     public int totalMines;
     public final int width;
     public final int length;
-
+    
     private MinefieldGenerator generator;
     public boolean firstMove = true;
 
+    private int unflaggedMines;
     private Function<Square, Void> observerCallback;
     private boolean isObserved = false;
     private HashSet<Square> openSquares;
@@ -31,6 +32,7 @@ public class Board {
         this.board = new Square[width][length];
         this.generator = generator;
         this.totalMines = totalMines;
+        this.unflaggedMines = totalMines;
         this.openSquares = new HashSet<>();
         this.initialize();
     }
@@ -70,7 +72,7 @@ public class Board {
      * Opens a square in the given X, Y coordinate and all surrounding squares that
      * are not mines
      */
-    public boolean open(int x, int y) {
+    private boolean open(int x, int y) {
         if (this.firstMove) {
             generator.generate(this, totalMines, x, y);
             this.firstMove = false;
@@ -155,7 +157,7 @@ public class Board {
      * @param y Y coordinate
      * @return True if no mines were hit, false otherwise
      */
-    public boolean chordedOpen(int x, int y) {
+    private boolean chordedOpen(int x, int y) {
         int surroundingFlagged = 0;
 
         for (int xInc = -1; xInc <= 1; xInc++) {
@@ -269,6 +271,7 @@ public class Board {
                 return true;
             case FLAG:
                 this.getSquareAt(move.x, move.y).toggleFlagged();
+                this.unflaggedMines += this.board[move.x][move.y].getFlagged() ? -1 : 1;
                 return true;
             case OPEN:
                 return this.open(move.x, move.y);
@@ -278,7 +281,11 @@ public class Board {
                 return false;
         }
     }
-    
+
+    public int getUnflaggedMines() {
+        return this.unflaggedMines;
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder("Field \n");

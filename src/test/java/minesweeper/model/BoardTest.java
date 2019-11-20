@@ -66,8 +66,8 @@ public class BoardTest {
     @Test
     public void addingAMineWorks() {
         board.addSquare(new Square(true), 5, 5);
-
-        board.open(5, 5);
+        Move move = new Move(MoveType.OPEN, 5, 5);
+        board.makeMove(move);
 
         assertTrue(board.board[5][5].isMine());
     }
@@ -76,19 +76,22 @@ public class BoardTest {
     public void clickinOnAMineReturnsFalse() {
         board.addSquare(new Square(true), 5, 5);
 
-        assertEquals(false, board.open(5, 5));
+        assertEquals(false,  board.makeMove(new Move(MoveType.OPEN, 5, 5)));
     }
 
     @Test
     public void clickingOnAnEmptySquareReturnsTrue() {
         board.addSquare(new Square(true), 5, 5);
-
-        assertEquals(true, board.open(2, 2));
+        
+        Move move = new Move(MoveType.OPEN, 2, 2);
+        assertEquals(true, board.makeMove(move));
     }
 
     @Test
     public void openingEmptyFieldOpensAllSquares() {
-        board.open(5, 5);
+        
+        Move move = new Move(MoveType.OPEN, 5, 5);
+        board.makeMove(move);
 
         for (int y = 0; y < 10; y++) {
             for (int x = 0; x < 10; x++) {
@@ -102,7 +105,8 @@ public class BoardTest {
         board.addSquare(new Square(true), 2, 2);
         board.incrementAdjacentSquares(2,2);
 
-        board.open(5, 5);
+        Move move = new Move(MoveType.OPEN, 5, 5);
+        board.makeMove(move);
 
         assertEquals(false, board.board[2][2].isOpened());
     }
@@ -113,7 +117,8 @@ public class BoardTest {
         
         assertEquals(true, board.board[4][5].getFlagged());
 
-        board.open(5, 5);
+        Move move = new Move(MoveType.OPEN, 5, 5);
+        board.makeMove(move);
 
         assertEquals(false, board.board[4][5].isOpened());
     }
@@ -121,13 +126,14 @@ public class BoardTest {
     @Test
     public void flaggedSquareReturnsTrueWhenOpened() {
         board.board[5][5].toggleFlagged();
-        
-        assertTrue(board.open(5, 5));
+        Move move = new Move(MoveType.OPEN, 5, 5);
+        assertTrue(board.makeMove(move));
     }
     
     @Test
     public void openingASquareAddsToOpenedSquares() {
-        board.open(5, 5);
+        Move move = new Move(MoveType.OPEN, 5, 5);
+        board.makeMove(move);
 
         assertTrue(board.getOpenSquares().contains(board.getSquareAt(5, 5)));
     }
@@ -146,8 +152,13 @@ public class BoardTest {
         board.board[6][5].toggleFlagged();
         board.incrementAdjacentSquares(4, 5);
 
-        board.board[5][5].open();
-        board.chordedOpen(5, 5);
+
+        Move move = new Move(MoveType.OPEN, 5, 5);
+        board.makeMove(move);
+
+        
+        Move chordedMove = new Move(MoveType.CHORD, 5, 5);
+        board.makeMove(chordedMove);
 
         assertEquals(false, board.board[4][5].isOpened());
         assertEquals(false, board.board[4][4].isOpened());
@@ -168,8 +179,13 @@ public class BoardTest {
         board.board[6][5].toggleFlagged();
         board.incrementAdjacentSquares(4, 5);
 
-        board.board[5][5].open();
-        board.chordedOpen(5, 5);
+        
+        Move move = new Move(MoveType.OPEN, 5, 5);
+        board.makeMove(move);
+
+
+        Move chordedMove = new Move(MoveType.CHORD, 5, 5);
+        board.makeMove(chordedMove);
 
         for (int xInc = -1; xInc <= 1; xInc++) {
             for (int yInc = -1; yInc <= 1; yInc++) {
@@ -196,7 +212,7 @@ public class BoardTest {
         board.incrementAdjacentSquares(4, 5);
 
         board.board[5][5].open();
-        assertEquals(false, board.chordedOpen(5, 5));
+        assertEquals(false, board.makeMove(new Move(MoveType.CHORD, 5, 5)));
     }
 
     @Test
@@ -212,9 +228,12 @@ public class BoardTest {
         board.board[6][5].toggleFlagged();
         board.incrementAdjacentSquares(4, 5);
 
-        board.board[5][5].open();
+        Move move = new Move(MoveType.OPEN, 5, 5);
+        board.makeMove(move);
 
-        assertEquals(true, board.chordedOpen(5, 5));
+
+        Move chordedMove = new Move(MoveType.CHORD, 5, 5);
+        assertEquals(true, board.makeMove(chordedMove));
 
         assertEquals(false, board.board[6][6].isOpened());
     }
@@ -246,8 +265,10 @@ public class BoardTest {
         board.board[4][5].setMine();
         board.board[4][5].toggleFlagged();
         board.incrementAdjacentSquares(4, 5);
-        board.open(5,5);
-
+        
+        Move move = new Move(MoveType.OPEN, 5, 5);
+        board.makeMove(move);
+        
         board.makeMove(new Move(MoveType.CHORD, 5, 5));
 
         for (int xInc = -1; xInc <= 1; xInc++) {
@@ -286,7 +307,9 @@ public class BoardTest {
             }
         };
         board.setChangeObserver(callback);
-        board.open(1,1);
+       
+        Move move = new Move(MoveType.OPEN, 1, 1);
+        board.makeMove(move);
         assertTrue(gotSquares.containsAll(Arrays.asList(neededSquares)));
     }
 
