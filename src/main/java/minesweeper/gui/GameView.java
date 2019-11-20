@@ -8,6 +8,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.Node;
 import javafx.scene.control.Slider;
 import minesweeper.model.Board;
+import minesweeper.model.MoveType;
 import minesweeper.generator.MinefieldGenerator;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -320,8 +321,10 @@ public class GameView {
         // Makes move to the gui board and updates the gui buttons
         board.makeMove(move);
         buttonGrid[move.x][move.y].getStyleClass().add("black-highlight");
+        if (move.type == MoveType.FLAG) {
+            remainingUnflaggedMines += this.board.board[move.x][move.y].getFlagged() ? -1 : 1;
+        }
         updateGameGP(move.x, move.y);
-        remainingUnflaggedMines += this.board.board[move.x][move.y].getFlagged() ? -1 : 1;
     }
 
     private void initializeSlider() {
