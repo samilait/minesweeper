@@ -5,7 +5,6 @@ import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.function.Function;
-import java.util.Random;
 
 import minesweeper.generator.MinefieldGenerator;
 
@@ -89,58 +88,7 @@ public class Board {
             this.gameEnd = true;
             return false;
         } else {
-
-            /*
-             * BFS implementation for opening squares:
-             *
-             * 1. Open current square 2. If current square has surrounding mines, ignore
-             * surrounding tiles 3. Else open all surrounding squares
-             */
-
-            HashSet<Pair<Integer>> visited = new HashSet<>();
-            ArrayDeque<Pair<Integer>> toVisit = new ArrayDeque<>();
-
-            toVisit.push(new Pair(x, y));
-
-            while (!toVisit.isEmpty()) {
-                Pair<Integer> v = toVisit.pop();
-
-                // Have we visited this square before?
-                if (visited.contains(v)) {
-
-                    // If yes, skip it
-                    continue;
-                }
-
-                visited.add(v);
-
-                if (withinBoard(v.first, v.second)) {
-                    Square square = board[v.first][v.second];
-
-                    if (square.getFlagged()) {
-                        continue;
-                    }
-
-                    square.open();
-                    this.openSquares.add(square);
-                    if (this.isObserved) {
-                        this.observerCallback.apply(square);
-                    }
-
-                    // If current square has surrounding mines, ignore surrounding squares
-                    if ((square.surroundingMines() == 0) && (!square.getFlagged())) {
-                        // No surrounding mines, all surrounding squares can be opened
-                        for (int xInc = -1; xInc <= 1; xInc++) {
-                            for (int yInc = -1; yInc <= 1; yInc++) {
-                                if (withinBoard(v.first + xInc, v.second + yInc) 
-                                    && !board[v.first + xInc][v.second + yInc].isOpened()) {
-                                    toVisit.push(new Pair(v.first + xInc, v.second + yInc));
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            runBFS(x, y);
         }
         if (getUnopenedSquaresCount() == this.totalMines) {
             this.gameWon = true;
@@ -148,6 +96,61 @@ public class Board {
         return true;
     }
 
+    public void runBFS(int x, int y) {
+        /*
+         * BFS implementation for opening squares:
+         *
+         * 1. Open current square 2. If current square has surrounding mines, ignore
+         * surrounding tiles 3. Else open all surrounding squares
+         */
+
+        HashSet<Pair<Integer>> visited = new HashSet<>();
+        ArrayDeque<Pair<Integer>> toVisit = new ArrayDeque<>();
+
+        toVisit.push(new Pair(x, y));
+
+        while (!toVisit.isEmpty()) {
+            Pair<Integer> v = toVisit.pop();
+
+            // Have we visited this square before?
+            if (visited.contains(v)) {
+
+                // If yes, skip it
+                continue;
+            }
+
+            visited.add(v);
+
+            if (withinBoard(v.first, v.second)) {
+                Square square = board[v.first][v.second];
+
+                if (square.getFlagged()) {
+                    continue;
+                }
+
+                square.open();
+                this.openSquares.add(square);
+                if (this.isObserved) {
+                    this.observerCallback.apply(square);
+                }
+
+                // If current square has surrounding mines, ignore surrounding squares
+                if ((square.surroundingMines() == 0) && (!square.getFlagged())) {
+                    // No surrounding mines, all surrounding squares can be opened
+                    for (int xInc = -1; xInc <= 1; xInc++) {
+                        for (int yInc = -1; yInc <= 1; yInc++) {
+                            if (withinBoard(v.first + xInc, v.second + yInc) 
+                                && !board[v.first + xInc][v.second + yInc].isOpened()) {
+                                toVisit.push(new Pair(v.first + xInc, v.second + yInc));
+                            }
+                        }
+                    }
+                }
+ 
+            }
+        }
+    } 
+    
     /**
      * Execute a chorded open move on a previously opened square If the number of
      * adjacent flagged squares equals to the number of surrounding mines of a given
