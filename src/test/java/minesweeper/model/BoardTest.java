@@ -293,6 +293,7 @@ public class BoardTest {
     @Test
     public void findUnopenedSquareFindsOne() {
         // at first, all squares are closed
+        board.firstMove = true;
         for (int i=0; i < 10; i++) {
             for (int j=0; j < 8; j++) {
                 board.board[i][j].open();
@@ -304,5 +305,6 @@ public class BoardTest {
         int y = (int) pair.second;
         assertEquals(false, board.board[5][8].isOpened());
         assertEquals(true, board.board[5][7].isOpened());
+        assertEquals(false, board.board[x][y].isOpened());
     }
 }
