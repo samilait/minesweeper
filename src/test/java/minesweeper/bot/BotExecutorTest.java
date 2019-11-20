@@ -26,15 +26,15 @@ public class BotExecutorTest {
     
     @After
     public void tearDown() {
-// empty method
+    // empty method
     }
 
     @Test
     public void botExecutorReturnsMovesInQueue() {
         botEx.run();
-        Move move;
+//        Move move;
         try {
-            move = queue.poll(100l, TimeUnit.MILLISECONDS);
+            Move move = queue.poll(100l, TimeUnit.MILLISECONDS);
         } catch (InterruptedException ex) {
             fail("Could not find move on the queue");
         }

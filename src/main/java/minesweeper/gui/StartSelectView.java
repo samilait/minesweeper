@@ -30,7 +30,7 @@ public class StartSelectView {
         
         ToggleButton seedToggle = new ToggleButton("Use a pre-set seed");
         seedToggle.getStyleClass().add("menu-button");
-        TextField seedText = new TextField("123");
+        TextField seedText = new TextField("1234");
         seedText.getStyleClass().add("custom-textfield");
         seedText.setVisible(false);
         Label seedErrorLabel = new Label("");
@@ -61,7 +61,7 @@ public class StartSelectView {
                 // individually
                 boolean isNumeric = seedText.getText().chars().allMatch(Character::isDigit);
 
-                if (!isNumeric) {
+                if (!isNumeric || seedText.getText().isEmpty()) {
                     seedErrorLabel.setText("Seed must be an integer value!");
                 } else {
                     seedErrorLabel.setText("");
