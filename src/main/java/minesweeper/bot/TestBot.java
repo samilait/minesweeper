@@ -1,6 +1,7 @@
 
 package minesweeper.bot;
 
+import java.util.HashSet;
 import java.util.Random;
 //import java.util.HashSet;
 //import minesweeper.model.Square;
@@ -9,6 +10,7 @@ import minesweeper.model.Move;
 import minesweeper.model.MoveType;
 import minesweeper.model.Highlight;
 import minesweeper.model.Pair;
+import minesweeper.model.Square;
 
 /**
  * A basic bot template for testing purposes
@@ -17,7 +19,7 @@ public class TestBot implements Bot {
     
     @Override
     public Move makeMove(Board board) {
-        Pair pair = board.findUnopenedSquare();  
+        Pair pair = findUnopenedSquare(board);  
         int x = (int) pair.first;
         int y = (int) pair.second;
         Random rng = new Random();
@@ -35,4 +37,21 @@ public class TestBot implements Bot {
         }
     }
     
+    public Pair findUnopenedSquare(Board board) {
+        Random rng = new Random();
+        Boolean unOpenedSquare = false;
+        HashSet<Square> opened = board.getOpenSquares();
+        int x;
+        int y;
+        Pair pair = new Pair(0, 0);
+        while (!unOpenedSquare) {
+            x = rng.nextInt(board.width);
+            y = rng.nextInt(board.length); 
+            if (!opened.contains(board.board[x][y])) {
+                unOpenedSquare = true;
+                pair = new Pair(x, y);
+            }
+        }
+        return pair;
+    } 
 }

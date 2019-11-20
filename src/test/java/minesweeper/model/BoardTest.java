@@ -290,21 +290,4 @@ public class BoardTest {
         assertTrue(gotSquares.containsAll(Arrays.asList(neededSquares)));
     }
 
-    @Test
-    public void findUnopenedSquareFindsOne() {
-        // at first, all squares are closed
-        board.firstMove = true;
-        for (int i=0; i < 10; i++) {
-            for (int j=0; j < 8; j++) {
-                board.board[i][j].open();
-            }
-        }
-        // leave some unopened squares so that random finding does not take too long
-        Pair pair = board.findUnopenedSquare();
-        int x = (int) pair.first;
-        int y = (int) pair.second;
-        assertEquals(false, board.board[5][8].isOpened());
-        assertEquals(true, board.board[5][7].isOpened());
-        assertEquals(false, board.board[x][y].isOpened());
-    }
 }

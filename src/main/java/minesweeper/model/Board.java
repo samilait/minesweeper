@@ -278,24 +278,6 @@ public class Board {
                 return false;
         }
     }
-     
-    public Pair findUnopenedSquare() {
-        Random rng = new Random();
-        Boolean unOpenedSquare = false;
-        HashSet<Square> opened = this.getOpenSquares();
-        int x;
-        int y;
-        Pair pair = new Pair(0, 0);
-        while (!unOpenedSquare) {
-            x = rng.nextInt(this.width);
-            y = rng.nextInt(this.length); 
-            if (!opened.contains(this.board[x][y])) {
-                unOpenedSquare = true;
-                pair = new Pair(x, y);
-            }
-        }
-        return pair;
-    }
     
     @Override
     public String toString() {
