@@ -29,7 +29,8 @@ public class StartSelectView {
         HBox hbox = new HBox(buttons);
         
         ToggleButton seedToggle = new ToggleButton("Use a pre-set seed");
-        TextField seedText = new TextField("...");
+        seedToggle.getStyleClass().add("menu-button");
+        TextField seedText = new TextField("1234");
         seedText.setVisible(false);
         Label seedErrorLabel = new Label("");
         seedErrorLabel.setVisible(false);
@@ -59,7 +60,7 @@ public class StartSelectView {
                 // individually
                 boolean isNumeric = seedText.getText().chars().allMatch(Character::isDigit);
 
-                if (!isNumeric) {
+                if (!isNumeric || seedText.getText().isEmpty()) {
                     seedErrorLabel.setText("Seed must be an integer value!");
                 } else {
                     seedErrorLabel.setText("");
@@ -80,6 +81,7 @@ public class StartSelectView {
      */
     private Button initButton(String label, int height, int width, int mines) {
         Button button = new Button(label);
+        button.getStyleClass().add("menu-button");
         button.setOnMouseClicked(e -> {
             this.vbox.setVisible(false);
             Button newGameButton = new Button("New Game");

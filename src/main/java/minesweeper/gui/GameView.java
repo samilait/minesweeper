@@ -82,6 +82,9 @@ public class GameView {
                 newGame = (Button) n;
             }
         }
+        newGame.getStyleClass().add("menu-button");
+        botButton.getStyleClass().add("menu-button");
+        botGame.getStyleClass().add("menu-button");
         HBox hb = new HBox();
         hb.getChildren().add(newGame);
         hb.getChildren().add(botButton);
@@ -334,5 +337,6 @@ public class GameView {
         this.animationSlider.setMajorTickUnit(200f);
         this.animationSlider.setBlockIncrement(10f);
         this.animationSlider.setMaxWidth(sizeX * 30);
+        this.animationSlider.getStyleClass().add("slider");
     }
 }
