@@ -91,7 +91,7 @@ public class GameView {
 
         this.vbox.getChildren().add(hb);
         Label animationSpeedLabel = new Label("Bot game animation speed");
-        animationSpeedLabel.setMinWidth(sizeX*30);
+        animationSpeedLabel.setMinWidth(sizeX * 30);
         animationSpeedLabel.getStyleClass().add("label-subheader");
         this.vbox.getChildren().add(animationSpeedLabel);
         initializeSlider();
@@ -189,7 +189,7 @@ public class GameView {
      */
     public void gameOver() {
         this.endLabel.getStyleClass().add("label-subheader");
-        this.endLabel.setMinWidth(sizeX*30);
+        this.endLabel.setMinWidth(sizeX * 30);
         if (this.board.gameWon) {
             this.endLabel.setText("You won!");
             this.endLabel.getStyleClass().add("label-won");

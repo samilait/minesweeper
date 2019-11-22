@@ -39,11 +39,17 @@ public class PairTest {
 
     @Test
     public void nonEquals() {
-        Pair pair2 = new Pair(4,6);
+        Pair pair2 = new Pair(5,6);
         assertFalse(pair.equals(pair2));
         
-        Pair pair3 = null;
+        Pair pair3 = new Pair(4,5);
         assertFalse(pair.equals(pair3));
+        
+        Pair pair4 = null;
+        assertFalse(pair.equals(pair4));
+        
+        int notPair = 1;
+        assertFalse(pair.equals(notPair));
     }
     
 }
