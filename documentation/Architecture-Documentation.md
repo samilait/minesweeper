@@ -8,27 +8,28 @@ interaction is.
 ## Application package hierarchy
 
 **minesweeper**
-- App.java
+  - App.java
 
 **minesweeper.bot**
-- Bot.java
-- BotExecutor.java
-- TestBot.java
+  - Bot.java
+  - BotExecutor.java
+  - TestBot.java
 
 **minesweeper.model**
-- Board.java
-- Highlight.java
-- Move.java
-- MoveType.java
-- Pair.java
-- Square.java
+  - Board.java
+  - GameStats.java
+  - Highlight.java
+  - Move.java
+  - MoveType.java
+  - Pair.java
+  - Square.java
 
 **minesweeper.generator**
-- MinefieldGenerator.java
+  - MinefieldGenerator.java
 
 **minesweeper.gui**
-- GameView.java
-- StartSelectView.java
+  - GameView.java
+  - StartSelectView.java
 
 ## Top-level package
 
