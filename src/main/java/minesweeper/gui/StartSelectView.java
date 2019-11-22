@@ -20,7 +20,7 @@ public class StartSelectView {
     private StackPane stackPane;
     private boolean seedSet;
     private long seed;
-
+    private TextField seedText;
     public StartSelectView() {       
         Button[] buttons = new Button[] {
             this.initButton("Easy ", 10, 10, 10), 
@@ -35,7 +35,9 @@ public class StartSelectView {
         seedText.setVisible(false);
         Label seedErrorLabel = new Label("");
         seedErrorLabel.setVisible(false);
-
+        if (seedText.getText().chars().allMatch(Character::isDigit)) {
+            this.seed = Long.parseLong(seedText.getText());
+        }
         // Create event handler for toggling the pre-set seed 
         // on and off
         seedToggle.setOnAction(new EventHandler<ActionEvent>() {
@@ -92,7 +94,7 @@ public class StartSelectView {
                 this.stackPane.getChildren().remove(1);
                 this.vbox.setVisible(true);
             });
-
+           
             if (this.seedSet) {
                 this.gameView = new GameView(height, width, new VBox(newGameButton), mines, this.seed);
             } else {
