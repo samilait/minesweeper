@@ -313,4 +313,16 @@ public class BoardTest {
         assertTrue(gotSquares.containsAll(Arrays.asList(neededSquares)));
     }
 
+    @Test
+    public void getUnflaggedMinesRight() {
+
+        assertTrue(board.getUnflaggedMines() == 3);
+        Move move = new Move(MoveType.FLAG, 1, 1);
+        board.makeMove(move);
+        assertTrue(board.getUnflaggedMines() == 2);
+        move = new Move(MoveType.FLAG, 1, 1);
+        board.makeMove(move);
+        assertTrue(board.getUnflaggedMines() == 3);
+    }
+    
 }
