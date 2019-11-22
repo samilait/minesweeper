@@ -90,7 +90,8 @@ public class GameView {
         hb.getChildren().add(botGame);
 
         this.vbox.getChildren().add(hb);
-        Label animationSpeedLabel = new Label("Bot game animation speed:");
+        Label animationSpeedLabel = new Label("Bot game animation speed");
+        animationSpeedLabel.setMinWidth(sizeX*30);
         animationSpeedLabel.getStyleClass().add("label-subheader");
         this.vbox.getChildren().add(animationSpeedLabel);
         initializeSlider();
@@ -187,11 +188,16 @@ public class GameView {
      * Updates the view to show that the game has been lost.
      */
     public void gameOver() {
+        this.endLabel.getStyleClass().add("label-subheader");
+        this.endLabel.setMinWidth(sizeX*30);
         if (this.board.gameWon) {
-            this.endLabel.setText("You won. Congratulations!");
+            this.endLabel.setText("You won!");
+            this.endLabel.getStyleClass().add("label-won");
+
             System.out.println("1 " + this.board.gameEnd + ", " + this.board.gameWon);
         } else {
-            this.endLabel.setText("You lost. Get rekt");
+            this.endLabel.setText("You lost.");
+            this.endLabel.getStyleClass().add("label-lost");
             System.out.println("2 " + this.board.gameEnd + ", " + this.board.gameWon);
         }
         this.disableAllButtons();
