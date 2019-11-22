@@ -35,12 +35,13 @@ public class StartSelectView {
         seedText.setVisible(false);
         Label seedErrorLabel = new Label("");
         seedErrorLabel.setVisible(false);
-        boolean isNumeric = seedText.getText().chars().allMatch(Character::isDigit);
+       
         // Create event handler for toggling the pre-set seed 
         // on and off
         seedToggle.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                boolean isNumeric = seedText.getText().chars().allMatch(Character::isDigit);
                 if (isNumeric) {
                     seed = Long.parseLong(seedText.getText());
                 }
@@ -58,6 +59,7 @@ public class StartSelectView {
 
         // Check on each keypress if the text in the seed TextField is numeric
         seedText.textProperty().addListener((observable, oldValue, newValue) -> {
+            boolean isNumeric = seedText.getText().chars().allMatch(Character::isDigit);
             if (!isNumeric || seedText.getText().isEmpty()) {
                 seedErrorLabel.setText("Seed must be an integer value!");
             } else {
