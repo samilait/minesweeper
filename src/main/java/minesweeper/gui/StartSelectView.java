@@ -20,7 +20,7 @@ public class StartSelectView {
     private StackPane stackPane;
     private boolean seedSet;
     private long seed;
-    private TextField seedText;
+
     public StartSelectView() {       
         Button[] buttons = new Button[] {
             this.initButton("Easy ", 10, 10, 10), 
@@ -35,14 +35,15 @@ public class StartSelectView {
         seedText.setVisible(false);
         Label seedErrorLabel = new Label("");
         seedErrorLabel.setVisible(false);
-        if (seedText.getText().chars().allMatch(Character::isDigit)) {
-            this.seed = Long.parseLong(seedText.getText());
-        }
+        boolean isNumeric = seedText.getText().chars().allMatch(Character::isDigit);
         // Create event handler for toggling the pre-set seed 
         // on and off
         seedToggle.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                if (isNumeric) {
+                    seed = Long.parseLong(seedText.getText());
+                }
                 if (seedToggle.isSelected()) {
                     seedText.setVisible(true); 
                     seedErrorLabel.setVisible(true); 
@@ -56,21 +57,15 @@ public class StartSelectView {
         });
 
         // Check on each keypress if the text in the seed TextField is numeric
-        seedText.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                // java.lang.String does not define a isNumeric method, so we check each character
-                // individually
-                boolean isNumeric = seedText.getText().chars().allMatch(Character::isDigit);
-
-                if (!isNumeric || seedText.getText().isEmpty()) {
-                    seedErrorLabel.setText("Seed must be an integer value!");
-                } else {
-                    seedErrorLabel.setText("");
-                    seed = Long.parseLong(seedText.getText());
-                }
+        seedText.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!isNumeric || seedText.getText().isEmpty()) {
+                seedErrorLabel.setText("Seed must be an integer value!");
+            } else {
+                seedErrorLabel.setText("");
+                seed = Long.parseLong(newValue);
             }
-        });
+        }); 
+      
 
         HBox seedHBox = new HBox(seedToggle, seedText, seedErrorLabel);
         Label gameType = new Label("Select game type");
@@ -94,7 +89,7 @@ public class StartSelectView {
                 this.stackPane.getChildren().remove(1);
                 this.vbox.setVisible(true);
             });
-           
+            
             if (this.seedSet) {
                 this.gameView = new GameView(height, width, new VBox(newGameButton), mines, this.seed);
             } else {
