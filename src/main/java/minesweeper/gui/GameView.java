@@ -8,6 +8,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.Node;
 import javafx.scene.control.Slider;
 import minesweeper.model.Board;
+import minesweeper.model.GameStats;
 import minesweeper.model.MoveType;
 import minesweeper.generator.MinefieldGenerator;
 
@@ -34,6 +35,7 @@ public class GameView {
     private Slider animationSlider;
     private Button[][] buttonGrid;
     private Button botButton;
+    public GameStats stats = new GameStats();
     public final long[] currentNanotime = new long[1];
 
     /**
@@ -312,6 +314,7 @@ public class GameView {
 
         // Starts the gui updater and the bot thread
         timer.start();
+        stats.startTime = System.nanoTime();
         botThread.start();
     }
 
@@ -334,8 +337,10 @@ public class GameView {
         this.clearAllHighlights();
         // Makes move to the gui board and updates the gui buttons
         board.makeMove(move);
+        stats.update(move);
         buttonGrid[move.x][move.y].getStyleClass().add("black-highlight");
         updateGameGP(move.x, move.y);
+        stats.moves.stream().forEach(pair -> System.out.println("Move: " + pair.getKey().type + " Distance: " + pair.getKey().euclideanDistance + " Time: " + pair.getValue()));
     }
 
     private void initializeSlider() {
