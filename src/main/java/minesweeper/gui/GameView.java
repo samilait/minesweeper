@@ -38,6 +38,8 @@ public class GameView {
     public GameStats stats = new GameStats();
     public final long[] currentNanotime = new long[1];
 
+    private final ArrayList<Long> test;
+
     /**
      * Constructor for a game view of given size and mine count Seed for the
      * minefield is generated from system's time
@@ -58,6 +60,7 @@ public class GameView {
         this.buttonGrid = new Button[x][y];
 
         this.bot = new TestBot();
+        this.test = new ArrayList<>();
 
         botButton = new Button("Help (bot)");
         botButton.setOnMouseClicked(e -> {
@@ -83,13 +86,22 @@ public class GameView {
                 newGame = (Button) n;
             }
         }
+
+        Button statsButton = new Button("Statistics");
+        statsButton.setOnMouseClicked(e -> {
+            new StatsView(this.test);
+        });
+
         newGame.getStyleClass().add("menu-button");
         botButton.getStyleClass().add("menu-button");
         botGame.getStyleClass().add("menu-button");
+        statsButton.getStyleClass().add("menu-button");
+
         HBox hb = new HBox();
         hb.getChildren().add(newGame);
         hb.getChildren().add(botButton);
         hb.getChildren().add(botGame);
+        hb.getChildren().add(statsButton);
 
         this.vbox.getChildren().add(hb);
         Label animationSpeedLabel = new Label("Bot game animation speed");
@@ -290,6 +302,8 @@ public class GameView {
         // This timer updates the gui board with the moves that bot makes
         AnimationTimer timer = new AnimationTimer() {
             public void handle(long currentNanoTime) {
+                test.add(currentNanoTime);
+
                 // Time that has passed since last update
                 long deltaTime = TimeUnit.MILLISECONDS.convert(currentNanoTime - currentNanotime[0],
                         TimeUnit.NANOSECONDS);
