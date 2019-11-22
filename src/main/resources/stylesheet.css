@@ -14,17 +14,34 @@
 .menu-button:hover{
     -fx-background-color: linear-gradient(rgb(170, 168, 168), rgb(134, 133, 133));
 }
+
+.label {
+    -fx-text-fill: rgb(70, 70, 70);
+    -fx-font-family: Impact;
+}
+
 .label-header {
     -fx-font-size:200%;
     -fx-font-weight: bold;
-    -fx-text-fill: rgb(124, 121, 121);
+    -fx-text-fill: gray;
+    -fx-font-family: Impact;
 }
 
 .label-subheader{
-    -fx-font-size:150%;
-    -fx-font-weight: bold;    
-    -fx-text-fill: rgb(124, 121, 121);
+    -fx-font-size:170%;
+    -fx-font-weight: bold;
+    -fx-text-fill: gray;    
+    -fx-font-family: Impact;
+    -fx-alignment: center;
 }
+.label-won {
+    -fx-text-fill: green;
+}
+
+.label-lost {
+    -fx-text-fill: red;
+}
+
 .slider .thumb {
     -fx-background-color: linear-gradient(from 40% 40% to 80% 80%, rgb(153, 169, 202), rgb(134, 130, 130));
     -fx-border-color: linear-gradient(from 40% 40% to 80% 80%, rgb(153, 169, 202), rgb(134, 130, 130));
@@ -47,7 +64,8 @@
     -fx-padding: 0.6em;
     -fx-border-insets: 0.2em;
     -fx-background-insets: 0.2em;
-    -fx-font-size: 150%;
+    -fx-font-size: 150%; 
+    -fx-pref-width: 11em;
 }
 .opened-button { 
     -fx-background-color: rgb(223, 219, 219); 
