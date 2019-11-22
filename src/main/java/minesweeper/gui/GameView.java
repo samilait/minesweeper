@@ -7,6 +7,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.Node;
 import javafx.scene.control.Slider;
+import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
+
 import minesweeper.model.Board;
 import minesweeper.model.GameStats;
 import minesweeper.model.MoveType;
@@ -38,7 +41,7 @@ public class GameView {
     public GameStats stats = new GameStats();
     public final long[] currentNanotime = new long[1];
 
-    private final ArrayList<Long> test;
+    private final ObservableList<Long> test;
 
     /**
      * Constructor for a game view of given size and mine count Seed for the
@@ -60,7 +63,7 @@ public class GameView {
         this.buttonGrid = new Button[x][y];
 
         this.bot = new TestBot();
-        this.test = new ArrayList<>();
+        this.test = FXCollections.observableArrayList();
 
         botButton = new Button("Help (bot)");
         botButton.setOnMouseClicked(e -> {

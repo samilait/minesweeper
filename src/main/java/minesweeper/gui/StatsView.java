@@ -5,40 +5,25 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.ListView;
 import javafx.animation.AnimationTimer;
+import javafx.collections.ObservableList;
 
-import java.util.ArrayList;
 
 public class StatsView {
-    private ArrayList<Long> test;
+    private ObservableList<Long> test;
 
-    public StatsView(ArrayList<Long> test) {
+    public StatsView(ObservableList<Long> test) {
         this.test = test;
 
         Stage stage = new Stage();
 
-        TextArea text = new TextArea("");
+        ListView list = new ListView(test);
 
-        Scene scene = new Scene(text);
+        Scene scene = new Scene(list);
         scene.getStylesheets().add("stylesheet.css");
         stage.setTitle("Game Statistics");
         stage.setScene(scene);
-
-        AnimationTimer timer = new AnimationTimer() {
-            public void handle(long currentNanoTime) {
-                text.setText("");
-
-                StringBuilder builder = new StringBuilder();
-
-                for (int i = test.size() - 1; i >= 0; i--) {
-                    builder.append("" + test.get(i) + "\n");
-                }
-
-                text.setText(builder.toString());
-            }
-        };
-
-        timer.start();
 
         stage.show();
     }
