@@ -38,10 +38,8 @@ public class GameView {
     private Slider animationSlider;
     private Button[][] buttonGrid;
     private Button botButton;
-    public GameStats stats = new GameStats();
+    public final GameStats stats = new GameStats();
     public final long[] currentNanotime = new long[1];
-
-    private final ObservableList<Long> test;
 
     /**
      * Constructor for a game view of given size and mine count Seed for the
@@ -63,7 +61,6 @@ public class GameView {
         this.buttonGrid = new Button[x][y];
 
         this.bot = new TestBot();
-        this.test = FXCollections.observableArrayList();
 
         botButton = new Button("Help (bot)");
         botButton.setOnMouseClicked(e -> {
@@ -92,7 +89,7 @@ public class GameView {
 
         Button statsButton = new Button("Statistics");
         statsButton.setOnMouseClicked(e -> {
-            new StatsView(this.test);
+            new StatsView(this.stats);
         });
 
         newGame.getStyleClass().add("menu-button");
@@ -305,8 +302,6 @@ public class GameView {
         // This timer updates the gui board with the moves that bot makes
         AnimationTimer timer = new AnimationTimer() {
             public void handle(long currentNanoTime) {
-                test.add(currentNanoTime);
-
                 // Time that has passed since last update
                 long deltaTime = TimeUnit.MILLISECONDS.convert(currentNanoTime - currentNanotime[0],
                         TimeUnit.NANOSECONDS);
@@ -357,7 +352,6 @@ public class GameView {
         stats.update(move);
         buttonGrid[move.x][move.y].getStyleClass().add("black-highlight");
         updateGameGP(move.x, move.y);
-        stats.moves.stream().forEach(pair -> System.out.println("Move: " + pair.getKey().type + " Distance: " + pair.getKey().euclideanDistance + " Time: " + pair.getValue()));
     }
 
     private void initializeSlider() {
