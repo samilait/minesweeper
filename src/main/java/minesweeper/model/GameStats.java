@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 public class GameStats {
     public ArrayList<Pair<Move, Double>> moves;
     public double cumulativeEuclidianDistance = 0;
-    public long cumulativeTime = 0;
+    public double cumulativeTime = 0;
     public long startTime = System.nanoTime();
 
     private boolean firstMove = true;
@@ -36,10 +36,6 @@ public class GameStats {
 
     public double deltaEuclideanDistance(Move move1, Move move2) {
         return Math.hypot(move2.x - move1.x, move2.y - move1.y);
-    }
-
-    public double getTimeInSeconds() {
-        return (double) TimeUnit.NANOSECONDS.toMillis(cumulativeTime) / 1000.0d;
     }
 
     public static double deltaTimeInSeconds(Move lastMove, Move currentMove) {
