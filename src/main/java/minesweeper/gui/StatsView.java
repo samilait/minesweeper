@@ -74,8 +74,8 @@ public class StatsView {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Export log");
         fileChooser.getExtensionFilters().addAll(
-                new ExtensionFilter("Log files", "*.log"),
                 new ExtensionFilter("Text files", "*.txt"),
+                new ExtensionFilter("Log files", "*.log"),
                 new ExtensionFilter("All files", "*.*"));
         
         File selectedFile = fileChooser.showSaveDialog(stage);
@@ -83,6 +83,9 @@ public class StatsView {
         if (selectedFile == null) {
             this.exportStatus.setVisible(true);
             this.exportStatus.setText("Export cancelled");
+            this.exportStatus.getStyleClass().add("label-stats-export");
+            this.exportStatus.getStyleClass().remove("label-success-with-border");
+            this.exportStatus.getStyleClass().add("label-failure-with-border");
             return;
         }
 
@@ -97,6 +100,8 @@ public class StatsView {
             this.logger.flush();
             this.logger.close();
             this.exportStatus.getStyleClass().add("label-stats-export");
+            this.exportStatus.getStyleClass().remove("label-failure-with-border");
+            this.exportStatus.getStyleClass().add("label-success-with-border");
             this.exportStatus.setVisible(true);
             this.exportStatus.setText("Statistics exported to " + selectedFile.getPath());
         } catch (IOException e) {

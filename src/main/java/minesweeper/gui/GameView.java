@@ -208,12 +208,12 @@ public class GameView {
         this.endLabel.setMinWidth(sizeX * 30);
         if (this.board.gameWon) {
             this.endLabel.setText("You won!");
-            this.endLabel.getStyleClass().add("label-won");
+            this.endLabel.getStyleClass().add("label-success");
 
             System.out.println("1 " + this.board.gameEnd + ", " + this.board.gameWon);
         } else {
             this.endLabel.setText("You lost.");
-            this.endLabel.getStyleClass().add("label-lost");
+            this.endLabel.getStyleClass().add("label-failure");
             System.out.println("2 " + this.board.gameEnd + ", " + this.board.gameWon);
         }
         this.disableAllButtons();
