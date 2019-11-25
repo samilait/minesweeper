@@ -34,6 +34,15 @@
     -fx-font-family: Impact;
     -fx-alignment: center;
 }
+
+.label-stats-header {
+    -fx-font-family: Helvetica;
+    -fx-font-weight: bold;
+}
+
+.label-stats-export {
+    -fx-font-family: Helvetica;
+}
 .label-won {
     -fx-text-fill: green;
 }

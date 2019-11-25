@@ -57,6 +57,8 @@ public class StatsView {
         
         Scene scene = new Scene(vbox);
         scene.getStylesheets().add("stylesheet.css");
+        cumulativeDistance.getStyleClass().add("label-stats-header");
+        cumulativeTime.getStyleClass().add("label-stats-header");
         export.getStyleClass().add("menu-button");
         stage.setTitle("Game Statistics");
         stage.setScene(scene);
@@ -88,6 +90,7 @@ public class StatsView {
             }
             this.logger.flush();
             this.logger.close();
+            this.exportStatus.getStyleClass().add("label-stats-export");
             this.exportStatus.setVisible(true);
             this.exportStatus.setText("Statistics exported to " + selectedFile.getPath());
         } catch (IOException e) {
