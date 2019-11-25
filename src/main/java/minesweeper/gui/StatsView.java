@@ -78,6 +78,12 @@ public class StatsView {
         
         File selectedFile = fileChooser.showSaveDialog(stage);
 
+        if (selectedFile == null) {
+            this.exportStatus.setVisible(true);
+            this.exportStatus.setText("Export cancelled");
+            return;
+        }
+
         try {
             this.logger = new FileWriter(selectedFile);
             DecimalFormat numberFormat = new DecimalFormat("0.00");
