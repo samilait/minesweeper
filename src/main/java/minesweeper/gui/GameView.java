@@ -7,7 +7,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.Node;
 import javafx.scene.control.Slider;
+
 import minesweeper.model.Board;
+import minesweeper.model.GameStats;
 import minesweeper.model.MoveType;
 import minesweeper.generator.MinefieldGenerator;
 
@@ -34,6 +36,7 @@ public class GameView {
     private Slider animationSlider;
     private Button[][] buttonGrid;
     private Button botButton;
+    public final GameStats stats = new GameStats();
     public final long[] currentNanotime = new long[1];
 
     /**
@@ -62,7 +65,7 @@ public class GameView {
             this.clearAllHighlights();
             Move move = this.bot.makeMove(board);
             board.makeMove(move);
-
+            stats.update(move);
             if (!board.gameEnd) {
                 this.updateGameGP(move.x, move.y);
             } else {
@@ -81,13 +84,22 @@ public class GameView {
                 newGame = (Button) n;
             }
         }
+
+        Button statsButton = new Button("Statistics");
+        statsButton.setOnMouseClicked(e -> {
+            new StatsView(this.stats);
+        });
+
         newGame.getStyleClass().add("menu-button");
         botButton.getStyleClass().add("menu-button");
         botGame.getStyleClass().add("menu-button");
+        statsButton.getStyleClass().add("menu-button");
+
         HBox hb = new HBox();
         hb.getChildren().add(newGame);
         hb.getChildren().add(botButton);
         hb.getChildren().add(botGame);
+        hb.getChildren().add(statsButton);
 
         this.vbox.getChildren().add(hb);
         Label animationSpeedLabel = new Label("Bot game animation speed");
@@ -155,20 +167,24 @@ public class GameView {
                     if (e.isSecondaryButtonDown() && board.getSquareAt(x, y).isOpened()) {
                         Move chordedOpen = new Move(MoveType.CHORD, x, y);
                         nonEndingMove = this.board.makeMove(chordedOpen);
+                        stats.update(chordedOpen);
                         break;
                     }
                     Move open = new Move(MoveType.OPEN, x, y);
                     nonEndingMove = this.board.makeMove(open);
+                    stats.update(open);
                     break;
                 case SECONDARY:
                     if (e.isPrimaryButtonDown() && board.getSquareAt(x, y).isOpened()) {
                         Move chordedOpen = new Move(MoveType.CHORD, x, y);
                         nonEndingMove = this.board.makeMove(chordedOpen);
+                        stats.update(chordedOpen);
                         break;
                     }
                     if (!this.board.getSquareAt(x, y).isOpened()) {
                         Move flag = new Move(MoveType.FLAG, x, y);
                         this.board.makeMove(flag);
+                        stats.update(flag);
                     }
                     break;
                 default:
@@ -312,6 +328,7 @@ public class GameView {
 
         // Starts the gui updater and the bot thread
         timer.start();
+        stats.startTime = System.nanoTime();
         botThread.start();
     }
 
@@ -334,6 +351,7 @@ public class GameView {
         this.clearAllHighlights();
         // Makes move to the gui board and updates the gui buttons
         board.makeMove(move);
+        stats.update(move);
         buttonGrid[move.x][move.y].getStyleClass().add("black-highlight");
         updateGameGP(move.x, move.y);
     }

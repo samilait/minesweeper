@@ -2,39 +2,51 @@
 package minesweeper.model;
 
 import java.util.ArrayList;
+import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
 import java.util.concurrent.TimeUnit;
 
 public class GameStats {
-    public ArrayList<Move> moves;
-    public double cumulativeEuclidianDistance;
-    public long cumulativeTime;
-    
-    private boolean lastTimestampSet = false;
-    private long lastTimestamp;
+    public ObservableList<Move> moves;
+    public double cumulativeEuclidianDistance = 0;
+    public double cumulativeTime = 0;
+    public long startTime = System.nanoTime();
+
+    private boolean firstMove = true;
+    private Move lastMove;
 
     public GameStats() {
-        moves = new ArrayList<>();
+        moves = FXCollections.observableArrayList();
     }
-    
+
     public void update(Move move) {
-        if (!lastTimestampSet) {
-            lastTimestamp = move.timestamp;
-            lastTimestampSet = true;
+        Double dtime;
+        if (firstMove) {
+            dtime = (Double) deltaTimeInSeconds(startTime, move);
+            move.setEuclideanDistance(0d);
+            firstMove = false;
         } else {
-            cumulativeTime += move.timestamp - lastTimestamp;
+            dtime = (Double) deltaTimeInSeconds(lastMove, move);
+            move.setEuclideanDistance(deltaEuclideanDistance(lastMove, move));
         }
+        move.deltaTime = dtime;
 
+        moves.add(0, move);
+
+        cumulativeTime += dtime;
         cumulativeEuclidianDistance += move.euclideanDistance;
-
-        moves.add(move);
+        lastMove = move;
     }
 
-    public double getTimeInSeconds() {
-        return (double) TimeUnit.NANOSECONDS.toMillis(cumulativeTime) * 1000.0d;
+    public double deltaEuclideanDistance(Move move1, Move move2) {
+        return Math.hypot(move2.x - move1.x, move2.y - move1.y);
     }
 
-    /*
-    public double getAdjustedTime() {
-        return (double) TimeUnit.NANOSECONDS.toMillis(cumulativeTime) * 1000.0d;
-    }*/
+    public static double deltaTimeInSeconds(Move lastMove, Move currentMove) {
+        return (double) TimeUnit.NANOSECONDS.toMillis(currentMove.timestamp - lastMove.timestamp) / 1000.0d;
+    }
+
+    public static double deltaTimeInSeconds(long firstTime, Move move) {
+        return (double) TimeUnit.NANOSECONDS.toMillis(move.timestamp - firstTime) / 1000.0d;
+    }
 }

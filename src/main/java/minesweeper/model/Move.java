@@ -1,6 +1,8 @@
 
 package minesweeper.model;
 
+import java.text.DecimalFormat;
+
 /**
  * Class representing a move on the Minesweeper board
  */
@@ -14,6 +16,8 @@ public class Move {
 
     // Timestamp in nanoseconds
     public long timestamp;
+
+    public double deltaTime;
 
     // Distance between the last move and this one
     // NOTE:    This value is initialized externally
@@ -60,5 +64,11 @@ public class Move {
      */
     public void setEuclideanDistance(double distance) {
         this.euclideanDistance = distance;
+    }
+
+    @Override
+    public String toString() {
+        DecimalFormat numberFormat = new DecimalFormat("0.00");
+        return "Move: " + type + " Distance: " + numberFormat.format(euclideanDistance) + " Time: " + numberFormat.format(deltaTime);
     }
 }
