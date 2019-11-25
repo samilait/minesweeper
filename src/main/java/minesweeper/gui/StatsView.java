@@ -11,6 +11,8 @@ import javafx.scene.layout.VBox;
 import javafx.animation.AnimationTimer;
 import javafx.collections.ObservableList;
 
+import java.text.DecimalFormat;
+
 import minesweeper.model.GameStats;
 
 public class StatsView {
@@ -22,17 +24,20 @@ public class StatsView {
         Stage stage = new Stage();
 
         Label cumulativeDistance = new Label("Cumulative Distance:");
+        Label cumulativeTime = new Label("Cumulative Time:");
 
-        HBox hbox = new HBox(cumulativeDistance);
+        VBox cumulativeStats = new VBox(cumulativeDistance, cumulativeTime);
 
         AnimationTimer timer = new AnimationTimer() {
             public void handle(long currentNanoTime) {
-                cumulativeDistance.setText("Cumulative Distance: " + stats.cumulativeEuclidianDistance);
+                DecimalFormat numberFormat = new DecimalFormat("0.00");
+                cumulativeDistance.setText("Cumulative Distance: " + numberFormat.format(stats.cumulativeEuclidianDistance));
+                cumulativeTime.setText("Time: " + numberFormat.format(stats.cumulativeTime) + " sec");
             }
         };
 
         ListView list = new ListView(stats.moves);
-        VBox vbox = new VBox(hbox, list);
+        VBox vbox = new VBox(cumulativeStats, list);
 
         Scene scene = new Scene(vbox);
         scene.getStylesheets().add("stylesheet.css");
