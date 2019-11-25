@@ -7,8 +7,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.Node;
 import javafx.scene.control.Slider;
-import javafx.collections.ObservableList;
-import javafx.collections.FXCollections;
 
 import minesweeper.model.Board;
 import minesweeper.model.GameStats;

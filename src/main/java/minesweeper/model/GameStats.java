@@ -2,11 +2,9 @@
 package minesweeper.model;
 
 import java.util.ArrayList;
-import javafx.util.Pair;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import java.util.concurrent.TimeUnit;
-import java.util.Collections;
 
 public class GameStats {
     public ObservableList<Move> moves;
@@ -22,8 +20,6 @@ public class GameStats {
     }
 
     public void update(Move move) {
-        //Collections.reverse(moves);
-
         Double dtime;
         if (firstMove) {
             dtime = (Double) deltaTimeInSeconds(startTime, move);
@@ -36,8 +32,6 @@ public class GameStats {
         move.deltaTime = dtime;
 
         moves.add(0, move);
-
-        //Collections.reverse(moves);
 
         cumulativeTime += dtime;
         cumulativeEuclidianDistance += move.euclideanDistance;
@@ -55,9 +49,4 @@ public class GameStats {
     public static double deltaTimeInSeconds(long firstTime, Move move) {
         return (double) TimeUnit.NANOSECONDS.toMillis(move.timestamp - firstTime) / 1000.0d;
     }
-
-    /*
-     * public double getAdjustedTime() { return (double)
-     * TimeUnit.NANOSECONDS.toMillis(cumulativeTime) * 1000.0d; }
-     */
 }

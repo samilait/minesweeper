@@ -4,19 +4,15 @@ package minesweeper.gui;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.animation.AnimationTimer;
-import javafx.collections.ObservableList;
 
 import java.text.DecimalFormat;
 
 import minesweeper.model.GameStats;
 
 public class StatsView {
-    private GameStats stats;
 
     public StatsView(GameStats stats) {
         this.stats = stats;
