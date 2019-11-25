@@ -15,8 +15,6 @@ import minesweeper.model.GameStats;
 public class StatsView {
 
     public StatsView(GameStats stats) {
-        this.stats = stats;
-
         Stage stage = new Stage();
 
         Label cumulativeDistance = new Label("Cumulative Distance:");
