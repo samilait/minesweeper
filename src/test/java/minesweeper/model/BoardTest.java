@@ -137,7 +137,27 @@ public class BoardTest {
 
         assertTrue(board.getOpenSquares().contains(board.getSquareAt(5, 5)));
     }
+    
+    @Test
+    public void chordedOpenWorksWhenNoFlagged() {
+        board.board[0][2].setMine();
+        board.incrementAdjacentSquares(0, 2);
 
+        board.board[1][2].setMine();
+        board.incrementAdjacentSquares(1, 2);
+
+        board.board[2][2].setMine();
+        board.incrementAdjacentSquares(2, 2);
+        
+        Move move = new Move(MoveType.OPEN, 0, 0);
+        board.makeMove(move);
+        
+        Move chordedMove = new Move(MoveType.CHORD, 0, 0);
+        board.makeMove(chordedMove);
+
+        assertEquals(true, board.board[1][0].isOpened());
+    }
+    
     @Test
     public void chordedOpenDoesNotOpenFlagged() {
         board.board[4][5].setMine();
@@ -152,7 +172,7 @@ public class BoardTest {
         board.board[6][5].toggleFlagged();
         board.incrementAdjacentSquares(4, 5);
 
-
+        
         Move move = new Move(MoveType.OPEN, 5, 5);
         board.makeMove(move);
 
@@ -324,5 +344,5 @@ public class BoardTest {
         board.makeMove(move);
         assertTrue(board.getUnflaggedMines() == 3);
     }
-    
+       
 }

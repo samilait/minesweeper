@@ -25,7 +25,8 @@ public class StatsView {
         AnimationTimer timer = new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 DecimalFormat numberFormat = new DecimalFormat("0.00");
-                cumulativeDistance.setText("Cumulative Distance: " + numberFormat.format(stats.cumulativeEuclidianDistance));
+                cumulativeDistance.setText("Cumulative Distance: " 
+                        + numberFormat.format(stats.cumulativeEuclidianDistance));
                 cumulativeTime.setText("Time: " + numberFormat.format(stats.cumulativeTime) + " sec");
             }
         };
