@@ -63,4 +63,12 @@ public class MoveTest {
 
         assertTrue(move.timestamp != move2.timestamp);
     }
+    
+    @Test
+    public void toStringWorksToo() {
+        move = new Move(MoveType.OPEN, 5, 5);
+        
+        assertEquals("Move: OPEN Distance: 0.00 Time: 0.00", move.toString());
+    }
+
 }

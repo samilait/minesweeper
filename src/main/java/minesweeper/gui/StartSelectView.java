@@ -12,7 +12,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.control.Separator;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
-import javafx.scene.input.KeyEvent;
 
 public class StartSelectView {
     private VBox vbox;
