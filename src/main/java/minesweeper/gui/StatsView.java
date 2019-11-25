@@ -73,7 +73,7 @@ public class StatsView {
         fileChooser.setTitle("Export log");
         fileChooser.getExtensionFilters().addAll(
                 new ExtensionFilter("Log files", "*.log"),
-                new ExtensionFilter("Log files", "*.txt"),
+                new ExtensionFilter("Text files", "*.txt"),
                 new ExtensionFilter("All files", "*.*"));
         
         File selectedFile = fileChooser.showSaveDialog(stage);
