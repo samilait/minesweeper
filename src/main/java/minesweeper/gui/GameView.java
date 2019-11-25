@@ -67,7 +67,7 @@ public class GameView {
             this.clearAllHighlights();
             Move move = this.bot.makeMove(board);
             board.makeMove(move);
-
+            stats.update(move);
             if (!board.gameEnd) {
                 this.updateGameGP(move.x, move.y);
             } else {
@@ -169,20 +169,24 @@ public class GameView {
                     if (e.isSecondaryButtonDown() && board.getSquareAt(x, y).isOpened()) {
                         Move chordedOpen = new Move(MoveType.CHORD, x, y);
                         nonEndingMove = this.board.makeMove(chordedOpen);
+                        stats.update(chordedOpen);
                         break;
                     }
                     Move open = new Move(MoveType.OPEN, x, y);
                     nonEndingMove = this.board.makeMove(open);
+                    stats.update(open);
                     break;
                 case SECONDARY:
                     if (e.isPrimaryButtonDown() && board.getSquareAt(x, y).isOpened()) {
                         Move chordedOpen = new Move(MoveType.CHORD, x, y);
                         nonEndingMove = this.board.makeMove(chordedOpen);
+                        stats.update(chordedOpen);
                         break;
                     }
                     if (!this.board.getSquareAt(x, y).isOpened()) {
                         Move flag = new Move(MoveType.FLAG, x, y);
                         this.board.makeMove(flag);
+                        stats.update(flag);
                     }
                     break;
                 default:
