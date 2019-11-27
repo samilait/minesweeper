@@ -14,9 +14,6 @@ import java.io.FileWriter;
 import java.io.File;
 import java.io.IOException;
 
-import minesweeper.model.GameStats;
-import javafx.animation.AnimationTimer;
-
 import java.text.DecimalFormat;
 import minesweeper.model.GameStats;
 
