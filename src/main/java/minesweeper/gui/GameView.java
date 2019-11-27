@@ -7,6 +7,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.Node;
 import javafx.scene.control.Slider;
+import javafx.scene.control.Separator;
+import javafx.geometry.Orientation;
 
 import minesweeper.model.Board;
 import minesweeper.model.GameStats;
@@ -36,8 +38,11 @@ public class GameView {
     private Slider animationSlider;
     private Button[][] buttonGrid;
     private Button botButton;
+    private Label timerLabel;
     public final GameStats stats = new GameStats();
     public final long[] currentNanotime = new long[1];
+
+    private long time = 0;
 
     /**
      * Constructor for a game view of given size and mine count Seed for the
@@ -90,6 +95,8 @@ public class GameView {
             new StatsView(this.stats);
         });
 
+        timerLabel = new Label("Time: 0");
+
         newGame.getStyleClass().add("menu-button");
         botButton.getStyleClass().add("menu-button");
         botGame.getStyleClass().add("menu-button");
@@ -108,7 +115,7 @@ public class GameView {
         this.vbox.getChildren().add(animationSpeedLabel);
         initializeSlider();
         this.vbox.getChildren().add(this.animationSlider);
-        this.vbox.getChildren().add(this.endLabel);
+        this.vbox.getChildren().add(new HBox(this.endLabel, new Separator(Orientation.VERTICAL), timerLabel));
 
         gameGP = new GridPane();
         gameGP.setMaxWidth(sizeX * 30);
@@ -141,6 +148,31 @@ public class GameView {
                 buttonGrid[i][j] = button;
             }
         }
+
+        long[] previousNanoTime = new long[1];
+        previousNanoTime[0] = System.nanoTime();
+
+        AnimationTimer timer = new AnimationTimer() {
+            public void handle(long currentNanoTime) {
+                // Time that has passed since last update
+                long deltaTime = TimeUnit.MILLISECONDS.convert(currentNanoTime - previousNanoTime[0],
+                        TimeUnit.NANOSECONDS);
+
+                previousNanoTime[0] = currentNanoTime;
+
+                time += deltaTime;
+               
+                timerLabel.setText("Time: " + TimeUnit.SECONDS.convert(time, TimeUnit.MILLISECONDS));
+
+                // Kills the timer update routine if the game has ended
+                if (board.gameEnd) {
+                    this.stop();
+                }
+
+            }
+        };
+
+        timer.start();
     }
 
     /**
