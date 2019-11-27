@@ -9,7 +9,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.Button;
 import javafx.animation.AnimationTimer;
-import javafx.collections.ObservableList;
 
 import java.io.FileWriter;
 import java.io.File;
@@ -26,7 +25,6 @@ import javafx.stage.FileChooser.ExtensionFilter;
 
 public class StatsView {
     private GameStats stats;
-    private FileWriter logger;
     private Label exportStatus;
     private Stage stage;
 
@@ -90,15 +88,15 @@ public class StatsView {
         }
 
         try {
-            this.logger = new FileWriter(selectedFile);
+            FileWriter fileWriter = new FileWriter(selectedFile);
             DecimalFormat numberFormat = new DecimalFormat("0.00");
-            this.logger.write("Cumulative Distance: " + numberFormat.format(stats.cumulativeEuclidianDistance) + "\n");
-            this.logger.write("Time: " + numberFormat.format(stats.cumulativeTime) + " sec\n");
+            fileWriter.write("Cumulative Distance: " + numberFormat.format(stats.cumulativeEuclidianDistance) + "\n");
+            fileWriter.write("Time: " + numberFormat.format(stats.cumulativeTime) + " sec\n");
             for (int i=0; i<this.stats.moves.size(); i++) {
-                this.logger.write(stats.moves.get(i).toString() + "\n");
+                fileWriter.write(stats.moves.get(i).toString() + "\n");
             }
-            this.logger.flush();
-            this.logger.close();
+            fileWriter.flush();
+            fileWriter.close();
             this.exportStatus.getStyleClass().add("label-stats-export");
             this.exportStatus.getStyleClass().remove("label-failure-with-border");
             this.exportStatus.getStyleClass().add("label-success-with-border");
