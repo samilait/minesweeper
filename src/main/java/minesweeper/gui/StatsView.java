@@ -9,6 +9,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.Button;
 import javafx.animation.AnimationTimer;
+import javafx.scene.image.Image;
 
 import java.io.FileWriter;
 import java.io.File;
@@ -28,7 +29,7 @@ public class StatsView {
     public StatsView(GameStats stats) {
         this.stats = stats;
         stage = new Stage();
-
+        stage.getIcons().add(new Image(StatsView.class.getResourceAsStream("/Mine.png"))); 
         Label cumulativeDistance = new Label("Cumulative Distance:");
         Label cumulativeTime = new Label("Cumulative Time:");
 
