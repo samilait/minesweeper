@@ -20,4 +20,12 @@ If you prefer using Netbeans IDE, you will need at least version Netbeans 11. Yo
 
 Just follow the steps 1-4 in that guideline.
 
-Make sure that you have all the necessary plugins installed. Among others, you will need at least the following plugins: Groovy (contains gradle) and JavaFX 2.
+Make sure that you have all the necessary plugins installed. Among others, you will need at least the following plugins in Netbeans 11: Groovy (contains gradle) and JavaFX 2.
+
+## Gradle version 6
+
+This project was initiated with Gradle 5.6.2.
+In November 2019, Gradle has been updated to version 6.0.1. It has support for openjdk13, too.
+When this Gradle version change was introduced, travis had some issue with openjdk11.
+Travis started working when .travis.yml was updated to use openjdk13.
+You can still use openjdk11 in your own machine.

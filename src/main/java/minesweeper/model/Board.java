@@ -135,7 +135,9 @@ public class Board {
                 }
 
                 // If current square has surrounding mines, ignore surrounding squares
-                if ((square.surroundingMines() == 0) && (!square.getFlagged())) {
+//                if ((square.surroundingMines() == 0) && (!square.getFlagged())) {
+                // KO Note: jos square.getFlagged() niin on jo tehty continue!
+                if (square.surroundingMines() == 0) {
                     // No surrounding mines, all surrounding squares can be opened
                     for (int xInc = -1; xInc <= 1; xInc++) {
                         for (int yInc = -1; yInc <= 1; yInc++) {
