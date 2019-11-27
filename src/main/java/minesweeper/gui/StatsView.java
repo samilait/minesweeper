@@ -92,7 +92,7 @@ public class StatsView {
             DecimalFormat numberFormat = new DecimalFormat("0.00");
             fileWriter.write("Cumulative Distance: " + numberFormat.format(stats.cumulativeEuclidianDistance) + "\n");
             fileWriter.write("Time: " + numberFormat.format(stats.cumulativeTime) + " sec\n");
-            for (int i=0; i<this.stats.moves.size(); i++) {
+            for (int i = 0; i < this.stats.moves.size(); i++) {
                 fileWriter.write(stats.moves.get(i).toString() + "\n");
             }
             fileWriter.flush();
