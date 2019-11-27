@@ -107,9 +107,7 @@
 .unopened-button:hover{
     -fx-background-color:linear-gradient(rgb(211, 204, 204), rgb(184, 184, 179));
 }
-.stage-icon {
-    -fx-graphic: url('Mine.png');
-}
+
 .flagged-button { 
     -fx-background-image: url('Flag.png');
     -fx-background-size: 15px 15px;
