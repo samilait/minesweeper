@@ -5,7 +5,7 @@ package minesweeper;
 
 import javafx.application.Application;
 import javafx.collections.ListChangeListener;
-
+import javafx.scene.image.Image;
 import javafx.scene.Scene;
 import javafx.scene.Node;
 import javafx.stage.Stage;
@@ -20,6 +20,7 @@ public class App extends Application {
         scene.getStylesheets().add("stylesheet.css");
         stage.setTitle("Minesweeper");
         stage.setScene(scene);
+        stage.getIcons().add(new Image(App.class.getResourceAsStream("/Mine.png"))); 
         stage.show();
         // Add a general listener to the root view (StackPane), any changes to its children
         // will cause the stage to automagically resize itself to everything.
