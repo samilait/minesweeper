@@ -30,6 +30,7 @@ interaction is.
 **minesweeper.gui**
   - GameView.java
   - StartSelectView.java
+  - StatsView.java
 
 ## Top-level package
 
@@ -159,6 +160,13 @@ MoveType.java contains an enum of different actions that can be taken in
 a Minesweeper game. The types include OPEN, FLAG, CHORD and HIGHLIGHT.
 This enum is used in Move.java to determine the type of the move.
 
+### GameStats.java
+
+GameStats.java is a class that is used for storing and updating game statistics.
+It provides access to the list of moves, but it also keeps track of some
+cumulative statistics, such as the cumulative euclidian distance travelled
+by the virtual mouse and the cumulative time spent in the game.
+
 ### Pair.java
 
 Pair.java is a simple implementation of a pair of two values. It is used
@@ -201,9 +209,24 @@ the Squares stored in the Board object.
 
 The GameView also provides buttons related to Bot functionality.
 The "Bot Game" button will launch a BotExecutor thread and will begin
-playing the Bot's moves from the BlockingQueue<Move> to the visible
+playing the Bot's moves from the ```BlockingQueue<Move>``` to the visible
 board with a given delay. The "Help (Bot)" button on the other hand
 will execute a single bot action directly to the board.
+
+The "Statistics" button will open the StatsView for inspecting the
+in-game statistics for the currently running game.
+
+### StatsView.java
+
+StatsView.java defines a GUI for accessing the in-game statistics.
+It has a list view containing a log of the moves made in the game and the
+time the player or the bot took to make those moves. It also displays
+the cumulative time spent in the game and the cumulative euclidian
+distance travelled by a virtual mouse.
+
+The StatsView also allows exporting statistics into a file using
+the "Export" button. This button will create a save file dialog that
+asks for the name and location of the file to be created.
 
 ### StartSelectView.java
 
