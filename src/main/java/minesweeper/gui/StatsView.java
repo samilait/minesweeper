@@ -34,7 +34,7 @@ public class StatsView {
     public StatsView(GameStats stats) {
         this.stats = stats;
         stage = new Stage();
-        stage.getIcons().add(new Image(StatsView.class.getResourceAsStream("/Stats.png"))); 
+        stage.getIcons().add(new Image(StatsView.class.getResourceAsStream("/Mine.png"))); 
         Label cumulativeDistance = new Label("Cumulative Distance:");
         Label cumulativeTime = new Label("Cumulative Time:");
 
