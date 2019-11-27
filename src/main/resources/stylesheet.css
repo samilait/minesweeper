@@ -34,14 +34,37 @@
     -fx-font-family: Impact;
     -fx-alignment: center;
 }
-.label-won {
+
+.label-stats-header {
+    -fx-font-family: Helvetica;
+    -fx-font-weight: bold;
+}
+
+.label-stats-export {
+    -fx-font-family: Helvetica;
+    -fx-padding: 1em;
+    -fx-alignment: center;
+    -fx-border-insets: 0.2em;
+    -fx-background-insets: 0.2em;
+   
+}
+
+.label-success {
     -fx-text-fill: green;
 }
 
-.label-lost {
+.label-success-with-border {
+    -fx-text-fill: green;
+    -fx-border-color: green;
+}
+.label-failure {
     -fx-text-fill: red;
 }
 
+.label-failure-with-border {
+    -fx-text-fill: red;
+    -fx-border-color: red;
+}
 .slider .thumb {
     -fx-background-color: linear-gradient(from 40% 40% to 80% 80%, rgb(153, 169, 202), rgb(134, 130, 130));
     -fx-border-color: linear-gradient(from 40% 40% to 80% 80%, rgb(153, 169, 202), rgb(134, 130, 130));

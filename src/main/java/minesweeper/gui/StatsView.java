@@ -9,7 +9,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.Button;
 import javafx.animation.AnimationTimer;
-import javafx.collections.ObservableList;
 
 import java.io.FileWriter;
 import java.io.File;
@@ -26,7 +25,6 @@ import javafx.stage.FileChooser.ExtensionFilter;
 
 public class StatsView {
     private GameStats stats;
-    private FileWriter logger;
     private Label exportStatus;
     private Stage stage;
 
@@ -57,6 +55,8 @@ public class StatsView {
         
         Scene scene = new Scene(vbox);
         scene.getStylesheets().add("stylesheet.css");
+        cumulativeDistance.getStyleClass().add("label-stats-header");
+        cumulativeTime.getStyleClass().add("label-stats-header");
         export.getStyleClass().add("menu-button");
         stage.setTitle("Game Statistics");
         stage.setScene(scene);
@@ -73,6 +73,7 @@ public class StatsView {
         fileChooser.setTitle("Export log");
         fileChooser.getExtensionFilters().addAll(
                 new ExtensionFilter("Text files", "*.txt"),
+                new ExtensionFilter("Log files", "*.log"),
                 new ExtensionFilter("All files", "*.*"));
 
         fileChooser.setInitialFileName("log.txt");
@@ -82,19 +83,25 @@ public class StatsView {
         if (selectedFile == null) {
             this.exportStatus.setVisible(true);
             this.exportStatus.setText("Export cancelled");
+            this.exportStatus.getStyleClass().add("label-stats-export");
+            this.exportStatus.getStyleClass().remove("label-success-with-border");
+            this.exportStatus.getStyleClass().add("label-failure-with-border");
             return;
         }
 
         try {
-            this.logger = new FileWriter(selectedFile);
+            FileWriter fileWriter = new FileWriter(selectedFile);
             DecimalFormat numberFormat = new DecimalFormat("0.00");
-            this.logger.write("Cumulative Distance: " + numberFormat.format(stats.cumulativeEuclidianDistance) + "\n");
-            this.logger.write("Time: " + numberFormat.format(stats.cumulativeTime) + " sec\n");
+            fileWriter.write("Cumulative Distance: " + numberFormat.format(stats.cumulativeEuclidianDistance) + "\n");
+            fileWriter.write("Time: " + numberFormat.format(stats.cumulativeTime) + " sec\n");
             for (int i=0; i<this.stats.moves.size(); i++) {
-                this.logger.write(stats.moves.get(i).toString() + "\n");
+                fileWriter.write(stats.moves.get(i).toString() + "\n");
             }
-            this.logger.flush();
-            this.logger.close();
+            fileWriter.flush();
+            fileWriter.close();
+            this.exportStatus.getStyleClass().add("label-stats-export");
+            this.exportStatus.getStyleClass().remove("label-failure-with-border");
+            this.exportStatus.getStyleClass().add("label-success-with-border");
             this.exportStatus.setVisible(true);
             this.exportStatus.setText("Statistics exported to " + selectedFile.getPath());
         } catch (IOException e) {
