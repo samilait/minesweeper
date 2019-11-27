@@ -344,5 +344,11 @@ public class BoardTest {
         board.makeMove(move);
         assertTrue(board.getUnflaggedMines() == 3);
     }
+
+    @Test
+    public void survivesXYNotWithinBoardInBFS() {
+        board.runBFS(10,10);
+        assert (true);
+    }
        
 }
