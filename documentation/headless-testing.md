@@ -28,24 +28,24 @@ The class currently has some example code. It runs 100 10x16 games with 50 mines
 ```
 
 The print for this example code looks like this:
-`
+```
 Game: false  
 Field   
-XXXXXXXXXXXXXXXX  
-XXXXXXXXXXXX*XXX  
-XXXXXXXXXXXXXXXX  
-12XXXXXXXXXXXXXX  
-012XXXXXXXXXXXXX  
-002XXXXXXXXXXXXX  
-113XXXXXXXXXXXXX  
-XXXXXXXXXXXXXXXX  
-112223XXXXXXXXXX  
-000002XXXXXXXXXX  
+XXXXXXXXXXXXXXXX
+XXXXXXXXXXXX*XXX
+XXXXXXXXXXXXXXXX
+12XXXXXXXXXXXXXX
+012XXXXXXXXXXXXX
+002XXXXXXXXXXXXX
+113XXXXXXXXXXXXX
+XXXXXXXXXXXXXXXX
+112223XXXXXXXXXX
+000002XXXXXXXXXX
 
-Move: OPEN Distance: 14.42 Time: 0.00 at (1,12)  
-Move: OPEN Distance: 11.18 Time: 0.00 at (9,0)  
-Move: HIGHLIGHT Distance: 8.54 Time: 0.00 at (7,11)  
-Move: HIGHLIGHT Distance: 3.16 Time: 0.00 at (4,3)  
-Move: OPEN Distance: 3.16 Time: 0.00 at (5,0)  
-Move: HIGHLIGHT Distance: 0.00 Time: 0.00 at (6,3)  
-`
+Move: OPEN Distance: 14.42 Time: 0.00 at (1,12)
+Move: OPEN Distance: 11.18 Time: 0.00 at (9,0)
+Move: HIGHLIGHT Distance: 8.54 Time: 0.00 at (7,11)
+Move: HIGHLIGHT Distance: 3.16 Time: 0.00 at (4,3)
+Move: OPEN Distance: 3.16 Time: 0.00 at (5,0)
+Move: HIGHLIGHT Distance: 0.00 Time: 0.00 at (6,3)
+```
