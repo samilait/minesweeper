@@ -17,6 +17,7 @@ Friday 10-16
 -   [Beginner's guide for minesweeper bot setup](https://github.com/TiraLabra/minesweeper/blob/master/documentation/Beginners-Guide.md)
 -   [Architecture](https://github.com/TiraLabra/minesweeper/blob/master/documentation/Architecture-Documentation.md)
 -   [Guideline for writing bots](https://github.com/TiraLabra/minesweeper/blob/master/documentation/Writing-Bots.md)
+-   [Guide for writing headless tests](https://github.com/TiraLabra/minesweeper/blob/master/documentation/headless-testing.md)
 
 ## Project progress
 -   [Working hours](https://helsinkifi-my.sharepoint.com/:x:/g/personal/jermusto_ad_helsinki_fi/EWKQox0uvixEupOQ90-N2u0BDQv4EVi05rhoQAP-vzImlg?e=zcIxHE)
