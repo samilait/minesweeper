@@ -28,7 +28,7 @@ jacocoTestReport {
      
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: ['minesweeper/App*', 'minesweeper/gui/**'])
+            fileTree(dir: it, exclude: ['minesweeper/App*', 'minesweeper/gui/**', 'minesweeper/TestApp*'])
         }))
     } 
 }
@@ -70,8 +70,8 @@ checkstyle {
 
 check.dependsOn jacocoTestReport
 
-task performanceTest(type:JavaExec) {
+task headlessTest(type:JavaExec) {
    classpath = sourceSets.main.runtimeClasspath
-   main = 'datastructureproject.PerformanceTest'
+   main = 'minesweeper.TestApp'
 }
 
