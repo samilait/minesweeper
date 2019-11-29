@@ -39,7 +39,6 @@ public class GameView {
     private Slider animationSlider;
     private Button[][] buttonGrid;
     private Button botButton;
-    private HBox timerBox;
     public final GameStats stats = new GameStats();
     public final long[] currentNanotime = new long[1];
 
