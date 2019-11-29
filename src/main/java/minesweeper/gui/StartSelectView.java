@@ -20,13 +20,70 @@ public class StartSelectView {
     private boolean seedSet;
     private long seed;
 
-    public StartSelectView() {       
+    public StartSelectView() {  
         Button[] buttons = new Button[] {
-            this.initButton("Easy ", 10, 10, 10), 
+            this.initButton("Beginner", 10, 10, 10), 
             this.initButton("Intermediate", 16, 16, 40),
-            this.initButton("Hard", 30, 16, 99)};
+            this.initButton("Expert", 30, 16, 99)
+//            this.initButton("Custom", 0, 0, 0)
+        };
         HBox hbox = new HBox(buttons);
-        
+
+        ToggleButton customBoard = new ToggleButton("Custom");
+        customBoard.getStyleClass().add("menu-button");
+
+        TextField customText = new TextField("5");
+        customText.getStyleClass().add("custom-textfield");
+        customText.setVisible(false);
+        Label customErrorLabel = new Label("Width (min 5, max 40)");
+        customErrorLabel.setVisible(false);
+
+        TextField customText2 = new TextField("5");
+        customText2.getStyleClass().add("custom-textfield");
+        customText2.setVisible(false);
+        Label customErrorLabel2 = new Label("Height (min 5, max 40)");
+        customErrorLabel2.setVisible(false);
+
+        TextField customText3 = new TextField("1");
+        customText3.getStyleClass().add("custom-textfield");
+        customText3.setVisible(false);
+        Label customErrorLabel3 = new Label("Mines - (min 1)");
+        customErrorLabel3.setVisible(false);
+
+// Button useThese = new Button();
+
+    customBoard.setOnAction(new EventHandler<ActionEvent>() {
+            
+        @Override
+        public void handle(ActionEvent event) {
+            boolean isNumeric1 = customText.getText().chars().allMatch(Character::isDigit);
+            boolean isNumeric2 = customText2.getText().chars().allMatch(Character::isDigit);
+            boolean isNumeric3 = customText3.getText().chars().allMatch(Character::isDigit);  
+
+            if (isNumeric1 && isNumeric2 && isNumeric3) {
+                long height = Long.parseLong(customText.getText());
+                long width = Long.parseLong(customText2.getText());   
+                long mines = Long.parseLong(customText3.getText());
+
+            }   
+            if (customBoard.isSelected()) {
+                customText.setVisible(true); 
+                customErrorLabel.setVisible(true);
+                customText2.setVisible(true); 
+                customErrorLabel2.setVisible(true);
+                customText3.setVisible(true); 
+                customErrorLabel3.setVisible(true);
+            } else {
+                customText.setVisible(false);
+                customErrorLabel.setVisible(false); 
+                customText2.setVisible(false);
+                customErrorLabel2.setVisible(false);
+                customText3.setVisible(false);
+                customErrorLabel3.setVisible(false);
+            }
+        }
+    });
+
         ToggleButton seedToggle = new ToggleButton("Use a pre-set seed");
         seedToggle.getStyleClass().add("menu-button");
         TextField seedText = new TextField("1234");
@@ -34,7 +91,7 @@ public class StartSelectView {
         seedText.setVisible(false);
         Label seedErrorLabel = new Label("");
         seedErrorLabel.setVisible(false);
-       
+
         // Create event handler for toggling the pre-set seed 
         // on and off
         seedToggle.setOnAction(new EventHandler<ActionEvent>() {
@@ -66,13 +123,17 @@ public class StartSelectView {
                 seed = Long.parseLong(newValue);
             }
         }); 
-      
-
+        HBox customHBox0 = new HBox(customBoard);
+        HBox customHBox1 = new HBox(customText, customErrorLabel);
+        HBox customHBox2 = new HBox(customText2, customErrorLabel2);
+        HBox customHBox3 = new HBox(customText3, customErrorLabel3);
+        VBox customInput = new VBox(customHBox0, customHBox1, customHBox2, customHBox3);
+        customInput.setVisible(true);
         HBox seedHBox = new HBox(seedToggle, seedText, seedErrorLabel);
         Label gameType = new Label("Select game type");
         gameType.getStyleClass().add("label-header");
 
-        this.vbox = new VBox(gameType, hbox, new Separator(), seedHBox);
+        this.vbox = new VBox(gameType, hbox, new Separator(), customInput, seedHBox);
         this.stackPane = new StackPane(this.vbox);
     }
 
@@ -94,7 +155,13 @@ public class StartSelectView {
             if (this.seedSet) {
                 this.gameView = new GameView(height, width, new VBox(newGameButton), mines, this.seed);
             } else {
-                this.gameView = new GameView(height, width, new VBox(newGameButton), mines);
+                if (label.equals("Custom")) {
+                    System.out.println("Cistom!");
+                    this.gameView = new GameView(5, 5, new VBox(newGameButton), 1);
+                } else {
+                    this.gameView = new GameView(height, width, new VBox(newGameButton), mines);
+                }
+
             }
 
             this.stackPane.getChildren().add(gameView.getView());
