@@ -128,7 +128,6 @@ public class GameView {
         vbox.getChildren().add(gameGP);
         this.vbox.getChildren().add(animationSpeedVBox);
 
-        System.out.println("" + seed);
         generator = new MinefieldGenerator(seed);
 
         board = new Board(generator, x, y, mines);
@@ -247,12 +246,9 @@ public class GameView {
         if (this.board.gameWon) {
             this.endLabel.setText("You won!");
             this.endLabel.getStyleClass().add("label-success");
-
-            System.out.println("1 " + this.board.gameEnd + ", " + this.board.gameWon);
         } else {
             this.endLabel.setText("You lost.");
             this.endLabel.getStyleClass().add("label-failure");
-            System.out.println("2 " + this.board.gameEnd + ", " + this.board.gameWon);
         }
         this.disableAllButtons();
     }
@@ -384,7 +380,6 @@ public class GameView {
         if (move == null) {
             return;
         }
-        System.out.println("Updating");
 
         this.clearAllHighlights();
         // Makes move to the gui board and updates the gui buttons

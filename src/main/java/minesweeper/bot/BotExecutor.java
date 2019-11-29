@@ -24,7 +24,6 @@ public class BotExecutor extends Thread {
         //Run bot while game has not ended
         while (!this.board.gameEnd) {
             // Try to add new move from bot to queue
-            System.out.println("Moving");
             // Bot makes moves to its own board and then the move is added to the supply queue
             Move move = this.bot.makeMove(this.board);
             this.queue.offer(move);
