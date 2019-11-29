@@ -70,8 +70,8 @@ checkstyle {
 
 check.dependsOn jacocoTestReport
 
-task performanceTest(type:JavaExec) {
+task headlessTest(type:JavaExec) {
    classpath = sourceSets.main.runtimeClasspath
-   main = 'datastructureproject.PerformanceTest'
+   main = 'minesweeper.TestApp'
 }
 
