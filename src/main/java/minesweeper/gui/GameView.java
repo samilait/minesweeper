@@ -63,7 +63,7 @@ public class GameView {
         sizeX = x;
         int sizeY = y;
         this.buttonGrid = new Button[x][y];
-        bs = 50;
+        bs = 30;
         this.bot = new TestBot();
 
         botButton = new Button("Help (bot)");
