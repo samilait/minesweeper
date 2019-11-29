@@ -140,9 +140,6 @@ public class StartSelectView {
         checkCustomTextField(2);
         checkCustomTextField(3);
         
-
-        
-        
         HBox customHBox0 = new HBox(customBoard);
         HBox customHBox1 = new HBox(customText1, customErrorLabel1);
         HBox customHBox2 = new HBox(customText2, customErrorLabel2);
@@ -156,10 +153,6 @@ public class StartSelectView {
         gameType.getStyleClass().add("label-header");
         this.vbox = new VBox(gameType, hbox, new Separator(), seedHBox, customInput);
         this.stackPane = new StackPane(this.vbox);
-    }
-
-    private void addCustomListener(TextField customText, Label customErrorLabel) {
-
     }
     
     /**
