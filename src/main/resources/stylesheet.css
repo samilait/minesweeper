@@ -125,16 +125,6 @@
 .black-highlight { -fx-border-color: black; }
 .custom-gridpane { -fx-background-color: rgb(205, 206, 206); }
 
-.digit-0 { -fx-background-image: url('0.png'); -fx-background-size: 25px 25px; }
-.digit-1 { -fx-background-image: url('1.png'); -fx-background-size: 25px 25px; }
-.digit-2 { -fx-background-image: url('2.png'); -fx-background-size: 25px 25px; }
-.digit-3 { -fx-background-image: url('3.png'); -fx-background-size: 25px 25px; }
-.digit-4 { -fx-background-image: url('4.png'); -fx-background-size: 25px 25px; }
-.digit-5 { -fx-background-image: url('5.png'); -fx-background-size: 25px 25px; }
-.digit-6 { -fx-background-image: url('6.png'); -fx-background-size: 25px 25px; }
-.digit-7 { -fx-background-image: url('7.png'); -fx-background-size: 25px 25px; }
-.digit-8 { -fx-background-image: url('8.png'); -fx-background-size: 25px 25px; }
-.digit-9 { -fx-background-image: url('9.png'); -fx-background-size: 25px 25px; }
 .custom-label-1 { -fx-text-fill: rgb(8, 88, 238); -fx-font-weight: bold; -fx-font-size: 110%; }
 .custom-label-2 { -fx-text-fill: rgb(19, 133, 4); -fx-font-weight: bold; -fx-font-size: 110%; }
 .custom-label-3 { -fx-text-fill: rgb(255, 36, 36); -fx-font-weight: bold; -fx-font-size: 110%;}

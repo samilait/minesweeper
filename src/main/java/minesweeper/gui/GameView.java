@@ -9,7 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Separator;
 import javafx.geometry.Orientation;
-
+import javafx.scene.shape.Rectangle;
 import minesweeper.model.Board;
 import minesweeper.model.GameStats;
 import minesweeper.model.MoveType;
@@ -35,10 +35,11 @@ public class GameView {
     private int sizeX;
     private Bot bot;
     private Label endLabel = new Label("Mines: ");
+    private Label timerLabel = new Label("Time: 0");
     private Slider animationSlider;
     private Button[][] buttonGrid;
     private Button botButton;
-    private Label timerLabel;
+    private HBox timerBox;
     public final GameStats stats = new GameStats();
     public final long[] currentNanotime = new long[1];
 
@@ -94,8 +95,8 @@ public class GameView {
         statsButton.setOnMouseClicked(e -> {
             new StatsView(this.stats);
         });
-
-        timerLabel = new Label("Time: 0");
+       
+        timerLabel.getStyleClass().add("label-subheader");
 
         newGame.getStyleClass().add("menu-button");
         botButton.getStyleClass().add("menu-button");
@@ -115,7 +116,8 @@ public class GameView {
         this.vbox.getChildren().add(animationSpeedLabel);
         initializeSlider();
         this.vbox.getChildren().add(this.animationSlider);
-        this.vbox.getChildren().add(new HBox(this.endLabel, new Separator(Orientation.VERTICAL), timerLabel));
+        this.timerBox = new HBox(this.endLabel, new Separator(Orientation.VERTICAL), timerLabel);
+        this.vbox.getChildren().add(this.timerBox);
 
         gameGP = new GridPane();
         gameGP.setMaxWidth(sizeX * 30);
@@ -127,6 +129,7 @@ public class GameView {
 
         board = new Board(generator, x, y, mines);
         this.endLabel.setText(this.endLabel.getText() + board.getUnflaggedMines());
+        this.endLabel.getStyleClass().add("label-subheader");
         Function<Square, Void> observerFunction = new Function<Square, Void>() {
             @Override
             public Void apply(Square observed) {
@@ -155,17 +158,18 @@ public class GameView {
         AnimationTimer timer = new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 // Time that has passed since last update
+              
                 long deltaTime = TimeUnit.MILLISECONDS.convert(currentNanoTime - previousNanoTime[0],
                         TimeUnit.NANOSECONDS);
 
                 previousNanoTime[0] = currentNanoTime;
 
                 time += deltaTime;
-               
-                timerLabel.setText("Time: " + TimeUnit.SECONDS.convert(time, TimeUnit.MILLISECONDS));
+                timerLabel.setText("Time: "+ TimeUnit.SECONDS.convert(time, TimeUnit.MILLISECONDS));
+                
 
                 // Kills the timer update routine if the game has ended
-                if (board.gameEnd) {
+                if (board.gameEnd || board.gameWon) {
                     this.stop();
                 }
 
@@ -236,16 +240,17 @@ public class GameView {
      * Updates the view to show that the game has been lost.
      */
     public void gameOver() {
-        this.endLabel.getStyleClass().add("label-subheader");
-        this.endLabel.setMinWidth(sizeX * 30);
+        this.endLabel.setMinWidth(sizeX * 15);
+        this.timerLabel.setMinWidth(sizeX * 15);
         if (this.board.gameWon) {
             this.endLabel.setText("You won!");
             this.endLabel.getStyleClass().add("label-success");
-
+            this.timerLabel.getStyleClass().add("label-success");
             System.out.println("1 " + this.board.gameEnd + ", " + this.board.gameWon);
         } else {
             this.endLabel.setText("You lost.");
             this.endLabel.getStyleClass().add("label-failure");
+            this.timerLabel.getStyleClass().add("label-failure");
             System.out.println("2 " + this.board.gameEnd + ", " + this.board.gameWon);
         }
         this.disableAllButtons();
