@@ -28,7 +28,7 @@ The class currently has some example code. It runs 100 10x16 games with 50 mines
 ```
 
 The print for this example code looks like this:
-```
+``` lolcode
 Game: false  
 Field   
 XXXXXXXXXXXXXXXX

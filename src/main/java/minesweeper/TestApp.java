@@ -14,14 +14,16 @@ import minesweeper.model.GameStats;
 import minesweeper.model.Move;
 import minesweeper.model.Board;
 import minesweeper.generator.MinefieldGenerator;
-import minesweeper.bot.*;
+import minesweeper.bot.Bot;
+import minesweeper.bot.TestBot;
+import minesweeper.bot.BotExecutor;
 
 public class TestApp {
 
-    GameStats gameStats;
-    Board board;
+    public GameStats gameStats;
+    public Board board;
     /* Place your bot here */
-    Bot bot = new TestBot();
+    public Bot bot = new TestBot();
 
     public TestApp(long seed, int width, int height, int mines) {
         board = new Board(new MinefieldGenerator(seed), width, height, mines);
