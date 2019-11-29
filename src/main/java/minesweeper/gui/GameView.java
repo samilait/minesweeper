@@ -9,7 +9,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Separator;
 import javafx.geometry.Orientation;
-import javafx.scene.shape.Rectangle;
 import minesweeper.model.Board;
 import minesweeper.model.GameStats;
 import minesweeper.model.MoveType;
