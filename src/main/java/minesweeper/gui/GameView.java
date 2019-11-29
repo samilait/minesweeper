@@ -79,8 +79,18 @@ public class GameView {
                 this.gameOver();
             }
         });
+
+        Label animationSpeedLabel = new Label("Bot game animation speed");
+        animationSpeedLabel.setMinWidth(sizeX * 30);
+        animationSpeedLabel.getStyleClass().add("label-subheader");
+        initializeSlider();
+
+        VBox animationSpeedVBox = new VBox(animationSpeedLabel, this.animationSlider);
+        animationSpeedVBox.setVisible(false);
+
         botGame = new Button("Bot Game");
         botGame.setOnMouseClicked(e -> {
+            animationSpeedVBox.setVisible(true);
             this.botGameLoop();
         });
 
@@ -110,21 +120,15 @@ public class GameView {
         hb.getChildren().add(statsButton);
 
         this.vbox.getChildren().add(hb);
-        Label animationSpeedLabel = new Label("Bot game animation speed");
-        animationSpeedLabel.setMinWidth(sizeX * 30);
-        animationSpeedLabel.getStyleClass().add("label-subheader");
-        this.vbox.getChildren().add(animationSpeedLabel);
-        initializeSlider();
-        this.vbox.getChildren().add(this.animationSlider);
-        this.timerBox = new HBox(this.endLabel, new Separator(Orientation.VERTICAL), timerLabel);
-        this.vbox.getChildren().add(this.timerBox);
+
+        this.vbox.getChildren().add(new HBox(this.endLabel, new Separator(Orientation.VERTICAL), timerLabel));
 
         gameGP = new GridPane();
         gameGP.setMaxWidth(sizeX * 30);
         gameGP.getStyleClass().add("custom-gridpane");
         vbox.getChildren().add(gameGP);
+        this.vbox.getChildren().add(animationSpeedVBox);
 
-        System.out.println("" + seed);
         generator = new MinefieldGenerator(seed);
 
         board = new Board(generator, x, y, mines);
@@ -246,12 +250,10 @@ public class GameView {
             this.endLabel.setText("You won!");
             this.endLabel.getStyleClass().add("label-success");
             this.timerLabel.getStyleClass().add("label-success");
-            System.out.println("1 " + this.board.gameEnd + ", " + this.board.gameWon);
         } else {
             this.endLabel.setText("You lost.");
             this.endLabel.getStyleClass().add("label-failure");
             this.timerLabel.getStyleClass().add("label-failure");
-            System.out.println("2 " + this.board.gameEnd + ", " + this.board.gameWon);
         }
         this.disableAllButtons();
     }
@@ -383,7 +385,6 @@ public class GameView {
         if (move == null) {
             return;
         }
-        System.out.println("Updating");
 
         this.clearAllHighlights();
         // Makes move to the gui board and updates the gui buttons
