@@ -63,9 +63,15 @@ public class GameView {
         sizeX = x;
         int sizeY = y;
         this.buttonGrid = new Button[x][y];
-        bs = 30;
+        if (x < 11) {
+            bs = 40;
+        } else if (x < 17) { 
+            bs = 35;
+        } else { 
+            bs = 30;
+        }
         this.bot = new TestBot();
-
+        
         botButton = new Button("Help (bot)");
         botButton.setOnMouseClicked(e -> {
             this.clearAllHighlights();
