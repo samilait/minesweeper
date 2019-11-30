@@ -63,13 +63,14 @@ public class GameView {
         sizeX = x;
         int sizeY = y;
         this.buttonGrid = new Button[x][y];
+       
         if (x < 11) {
             bs = 40;
-        } else if (x < 17) { 
+        } else if (x < 17) {
             bs = 35;
-        } else { 
+        } else if (x < 31) {
             bs = 30;
-        }
+        } 
         this.bot = new TestBot();
         
         botButton = new Button("Help (bot)");
