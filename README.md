@@ -1,4 +1,4 @@
-# minesweeper [![Build Status](https://travis-ci.org/TiraLabra/minesweeper.svg?branch=master)](https://travis-ci.org/TiraLabra/minesweeper)[![codecov](https://codecov.io/gh/TiraLabra/minesweeper/branch/master/graph/badge.svg)](https://codecov.io/gh/TiraLabra/minesweeper)[![Codacy Badge](https://api.codacy.com/project/badge/Grade/60579cca1211409aab09b753d67e5ed7)](https://www.codacy.com/manual/TheSamsai/minesweeper?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=TiraLabra/minesweeper&amp;utm_campaign=Badge_Grade)
+# minesweeper [![Build Status](https://travis-ci.org/TiraLabra/minesweeper.svg?branch=master)](https://travis-ci.org/TiraLabra/minesweeper)[![codecov](https://codecov.io/gh/TiraLabra/minesweeper/branch/master/graph/badge.svg)](https://codecov.io/gh/TiraLabra/minesweeper)
 
 Minesweeper template for data structures and algorithms project
 
