@@ -258,7 +258,7 @@ public class StartSelectView {
      * Checks that the amount of mines for a possible custom board is legal
      */
     private void checkMines(String type, Label error) {
-        if (customMines.getText().chars().allMatch(Character::isDigit)){
+        if (customMines.getText().chars().allMatch(Character::isDigit)) {
             cmines = Integer.parseInt(customMines.getText());
         } else {
             isValidBoard = false;
@@ -268,7 +268,7 @@ public class StartSelectView {
             isValidBoard = false;
             customErrorLabel3.setText("Too many mines!");
         } else {
-            switch (type){
+            switch (type) {
                 case "height":
                     error.setText(guideText1);
                     break;
@@ -278,8 +278,10 @@ public class StartSelectView {
                 case "mines":
                     error.setText(guideText3);
                     break;
+                default:
+                    break;
             }
-            if (allCustomTextFieldsNumeric()){ 
+            if (allCustomTextFieldsNumeric()) { 
                 isValidBoard = true;
             }
             customErrorLabel3.setText(guideText3);
@@ -291,8 +293,7 @@ public class StartSelectView {
      */
     private Boolean allCustomTextFieldsNumeric() {
         return (customHeight.getText().chars().allMatch(Character::isDigit)
-        &&customWidth.getText().chars().allMatch(Character::isDigit)
-        &&customMines.getText().chars().allMatch(Character::isDigit)
-        );
+            && customWidth.getText().chars().allMatch(Character::isDigit)
+            && customMines.getText().chars().allMatch(Character::isDigit));
     }
 }
