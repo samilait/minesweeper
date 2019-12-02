@@ -7,7 +7,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.Node;
 import javafx.scene.control.Slider;
-
+import javafx.scene.control.Separator;
+import javafx.geometry.Orientation;
 import minesweeper.model.Board;
 import minesweeper.model.GameStats;
 import minesweeper.model.MoveType;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
-
+import minesweeper.StorageSingleton;
 import javafx.animation.AnimationTimer;
 import minesweeper.bot.TestBot;
 import minesweeper.bot.Bot;
@@ -33,11 +34,16 @@ public class GameView {
     private int sizeX;
     private Bot bot;
     private Label endLabel = new Label("Mines: ");
+    private Label timerLabel = new Label("Time: 0");
+    private Label animationSpeedLabel = animationSpeedLabel = new Label("Bot game animation speed");
     private Slider animationSlider;
     private Button[][] buttonGrid;
     private Button botButton;
+    private int buttonSize;
     public final GameStats stats = new GameStats();
     public final long[] currentNanotime = new long[1];
+
+    private long time = 0;
 
     /**
      * Constructor for a game view of given size and mine count Seed for the
@@ -57,9 +63,16 @@ public class GameView {
         sizeX = x;
         int sizeY = y;
         this.buttonGrid = new Button[x][y];
-
+       
+        if (x < 11) {
+            buttonSize = 40;
+        } else if (x < 17) {
+            buttonSize = 35;
+        } else if (x < 31) {
+            buttonSize = 30;
+        } 
         this.bot = new TestBot();
-
+        
         botButton = new Button("Help (bot)");
         botButton.setOnMouseClicked(e -> {
             this.clearAllHighlights();
@@ -73,8 +86,17 @@ public class GameView {
                 this.gameOver();
             }
         });
+
+        animationSpeedLabel.setMinWidth(sizeX * buttonSize);
+        animationSpeedLabel.getStyleClass().add("label-subheader");
+        initializeSlider();
+
+        VBox animationSpeedVBox = new VBox(animationSpeedLabel, this.animationSlider);
+        animationSpeedVBox.setVisible(false);
+
         botGame = new Button("Bot Game");
         botGame.setOnMouseClicked(e -> {
+            animationSpeedVBox.setVisible(true);
             this.botGameLoop();
         });
 
@@ -89,6 +111,8 @@ public class GameView {
         statsButton.setOnMouseClicked(e -> {
             new StatsView(this.stats);
         });
+       
+        timerLabel.getStyleClass().add("label-subheader");
 
         newGame.getStyleClass().add("menu-button");
         botButton.getStyleClass().add("menu-button");
@@ -102,24 +126,20 @@ public class GameView {
         hb.getChildren().add(statsButton);
 
         this.vbox.getChildren().add(hb);
-        Label animationSpeedLabel = new Label("Bot game animation speed");
-        animationSpeedLabel.setMinWidth(sizeX * 30);
-        animationSpeedLabel.getStyleClass().add("label-subheader");
-        this.vbox.getChildren().add(animationSpeedLabel);
-        initializeSlider();
-        this.vbox.getChildren().add(this.animationSlider);
-        this.vbox.getChildren().add(this.endLabel);
+
+        this.vbox.getChildren().add(new HBox(this.endLabel, new Separator(Orientation.VERTICAL), timerLabel));
 
         gameGP = new GridPane();
-        gameGP.setMaxWidth(sizeX * 30);
+        gameGP.setMaxWidth(sizeX * buttonSize);
         gameGP.getStyleClass().add("custom-gridpane");
         vbox.getChildren().add(gameGP);
+        this.vbox.getChildren().add(animationSpeedVBox);
 
-        System.out.println("" + seed);
         generator = new MinefieldGenerator(seed);
 
         board = new Board(generator, x, y, mines);
         this.endLabel.setText(this.endLabel.getText() + board.getUnflaggedMines());
+        this.endLabel.getStyleClass().add("label-subheader");
         Function<Square, Void> observerFunction = new Function<Square, Void>() {
             @Override
             public Void apply(Square observed) {
@@ -136,11 +156,37 @@ public class GameView {
         botBoard = new Board(generator, x, y, mines);
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
-                Button button = buildButton(new Button(), 30, i, j);
+                Button button = buildButton(new Button(), buttonSize, i, j);
                 gameGP.add(button, i, j);
                 buttonGrid[i][j] = button;
             }
         }
+
+        long[] previousNanoTime = new long[1];
+        previousNanoTime[0] = System.nanoTime();
+
+        AnimationTimer timer = new AnimationTimer() {
+            public void handle(long currentNanoTime) {
+                // Time that has passed since last update
+              
+                long deltaTime = TimeUnit.MILLISECONDS.convert(currentNanoTime - previousNanoTime[0],
+                        TimeUnit.NANOSECONDS);
+
+                previousNanoTime[0] = currentNanoTime;
+
+                time += deltaTime;
+                timerLabel.setText("Time: " + TimeUnit.SECONDS.convert(time, TimeUnit.MILLISECONDS));
+                
+
+                // Kills the timer update routine if the game has ended
+                if (board.gameEnd || board.gameWon) {
+                    this.stop();
+                }
+
+            }
+        };
+
+        timer.start();
     }
 
     /**
@@ -204,17 +250,18 @@ public class GameView {
      * Updates the view to show that the game has been lost.
      */
     public void gameOver() {
-        this.endLabel.getStyleClass().add("label-subheader");
-        this.endLabel.setMinWidth(sizeX * 30);
+        animationSpeedLabel.setVisible(false);
+        animationSlider.setVisible(false);
+        this.endLabel.setMinWidth(sizeX * buttonSize / 2);
+        this.timerLabel.setMinWidth(sizeX * buttonSize / 2);
         if (this.board.gameWon) {
             this.endLabel.setText("You won!");
             this.endLabel.getStyleClass().add("label-success");
-
-            System.out.println("1 " + this.board.gameEnd + ", " + this.board.gameWon);
+            this.timerLabel.getStyleClass().add("label-success");
         } else {
             this.endLabel.setText("You lost.");
             this.endLabel.getStyleClass().add("label-failure");
-            System.out.println("2 " + this.board.gameEnd + ", " + this.board.gameWon);
+            this.timerLabel.getStyleClass().add("label-failure");
         }
         this.disableAllButtons();
     }
@@ -224,7 +271,7 @@ public class GameView {
      */
     public void updateGameGP(int x, int y) {
 
-        gameGP.setMaxWidth(sizeX * 30);
+        gameGP.setMaxWidth(sizeX * buttonSize);
         // gameGP.getStyleClass().add("custom-gridpane");
         Button updatedButton = this.buttonGrid[x][y];
         // Updates the button in the current location with the correct
@@ -305,6 +352,7 @@ public class GameView {
         AnimationTimer timer = new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 // Time that has passed since last update
+                StorageSingleton.getInstance().animationSpeed = animationSlider.getValue();
                 long deltaTime = TimeUnit.MILLISECONDS.convert(currentNanoTime - currentNanotime[0],
                         TimeUnit.NANOSECONDS);
                 // Updates the board only if certain time has passed
@@ -314,7 +362,7 @@ public class GameView {
                     currentNanotime[0] = System.nanoTime();
                 }
                 // Kills the timer update routine if the game has ended
-                if (board.gameEnd) {
+                if (board.gameEnd || board.gameWon) {
                     this.stop();
                     gameOver();
                 }
@@ -346,7 +394,6 @@ public class GameView {
         if (move == null) {
             return;
         }
-        System.out.println("Updating");
 
         this.clearAllHighlights();
         // Makes move to the gui board and updates the gui buttons
@@ -357,10 +404,11 @@ public class GameView {
     }
 
     private void initializeSlider() {
-        this.animationSlider = new Slider(100, 2000, 1050);
+        
+        this.animationSlider = new Slider(100, 2000, StorageSingleton.getInstance().animationSpeed);
         this.animationSlider.setMajorTickUnit(200f);
         this.animationSlider.setBlockIncrement(10f);
-        this.animationSlider.setMaxWidth(sizeX * 30);
+        this.animationSlider.setMaxWidth(sizeX * buttonSize);
         this.animationSlider.getStyleClass().add("slider");
     }
 }
