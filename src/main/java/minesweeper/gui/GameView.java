@@ -35,7 +35,7 @@ public class GameView {
     private Bot bot;
     private Label endLabel = new Label("Mines: ");
     private Label timerLabel = new Label("Time: 0");
-    private Label animationSpeedLabel = animationSpeedLabel = new Label("Bot game animation speed");
+    private Label animationSpeedLabel = new Label("Bot game animation speed");
     private Slider animationSlider;
     private Button[][] buttonGrid;
     private Button botButton;

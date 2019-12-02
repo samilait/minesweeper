@@ -227,7 +227,7 @@ public class StartSelectView {
     private void checkCustomTextField(String type, TextField input, Label error) {
         input.textProperty().addListener((observable, oldValue, newValue) -> {
             Boolean isNumeric = input.getText().chars().allMatch(Character::isDigit);
-            if (!isNumeric||input.getText().isEmpty()) {
+            if (!isNumeric || input.getText().isEmpty()) {
                 error.setText("The " + type + " must be an integer!");
                 error.getStyleClass().add("label-failure");
                 customErrorLabel3.setText(guideText3);            
@@ -236,8 +236,8 @@ public class StartSelectView {
             } else {
                 if (!type.equals("mines")) {
                     int value = Integer.parseInt(input.getText());
-                   
                     if (value > 40) {
+                        
                         error.setText("Maximum " + type + " is 40");
                         error.getStyleClass().add("label-failure");
                         customErrorLabel3.setText(guideText3);            
@@ -297,9 +297,9 @@ public class StartSelectView {
      * Checks that every custom board size value is a numeric value
      */
     private Boolean allCustomTextFieldsNumeric() {
-        return ((customHeight.getText().chars().allMatch(Character::isDigit)&&!customHeight.getText().isEmpty())
-            && (customWidth.getText().chars().allMatch(Character::isDigit)&&!customWidth.getText().isEmpty())
-            && (customMines.getText().chars().allMatch(Character::isDigit)&&!customMines.getText().isEmpty()));
+        return ((customHeight.getText().chars().allMatch(Character::isDigit) && !customHeight.getText().isEmpty())
+            && (customWidth.getText().chars().allMatch(Character::isDigit) && !customWidth.getText().isEmpty())
+            && (customMines.getText().chars().allMatch(Character::isDigit) && !customMines.getText().isEmpty()));
     }
 
     private Boolean heightAndWidthAreInRange() {
