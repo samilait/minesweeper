@@ -45,16 +45,19 @@ public class TestApp {
          */
 
         //Values saved as Pairs, this is needed to access the values of both board and gamestats.
-        ArrayList<Pair<GameStats,Board>> stats = new ArrayList<>();
+        ArrayList<Pair<GameStats, Board>> stats = new ArrayList<>();
         //Play 100 games and save the stats and board to array
-        for(int i = 0; i < 100; i++) {
-        TestApp app = new TestApp(new Random().nextLong(),10,16,50);
-        stats.add(new Pair<GameStats,Board>(app.gameStats, app.board));
+        for (int i = 0; i < 100; i++) {
+            TestApp app = new TestApp(new Random().nextLong(), 10, 16, 50);
+            stats.add(new Pair<GameStats, Board>(app.gameStats, app.board));
         }
         //Sets the out stream to file test.txt in root of project.
         try {
-        System.setOut(new PrintStream(new File("test.txt")));
-        } catch (Exception e){}
+            System.setOut(new PrintStream(new File("test.txt")));
+        } catch (Exception e) {
+
+        }
+
         //Print the stats, board and game ending status to file.
         stats.stream().forEach(s -> {
             System.out.println("---------------------");
