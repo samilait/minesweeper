@@ -35,7 +35,7 @@ public class GameView {
     private Bot bot;
     private Label endLabel = new Label("Mines: ");
     private Label timerLabel = new Label("Time: 0");
-    private Label animationSpeedLabel = animationSpeedLabel = new Label("Bot game animation speed");
+    private Label animationSpeedLabel = new Label("Bot game animation speed");
     private Slider animationSlider;
     private Button[][] buttonGrid;
     private Button botButton;
@@ -65,12 +65,14 @@ public class GameView {
         this.buttonGrid = new Button[x][y];
        
         if (x < 11) {
-            buttonSize = 40;
+            buttonSize = 45;
         } else if (x < 17) {
-            buttonSize = 35;
+            buttonSize = 40;
         } else if (x < 31) {
+            buttonSize = 35;
+        } else {
             buttonSize = 30;
-        } 
+        }
         this.bot = new TestBot();
         
         botButton = new Button("Help (bot)");

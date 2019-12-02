@@ -30,7 +30,7 @@ public class StartSelectView {
     private TextField customWidth;
     private TextField customMines;
 
-    private final String guideText1 = "Heigth (min 3, max 40)";
+    private final String guideText1 = "Height (min 3, max 40)";
     private final String guideText2 = "Width (min 3, max 40)";
     private final String guideText3 = "Mine count";
 
@@ -229,27 +229,42 @@ public class StartSelectView {
             Boolean isNumeric = input.getText().chars().allMatch(Character::isDigit);
             if (!isNumeric || input.getText().isEmpty()) {
                 error.setText("The " + type + " must be an integer!");
+                error.getStyleClass().add("label-failure");
+                customErrorLabel3.setText(guideText3);            
+                customErrorLabel3.getStyleClass().removeAll("label-failure");
                 isValidBoard = false;
             } else {
                 if (!type.equals("mines")) {
                     int value = Integer.parseInt(input.getText());
-                    if (type.equals("height")) {
-                        cheight = value;
-                    } else if (type.equals("width")) {
-                        cwidth = value;
-                    }
                     if (value > 40) {
+                        
                         error.setText("Maximum " + type + " is 40");
+                        error.getStyleClass().add("label-failure");
+                        customErrorLabel3.setText(guideText3);            
+                        customErrorLabel3.getStyleClass().removeAll("label-failure");
                         isValidBoard = false;
                     } else if (value < 3) {
                         error.setText("Minimum " + type + " is 3");
+                        error.getStyleClass().add("label-failure");
+                        customErrorLabel3.setText(guideText3);            
+                        customErrorLabel3.getStyleClass().removeAll("label-failure");
                         isValidBoard = false;
                     } else {
-                        checkMines(type, error);
+                        if (type.equals("height")) {
+                            cheight = value;
+                            error.setText(guideText1);
+                            error.getStyleClass().removeAll("label-failure");
+                        } else if (type.equals("width")) {
+                            cwidth = value;
+                            error.setText(guideText2);
+                            error.getStyleClass().removeAll("label-failure");
+                        }
+                       
+                        checkMines();
                     }
                     
                 } else {
-                    checkMines(type, error);
+                    checkMines();
                 }
             }
         });
@@ -257,8 +272,8 @@ public class StartSelectView {
     /**
      * Checks that the amount of mines for a possible custom board is legal
      */
-    private void checkMines(String type, Label error) {
-        if (customMines.getText().chars().allMatch(Character::isDigit)) {
+    private void checkMines() {
+        if (customMines.getText().chars().allMatch(Character::isDigit) && !customMines.getText().isEmpty()) {
             cmines = Integer.parseInt(customMines.getText());
         } else {
             isValidBoard = false;
@@ -267,24 +282,14 @@ public class StartSelectView {
         if (cmines > ((cheight * cwidth) - 9)) {
             isValidBoard = false;
             customErrorLabel3.setText("Too many mines!");
+            customErrorLabel3.getStyleClass().add("label-failure");
         } else {
-            switch (type) {
-                case "height":
-                    error.setText(guideText1);
-                    break;
-                case "width":
-                    error.setText(guideText2);
-                    break;
-                case "mines":
-                    error.setText(guideText3);
-                    break;
-                default:
-                    break;
-            }
-            if (allCustomTextFieldsNumeric()) { 
+            if (allCustomTextFieldsNumeric() && heightAndWidthAreInRange()) { 
                 isValidBoard = true;
             }
-            customErrorLabel3.setText(guideText3);
+
+            customErrorLabel3.setText(guideText3);            
+            customErrorLabel3.getStyleClass().removeAll("label-failure");
         }
     }
     
@@ -292,8 +297,15 @@ public class StartSelectView {
      * Checks that every custom board size value is a numeric value
      */
     private Boolean allCustomTextFieldsNumeric() {
-        return (customHeight.getText().chars().allMatch(Character::isDigit)
-            && customWidth.getText().chars().allMatch(Character::isDigit)
-            && customMines.getText().chars().allMatch(Character::isDigit));
+        return ((customHeight.getText().chars().allMatch(Character::isDigit) && !customHeight.getText().isEmpty())
+            && (customWidth.getText().chars().allMatch(Character::isDigit) && !customWidth.getText().isEmpty())
+            && (customMines.getText().chars().allMatch(Character::isDigit) && !customMines.getText().isEmpty()));
+    }
+
+    private Boolean heightAndWidthAreInRange() {
+        int heightvalue = Integer.parseInt(customHeight.getText());
+        int widthvalue = Integer.parseInt(customWidth.getText());
+
+        return (heightvalue >= 3 && heightvalue <= 40 && widthvalue >= 3 && widthvalue <= 40);
     }
 }
