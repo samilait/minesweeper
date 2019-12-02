@@ -19,19 +19,21 @@ public class StartSelectView {
     private StackPane stackPane;
     private boolean seedSet;
     private long seed;
-    int cheight = 5;
-    int cwidth = 5;
-    int cmines = 5;
-    boolean isNumeric1 = true;
-    boolean isNumeric2 = true;
-    boolean isNumeric3 = true;
-    boolean isValidBoard = true;
-    private TextField customText1;
-    private TextField customText2;
-    private TextField customText3;
+    
+    private int cheight = 5;
+    private int cwidth = 5;
+    private int cmines = 5;
+
+    private boolean isValidBoard = true;
+
+    private TextField customHeight;
+    private TextField customWidth;
+    private TextField customMines;
+
     private final String guideText1 = "Heigth (min 3, max 40)";
     private final String guideText2 = "Width (min 3, max 40)";
     private final String guideText3 = "Mine count";
+
     private Label customErrorLabel1;
     private Label customErrorLabel2;
     private Label customErrorLabel3;
@@ -40,28 +42,28 @@ public class StartSelectView {
         Button[] buttons = new Button[] {
             this.initButton("Beginner", 10, 10, 10), 
             this.initButton("Intermediate", 16, 16, 40),
-            this.initButton("Expert", 30, 16, 99)
+            this.initButton("Expert", 16, 30, 99)
         };
         HBox hbox = new HBox(buttons);
 
         ToggleButton customBoard = new ToggleButton("Set Custom Board");
         customBoard.getStyleClass().add("menu-button");
         
-        customText1 = new TextField("5");
-        customText1.getStyleClass().add("custom-textfield");
-        customText1.setVisible(false);
+        customHeight = new TextField("5");
+        customHeight.getStyleClass().add("custom-textfield");
+        customHeight.setVisible(false);
         customErrorLabel1 = new Label(guideText1);
         customErrorLabel1.setVisible(false);
 
-        customText2 = new TextField("5");
-        customText2.getStyleClass().add("custom-textfield");
-        customText2.setVisible(false);
+        customWidth = new TextField("5");
+        customWidth.getStyleClass().add("custom-textfield");
+        customWidth.setVisible(false);
         customErrorLabel2 = new Label(guideText2);
         customErrorLabel2.setVisible(false);
 
-        customText3 = new TextField("5");
-        customText3.getStyleClass().add("custom-textfield");
-        customText3.setVisible(false);
+        customMines = new TextField("5");
+        customMines.getStyleClass().add("custom-textfield");
+        customMines.setVisible(false);
         customErrorLabel3 = new Label(guideText3);
         customErrorLabel3.setVisible(false);
 
@@ -71,29 +73,25 @@ public class StartSelectView {
         customBoard.setOnAction(new EventHandler<ActionEvent>() {
             @Override
                 public void handle(ActionEvent event) {
-                isNumeric1 = customText1.getText().chars().allMatch(Character::isDigit);
-                isNumeric2 = customText2.getText().chars().allMatch(Character::isDigit);
-                isNumeric3 = customText3.getText().chars().allMatch(Character::isDigit);  
-
-                if (isNumeric1 && isNumeric2 && isNumeric3) {
-                    cheight = Integer.parseInt(customText1.getText());
-                    cwidth = Integer.parseInt(customText2.getText());   
-                    cmines = Integer.parseInt(customText3.getText());
+                if (allCustomTextFieldsNumeric()) {
+                    cheight = Integer.parseInt(customHeight.getText());
+                    cwidth = Integer.parseInt(customWidth.getText());   
+                    cmines = Integer.parseInt(customMines.getText());
                 }   
                 if (customBoard.isSelected()) {
-                    customText1.setVisible(true);
+                    customHeight.setVisible(true);
                     customErrorLabel1.setVisible(true);
-                    customText2.setVisible(true);    
+                    customWidth.setVisible(true);    
                     customErrorLabel2.setVisible(true);
-                    customText3.setVisible(true);  
+                    customMines.setVisible(true);  
                     customErrorLabel3.setVisible(true); 
                     acceptButton.setVisible(true);            
                 } else {
-                    customText1.setVisible(false);
+                    customHeight.setVisible(false);
                     customErrorLabel1.setVisible(false); 
-                    customText2.setVisible(false);
+                    customWidth.setVisible(false);
                     customErrorLabel2.setVisible(false);
-                    customText3.setVisible(false);          
+                    customMines.setVisible(false);          
                     customErrorLabel3.setVisible(false);
                     acceptButton.setVisible(false);    
                 }
@@ -139,14 +137,14 @@ public class StartSelectView {
             }
         });
 
-        checkCustomTextField(1);
-        checkCustomTextField(2);
-        checkCustomTextField(3);
+        checkCustomTextField("height", customHeight, customErrorLabel1);
+        checkCustomTextField("width", customWidth, customErrorLabel2);
+        checkCustomTextField("mines", customMines, customErrorLabel3);
         
         HBox customHBox0 = new HBox(customBoard);
-        HBox customHBox1 = new HBox(customText1, customErrorLabel1);
-        HBox customHBox2 = new HBox(customText2, customErrorLabel2);
-        HBox customHBox3 = new HBox(customText3, customErrorLabel3);
+        HBox customHBox1 = new HBox(customHeight, customErrorLabel1);
+        HBox customHBox2 = new HBox(customWidth, customErrorLabel2);
+        HBox customHBox3 = new HBox(customMines, customErrorLabel3);
         HBox acceptHBox = new HBox(acceptButton);
         VBox customInput = new VBox(customHBox0, customHBox1, customHBox2, customHBox3, acceptHBox);
         customInput.setVisible(true);
@@ -173,9 +171,9 @@ public class StartSelectView {
                 this.vbox.setVisible(true);
             });
             if (this.seedSet) {
-                this.gameView = new GameView(height, width, new VBox(newGameButton), mines, this.seed);
+                this.gameView = new GameView(width, height, new VBox(newGameButton), mines, this.seed);
             } else {
-                this.gameView = new GameView(height, width, new VBox(newGameButton), mines);
+                this.gameView = new GameView(width, height, new VBox(newGameButton), mines);
             }
             this.stackPane.getChildren().add(gameView.getView());
         });
@@ -187,6 +185,7 @@ public class StartSelectView {
         Button button = new Button(label);
         button.getStyleClass().add("menu-button");
         button.setOnMouseClicked(e -> {
+            System.out.println(isValidBoard);
             if (isValidBoard) {
                 this.vbox.setVisible(false);
                 Button newGameButton = new Button("New Game");
@@ -195,9 +194,9 @@ public class StartSelectView {
                     this.vbox.setVisible(true);
                 });
                 if (this.seedSet) {
-                    this.gameView = new GameView(cheight, cwidth, new VBox(newGameButton), cmines, this.seed);
+                    this.gameView = new GameView(cwidth, cheight, new VBox(newGameButton), cmines, this.seed);
                 } else {
-                    this.gameView = new GameView(cheight, cwidth, new VBox(newGameButton), cmines);
+                    this.gameView = new GameView(cwidth, cheight, new VBox(newGameButton), cmines);
                 }
                 this.stackPane.getChildren().add(gameView.getView());
             }
@@ -225,83 +224,75 @@ public class StartSelectView {
     /**
     * Checks that custom sized minesweeper is a reasonably playable one.
     */
-    private void checkCustomTextField(int fieldNumber) {
-
-        switch (fieldNumber) {
-            case 1 :
-                customText1.textProperty().addListener((observable, oldValue, newValue) -> {
-                    isNumeric1 = customText1.getText().chars().allMatch(Character::isDigit);
-                    if (!isNumeric1 || customText1.getText().isEmpty()) {
-                        customErrorLabel1.setText("!! Height must be an integer!");
-                    } else {
-                        cheight = Integer.parseInt(customText1.getText());
-                        if (cheight > 40) {
-                            customErrorLabel1.setText("!! Width max is 40!");
-                            isValidBoard = false;
-                        } else if (cheight < 3) {
-                            customErrorLabel1.setText("!! Width min is 3!");
-                            isValidBoard = false;
-                        } else {
-                            cmines = Integer.parseInt(customText3.getText());
-                            if (cmines > ((cheight * cwidth) - 9)) {
-                                isValidBoard = false;
-                                customErrorLabel3.setText("!! Too many mines!");
-                            } else {
-                                customErrorLabel1.setText(guideText1);
-                                isValidBoard = true;
-                                customErrorLabel3.setText(guideText3);
-                            }
-                        }
+    private void checkCustomTextField(String type, TextField input, Label error) {
+        input.textProperty().addListener((observable, oldValue, newValue) -> {
+            Boolean isNumeric = input.getText().chars().allMatch(Character::isDigit);
+            if (!isNumeric || input.getText().isEmpty()) {
+                error.setText("The " + type + " must be an integer!");
+                isValidBoard = false;
+            } else {
+                if (!type.equals("mines")) {
+                    int value = Integer.parseInt(input.getText());
+                    if (type.equals("height")) {
+                        cheight = value;
+                    } else if (type.equals("width")) {
+                        cwidth = value;
                     }
-                });
-
-            case 2 :
-                customText2.textProperty().addListener((observable, oldValue, newValue) -> {
-                    isNumeric2 = customText2.getText().chars().allMatch(Character::isDigit);
-                    if (!isNumeric2 || customText2.getText().isEmpty()) {
-                        customErrorLabel2.setText("!! Width must be an integer!");
+                    if (value > 40) {
+                        error.setText("Maximum " + type + " is 40");
+                        isValidBoard = false;
+                    } else if (value < 3) {
+                        error.setText("Minimum " + type + " is 3");
+                        isValidBoard = false;
                     } else {
-                        cwidth = Integer.parseInt(customText2.getText());
-                        if (cwidth > 40) {
-                            isValidBoard = false;
-                            customErrorLabel2.setText("!! Width max is 40!");
-                        } else if (cwidth < 3) {
-                            isValidBoard = false;
-                            customErrorLabel2.setText("!! Width min is 3!");
-                        } else {
-                            cmines = Integer.parseInt(customText3.getText());
-                            if (cmines > ((cheight * cwidth) - 9)) {
-                                isValidBoard = false;
-                                customErrorLabel3.setText("!! Too many mines!");
-                            } else {
-                                isValidBoard = true;  
-                                customErrorLabel2.setText(guideText2);
-                                customErrorLabel3.setText(guideText3);
-                            }
-                        }
+                        checkMines(type, error);
                     }
-                });
-
-            case 3 :
-                customText3.textProperty().addListener((observable, oldValue, newValue) -> {
-                    isNumeric3 = customText3.getText().chars().allMatch(Character::isDigit);
-                    if (!isNumeric3 || customText3.getText().isEmpty()) {
-                        customErrorLabel3.setText("!! Mines must be an integer!");
-                    } else {
-                        cmines = Integer.parseInt(customText3.getText());
-                        if (cmines > ((cheight * cwidth) - 9)) {
-                            isValidBoard = false;
-                            customErrorLabel3.setText("!! Too many mines!");
-                        } else {
-                            isValidBoard = true;
-                            customErrorLabel3.setText(guideText3);
-                        }
-                    }
-                });          
                     
-            default :
-                break;
+                } else {
+                    checkMines(type, error);
+                }
+            }
+        });
+    }
+    /**
+     * Checks that the amount of mines for a possible custom board is legal
+     */
+    private void checkMines(String type, Label error) {
+        if (customMines.getText().chars().allMatch(Character::isDigit)){
+            cmines = Integer.parseInt(customMines.getText());
+        } else {
+            isValidBoard = false;
+            return;
         }
-
+        if (cmines > ((cheight * cwidth) - 9)) {
+            isValidBoard = false;
+            customErrorLabel3.setText("Too many mines!");
+        } else {
+            switch (type){
+                case "height":
+                    error.setText(guideText1);
+                    break;
+                case "width":
+                    error.setText(guideText2);
+                    break;
+                case "mines":
+                    error.setText(guideText3);
+                    break;
+            }
+            if (allCustomTextFieldsNumeric()){ 
+                isValidBoard = true;
+            }
+            customErrorLabel3.setText(guideText3);
+        }
+    }
+    
+    /**
+     * Checks that every custom board size value is a numeric value
+     */
+    private Boolean allCustomTextFieldsNumeric() {
+        return (customHeight.getText().chars().allMatch(Character::isDigit)
+        &&customWidth.getText().chars().allMatch(Character::isDigit)
+        &&customMines.getText().chars().allMatch(Character::isDigit)
+        );
     }
 }
