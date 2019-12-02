@@ -19,14 +19,85 @@ public class StartSelectView {
     private StackPane stackPane;
     private boolean seedSet;
     private long seed;
+    
+    private int cheight = 5;
+    private int cwidth = 5;
+    private int cmines = 5;
 
-    public StartSelectView() {       
+    private boolean isValidBoard = true;
+
+    private TextField customHeight;
+    private TextField customWidth;
+    private TextField customMines;
+
+    private final String guideText1 = "Heigth (min 3, max 40)";
+    private final String guideText2 = "Width (min 3, max 40)";
+    private final String guideText3 = "Mine count";
+
+    private Label customErrorLabel1;
+    private Label customErrorLabel2;
+    private Label customErrorLabel3;
+                    
+    public StartSelectView() {
         Button[] buttons = new Button[] {
-            this.initButton("Easy ", 10, 10, 10), 
+            this.initButton("Beginner", 10, 10, 10), 
             this.initButton("Intermediate", 16, 16, 40),
-            this.initButton("Hard", 30, 16, 99)};
+            this.initButton("Expert", 16, 30, 99)
+        };
         HBox hbox = new HBox(buttons);
+
+        ToggleButton customBoard = new ToggleButton("Set Custom Board");
+        customBoard.getStyleClass().add("menu-button");
         
+        customHeight = new TextField("5");
+        customHeight.getStyleClass().add("custom-textfield");
+        customHeight.setVisible(false);
+        customErrorLabel1 = new Label(guideText1);
+        customErrorLabel1.setVisible(false);
+
+        customWidth = new TextField("5");
+        customWidth.getStyleClass().add("custom-textfield");
+        customWidth.setVisible(false);
+        customErrorLabel2 = new Label(guideText2);
+        customErrorLabel2.setVisible(false);
+
+        customMines = new TextField("5");
+        customMines.getStyleClass().add("custom-textfield");
+        customMines.setVisible(false);
+        customErrorLabel3 = new Label(guideText3);
+        customErrorLabel3.setVisible(false);
+
+        Button acceptButton = acceptCustomButton("Use Custom Board");
+        acceptButton.setVisible(false); 
+        
+        customBoard.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+                public void handle(ActionEvent event) {
+                if (allCustomTextFieldsNumeric()) {
+                    cheight = Integer.parseInt(customHeight.getText());
+                    cwidth = Integer.parseInt(customWidth.getText());   
+                    cmines = Integer.parseInt(customMines.getText());
+                }   
+                if (customBoard.isSelected()) {
+                    customHeight.setVisible(true);
+                    customErrorLabel1.setVisible(true);
+                    customWidth.setVisible(true);    
+                    customErrorLabel2.setVisible(true);
+                    customMines.setVisible(true);  
+                    customErrorLabel3.setVisible(true); 
+                    acceptButton.setVisible(true);            
+                } else {
+                    customHeight.setVisible(false);
+                    customErrorLabel1.setVisible(false); 
+                    customWidth.setVisible(false);
+                    customErrorLabel2.setVisible(false);
+                    customMines.setVisible(false);          
+                    customErrorLabel3.setVisible(false);
+                    acceptButton.setVisible(false);    
+                }
+            }   
+        });
+
         ToggleButton seedToggle = new ToggleButton("Use a pre-set seed");
         seedToggle.getStyleClass().add("menu-button");
         TextField seedText = new TextField("1234");
@@ -34,9 +105,8 @@ public class StartSelectView {
         seedText.setVisible(false);
         Label seedErrorLabel = new Label("");
         seedErrorLabel.setVisible(false);
-       
-        // Create event handler for toggling the pre-set seed 
-        // on and off
+
+        // Create event handler for toggling the pre-set seed on and off
         seedToggle.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -65,17 +135,27 @@ public class StartSelectView {
                 seedErrorLabel.setText("");
                 seed = Long.parseLong(newValue);
             }
-        }); 
-      
+        });
+
+        checkCustomTextField("height", customHeight, customErrorLabel1);
+        checkCustomTextField("width", customWidth, customErrorLabel2);
+        checkCustomTextField("mines", customMines, customErrorLabel3);
+        
+        HBox customHBox0 = new HBox(customBoard);
+        HBox customHBox1 = new HBox(customHeight, customErrorLabel1);
+        HBox customHBox2 = new HBox(customWidth, customErrorLabel2);
+        HBox customHBox3 = new HBox(customMines, customErrorLabel3);
+        HBox acceptHBox = new HBox(acceptButton);
+        VBox customInput = new VBox(customHBox0, customHBox1, customHBox2, customHBox3, acceptHBox);
+        customInput.setVisible(true);
 
         HBox seedHBox = new HBox(seedToggle, seedText, seedErrorLabel);
         Label gameType = new Label("Select game type");
         gameType.getStyleClass().add("label-header");
-
-        this.vbox = new VBox(gameType, hbox, new Separator(), seedHBox);
+        this.vbox = new VBox(gameType, hbox, new Separator(), seedHBox, customInput);
         this.stackPane = new StackPane(this.vbox);
     }
-
+    
     /**
      * Button that initiates a new game with the difficulty (based on size of the
      * board)
@@ -90,22 +170,44 @@ public class StartSelectView {
                 this.stackPane.getChildren().remove(1);
                 this.vbox.setVisible(true);
             });
-            
             if (this.seedSet) {
-                this.gameView = new GameView(height, width, new VBox(newGameButton), mines, this.seed);
+                this.gameView = new GameView(width, height, new VBox(newGameButton), mines, this.seed);
             } else {
-                this.gameView = new GameView(height, width, new VBox(newGameButton), mines);
+                this.gameView = new GameView(width, height, new VBox(newGameButton), mines);
             }
-
             this.stackPane.getChildren().add(gameView.getView());
         });
         button.setWrapText(false);
         return button;
     }
-
+    
+    private Button acceptCustomButton(String label) {
+        Button button = new Button(label);
+        button.getStyleClass().add("menu-button");
+        button.setOnMouseClicked(e -> {
+            System.out.println(isValidBoard);
+            if (isValidBoard) {
+                this.vbox.setVisible(false);
+                Button newGameButton = new Button("New Game");
+                newGameButton.setOnMouseClicked(ev -> {
+                    this.stackPane.getChildren().remove(1);
+                    this.vbox.setVisible(true);
+                });
+                if (this.seedSet) {
+                    this.gameView = new GameView(cwidth, cheight, new VBox(newGameButton), cmines, this.seed);
+                } else {
+                    this.gameView = new GameView(cwidth, cheight, new VBox(newGameButton), cmines);
+                }
+                this.stackPane.getChildren().add(gameView.getView());
+            }
+        });
+        return button;
+    }
+    
     /**
      * Return the ObservableList of the root node of this class, used for resizing
      * purposes in the App class
+     * @return 
      */
     public ObservableList<Node> rootChildren() {
         return this.stackPane.getChildren();
@@ -113,8 +215,85 @@ public class StartSelectView {
 
     /**
      * Returns the underlying StackPane on which the rest of the elements are added.
+     * @return 
      */
     public StackPane get() {
         return this.stackPane;
+    }
+
+    /**
+    * Checks that custom sized minesweeper is a reasonably playable one.
+    */
+    private void checkCustomTextField(String type, TextField input, Label error) {
+        input.textProperty().addListener((observable, oldValue, newValue) -> {
+            Boolean isNumeric = input.getText().chars().allMatch(Character::isDigit);
+            if (!isNumeric || input.getText().isEmpty()) {
+                error.setText("The " + type + " must be an integer!");
+                isValidBoard = false;
+            } else {
+                if (!type.equals("mines")) {
+                    int value = Integer.parseInt(input.getText());
+                    if (type.equals("height")) {
+                        cheight = value;
+                    } else if (type.equals("width")) {
+                        cwidth = value;
+                    }
+                    if (value > 40) {
+                        error.setText("Maximum " + type + " is 40");
+                        isValidBoard = false;
+                    } else if (value < 3) {
+                        error.setText("Minimum " + type + " is 3");
+                        isValidBoard = false;
+                    } else {
+                        checkMines(type, error);
+                    }
+                    
+                } else {
+                    checkMines(type, error);
+                }
+            }
+        });
+    }
+    /**
+     * Checks that the amount of mines for a possible custom board is legal
+     */
+    private void checkMines(String type, Label error) {
+        if (customMines.getText().chars().allMatch(Character::isDigit)) {
+            cmines = Integer.parseInt(customMines.getText());
+        } else {
+            isValidBoard = false;
+            return;
+        }
+        if (cmines > ((cheight * cwidth) - 9)) {
+            isValidBoard = false;
+            customErrorLabel3.setText("Too many mines!");
+        } else {
+            switch (type) {
+                case "height":
+                    error.setText(guideText1);
+                    break;
+                case "width":
+                    error.setText(guideText2);
+                    break;
+                case "mines":
+                    error.setText(guideText3);
+                    break;
+                default:
+                    break;
+            }
+            if (allCustomTextFieldsNumeric()) { 
+                isValidBoard = true;
+            }
+            customErrorLabel3.setText(guideText3);
+        }
+    }
+    
+    /**
+     * Checks that every custom board size value is a numeric value
+     */
+    private Boolean allCustomTextFieldsNumeric() {
+        return (customHeight.getText().chars().allMatch(Character::isDigit)
+            && customWidth.getText().chars().allMatch(Character::isDigit)
+            && customMines.getText().chars().allMatch(Character::isDigit));
     }
 }
