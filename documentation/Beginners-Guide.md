@@ -10,11 +10,11 @@ If your ./gradlew commands do not find your Java 11 JDK, even if you have it ins
 
 ```./gradlew: 188: exec: /usr/lib/jvm/java-11-openjdk/bin/java: not found```
 
-You can give the following command:
+In that case, you can give the following command:
 
 ```$ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64/```
 
-It is best to add that line into your .bashrc file:
+If you need that, it is then best to add that line into your .bashrc file.
 
 If you prefer using Netbeans IDE, you will need at least version Netbeans 11. You can install it from e.g. [here](https://computingforgeeks.com/install-netbeans-ide-on-debian-ubuntu-and-linux-mint/).
 
@@ -24,8 +24,21 @@ Make sure that you have all the necessary plugins installed. Among others, you w
 
 ## Gradle version 6
 
-This project was initiated with Gradle 5.6.2.
+This project was originally initiated with Gradle 5.6.2.
 In November 2019, Gradle has been updated to version 6.0.1. It has support for openjdk13, too.
 When this Gradle version change was introduced, travis had some issue with openjdk11.
 Travis started working when .travis.yml was updated to use openjdk13.
 You can still use openjdk11 in your own machine.
+
+## Minesweeper
+
+This Minesweeper App follows the basic functionalities of the "original Minesweeper".
+Its graphical user interface has been slightly modified. For example, the squares are larger and darker than in the original one. Some terms may not be familiar:
+
+### Flagging
+
+The location of a suspected mine can be marked by flagging it with the right mouse button. Note: The only good reason to flag is to clear more squares by chording.
+
+### Chording
+
+When an uncovered square with a number has exactly the correct number of adjacent squares flagged, performing a click with both mouse buttons on it will uncover all unmarked squares. This is called a Chord.

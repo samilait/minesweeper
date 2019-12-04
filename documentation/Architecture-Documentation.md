@@ -64,6 +64,15 @@ and must return a Move object that represents an action to be performed upon the
 Any bots used with this Minesweeper implementation must implement the Bot interface,
 as the application only interacts with bots using this interface.
 
+### BotSelect.java
+
+BotSelect.java provides a single static method getBot() which is used by the GUI
+to initialize the correct Bot implementation.
+
+**NOTE:** Data Structures and Algorithms projects should modify this method to
+return their own Bot implementation. This class ensures that you only need to
+modify this part of the program.
+
 ### BotExecutor.java
 
 The BotExecutor.java class defines a threaded runner for running bots. The
@@ -230,7 +239,8 @@ asks for the name and location of the file to be created.
 
 ### StartSelectView.java
 
-The StartSelectView.java represents the GUI that is presented to the
-user when the application is started. This view allows the player
-to select the difficulty of the board, which will affect the size
-and mine concentration of the board.
+The StartSelectView.java represents the GUI that is presented to the user when the application is started. This view allows the player to select the difficulty of the board to Beginner, Intermediate, or Expert levels.
+
+One can also set a custom sized board. A possible research task for the Tiralabra project would be to study how the bot's performance depends on the size of the board and number of mines on it.
+
+One can also use pre-set seeds for the game. Seed determines the distribution of mines on the board. This is another useful tool for performance analysis.

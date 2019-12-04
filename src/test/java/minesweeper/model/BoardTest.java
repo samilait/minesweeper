@@ -350,5 +350,5 @@ public class BoardTest {
         board.runBFS(10,10);
         assert (true);
     }
-       
+
 }
