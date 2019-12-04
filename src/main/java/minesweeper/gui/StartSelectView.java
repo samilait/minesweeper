@@ -73,7 +73,9 @@ public class StartSelectView {
         customBoard.setOnAction(new EventHandler<ActionEvent>() {
             @Override
                 public void handle(ActionEvent event) {
-                if (allCustomTextFieldsNumeric()) {
+                if (allCustomTextFieldsNumeric() && textCanBeParsed(customHeight.getText(), ("" + Integer.MAX_VALUE).length()) 
+                                                 && textCanBeParsed(customWidth.getText(), ("" + Integer.MAX_VALUE).length()) 
+                                                 && textCanBeParsed(customMines.getText(), ("" + Integer.MAX_VALUE).length())) {
                     cheight = Integer.parseInt(customHeight.getText());
                     cwidth = Integer.parseInt(customWidth.getText());   
                     cmines = Integer.parseInt(customMines.getText());
@@ -111,7 +113,7 @@ public class StartSelectView {
             @Override
             public void handle(ActionEvent event) {
                 boolean isNumeric = seedText.getText().chars().allMatch(Character::isDigit);
-                if (isNumeric) {
+                if (isNumeric && textCanBeParsed(seedText.getText() , ("" + Long.MAX_VALUE).length())) {
                     seed = Long.parseLong(seedText.getText());
                 }
                 if (seedToggle.isSelected()) {
@@ -129,8 +131,8 @@ public class StartSelectView {
         // Check on each keypress if the text in the seed TextField is numeric
         seedText.textProperty().addListener((observable, oldValue, newValue) -> {
             boolean isNumeric = seedText.getText().chars().allMatch(Character::isDigit);
-            if (!isNumeric || seedText.getText().isEmpty()) {
-                seedErrorLabel.setText("Seed must be an integer value!");
+            if (!isNumeric || seedText.getText().isEmpty() || !textCanBeParsed(seedText.getText() , ("" + Long.MAX_VALUE).length())) {
+                seedErrorLabel.setText("Seed must be an positive long value!");
             } else {
                 seedErrorLabel.setText("");
                 seed = Long.parseLong(newValue);
@@ -227,7 +229,7 @@ public class StartSelectView {
     private void checkCustomTextField(String type, TextField input, Label error) {
         input.textProperty().addListener((observable, oldValue, newValue) -> {
             Boolean isNumeric = input.getText().chars().allMatch(Character::isDigit);
-            if (!isNumeric || input.getText().isEmpty()) {
+            if (!isNumeric || input.getText().isEmpty() || !textCanBeParsed(input.getText() , ("" + Integer.MAX_VALUE).length())) {
                 error.setText("The " + type + " must be an integer!");
                 error.getStyleClass().add("label-failure");
                 customErrorLabel3.setText(guideText3);            
@@ -307,5 +309,9 @@ public class StartSelectView {
         int widthvalue = Integer.parseInt(customWidth.getText());
 
         return (heightvalue >= 3 && heightvalue <= 40 && widthvalue >= 3 && widthvalue <= 40);
+    }
+
+    private boolean textCanBeParsed(String text, int maxLength) {
+        return text.length() <= maxLength;
     }
 }
