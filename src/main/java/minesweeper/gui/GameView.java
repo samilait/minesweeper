@@ -22,7 +22,6 @@ import java.util.function.Function;
 import minesweeper.StorageSingleton;
 import javafx.animation.AnimationTimer;
 import javafx.beans.property.SimpleBooleanProperty;
-import minesweeper.bot.TestBot;
 import minesweeper.bot.Bot;
 import minesweeper.bot.BotSelect;
 import minesweeper.bot.BotExecutor;
@@ -216,19 +215,19 @@ public class GameView {
         button.getStyleClass().add("unopened-button");
         // Some Window managers and/or distros seem to shortcut right + left as middle mouse. 
         button.setOnMousePressed((e) -> {
-            if(e.getButton() == MouseButton.PRIMARY || e.getButton() == MouseButton.MIDDLE) { 
+            if (e.getButton() == MouseButton.PRIMARY || e.getButton() == MouseButton.MIDDLE) { 
                 this.letClick.set(true);
             }
-            if(e.getButton() == MouseButton.SECONDARY || e.getButton() == MouseButton.MIDDLE) {
+            if (e.getButton() == MouseButton.SECONDARY || e.getButton() == MouseButton.MIDDLE) {
                 this.rightClick.set(true);
             }
             this.buttonUpdater(x, y);
         });
         button.setOnMouseReleased((e) -> {
-            if(e.getButton() == MouseButton.PRIMARY || e.getButton() == MouseButton.MIDDLE) { 
+            if (e.getButton() == MouseButton.PRIMARY || e.getButton() == MouseButton.MIDDLE) { 
                 this.letClick.set(false);
             }
-            if(e.getButton() == MouseButton.PRIMARY || e.getButton() == MouseButton.MIDDLE) {
+            if (e.getButton() == MouseButton.PRIMARY || e.getButton() == MouseButton.MIDDLE) {
                 this.rightClick.set(false);
             }
         });
@@ -237,17 +236,17 @@ public class GameView {
     /**
      * Helper method for button clicking
      */
-    private void buttonUpdater(int x, int y){
+    private void buttonUpdater(int x, int y) {
         boolean nonEndingMove = true;
-        if(this.letClick.get() && this.rightClick.get()){
+        if (this.letClick.get() && this.rightClick.get()) {
             Move chordedOpen = new Move(MoveType.CHORD, x, y);
             nonEndingMove = this.board.makeMove(chordedOpen);
             stats.update(chordedOpen);
-        } else if(this.letClick.get()){
+        } else if (this.letClick.get()) {
             Move open = new Move(MoveType.OPEN, x, y);
             nonEndingMove = this.board.makeMove(open);
             stats.update(open);
-        } else if(this.rightClick.get()){
+        } else if (this.rightClick.get()) {
             if (!this.board.getSquareAt(x, y).isOpened()) {
                 Move flag = new Move(MoveType.FLAG, x, y);
                 this.board.makeMove(flag);

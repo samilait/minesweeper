@@ -7,3 +7,5 @@ build
 # Ignore exported statistics directory
 stats/*
 
+# Ignore possible output from TestApp
+test.txt
