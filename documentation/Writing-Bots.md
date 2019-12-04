@@ -5,7 +5,15 @@ which must be implemented in order to write bots for this Minesweeper implementa
 It also describes what data structures are made available to the bot and how the
 bot can interac t with those data structures.
 
-Currently the bot is called using the "Help (Bot)" button in the GUI when the game is running.
+Currently the bot will be called in two ways:
+- Using the "Help (Bot)" button to execute a single bot move
+- Using the "Bot Game" button, which will plays a full game using the bo
+
+## Selecting the bot implementation
+
+The currently used Bot implementation can be changed in the src/minesweeper/bot/BotSelect.java
+class. This class contains a static getBot() function, where you can change the
+Bot implementation to another.
 
 ## Bot interface (Bot.java)
 

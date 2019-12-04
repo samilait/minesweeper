@@ -64,6 +64,15 @@ and must return a Move object that represents an action to be performed upon the
 Any bots used with this Minesweeper implementation must implement the Bot interface,
 as the application only interacts with bots using this interface.
 
+### BotSelect.java
+
+BotSelect.java provides a single static method getBot() which is used by the GUI
+to initialize the correct Bot implementation.
+
+**NOTE:** Data Structures and Algorithms projects should modify this method to
+return their own Bot implementation. This class ensures that you only need to
+modify this part of the program.
+
 ### BotExecutor.java
 
 The BotExecutor.java class defines a threaded runner for running bots. The
