@@ -41,8 +41,9 @@ public class GameView {
     private Slider animationSlider;
     private Button[][] buttonGrid;
     private Button botButton;
+    private Button botGame;
     private int buttonSize;
-    private SimpleBooleanProperty letClick = new SimpleBooleanProperty();
+    private SimpleBooleanProperty leftClick = new SimpleBooleanProperty();
     private SimpleBooleanProperty rightClick = new SimpleBooleanProperty();
     public final GameStats stats = new GameStats();
     public final long[] currentNanotime = new long[1];
@@ -62,7 +63,6 @@ public class GameView {
      */
     public GameView(int x, int y, VBox vbox, int mines, long seed) {
         MinefieldGenerator generator;
-        Button botGame;
         this.vbox = vbox;
         sizeX = x;
         int sizeY = y;
@@ -88,6 +88,7 @@ public class GameView {
             Move move = this.bot.makeMove(board);
             board.makeMove(move);
             stats.update(move);
+            botGame.setDisable(true);
             if (!board.gameEnd) {
                 this.updateGameGP(move.x, move.y);
             } else {
@@ -221,7 +222,7 @@ public class GameView {
         // Some Window managers and/or distros seem to shortcut right + left as middle mouse. 
         button.setOnMousePressed((e) -> {
             if (e.getButton() == MouseButton.PRIMARY || e.getButton() == MouseButton.MIDDLE) { 
-                this.letClick.set(true);
+                this.leftClick.set(true);
             }
             if (e.getButton() == MouseButton.SECONDARY || e.getButton() == MouseButton.MIDDLE) {
                 this.rightClick.set(true);
@@ -230,11 +231,12 @@ public class GameView {
         });
         button.setOnMouseReleased((e) -> {
             if (e.getButton() == MouseButton.PRIMARY || e.getButton() == MouseButton.MIDDLE) { 
-                this.letClick.set(false);
+                this.leftClick.set(false);
             }
             if (e.getButton() == MouseButton.PRIMARY || e.getButton() == MouseButton.MIDDLE) {
                 this.rightClick.set(false);
             }
+            botGame.setDisable(true);
         });
         return button;
     }
@@ -243,11 +245,11 @@ public class GameView {
      */
     private void buttonUpdater(int x, int y) {
         boolean nonEndingMove = true;
-        if (this.letClick.get() && this.rightClick.get()) {
+        if (this.leftClick.get() && this.rightClick.get()) {
             Move chordedOpen = new Move(MoveType.CHORD, x, y);
             nonEndingMove = this.board.makeMove(chordedOpen);
             stats.update(chordedOpen);
-        } else if (this.letClick.get()) {
+        } else if (this.leftClick.get()) {
             Move open = new Move(MoveType.OPEN, x, y);
             nonEndingMove = this.board.makeMove(open);
             stats.update(open);
