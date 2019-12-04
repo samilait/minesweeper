@@ -266,7 +266,9 @@ public class GameView {
         updateGameGP(x, y);
         this.clearAllHighlights();
         if (!nonEndingMove | this.board.gameEnd | this.board.gameWon) {
-            buttonGrid[x][y].getStyleClass().add("red-highlight");
+            if(this.board.gameEnd){
+                buttonGrid[x][y].getStyleClass().add("red-highlight");
+            }
             gameOver();
         }
     }
