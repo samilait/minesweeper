@@ -64,11 +64,11 @@ public class GameView {
         int sizeY = y;
         this.buttonGrid = new Button[x][y];
        
-        if (x < 11) {
+        if (x < 11 && y < 11) {
             buttonSize = 45;
-        } else if (x < 17) {
+        } else if (x < 17 && y < 17) {
             buttonSize = 40;
-        } else if (x < 31) {
+        } else if (x < 31 && y < 31) {
             buttonSize = 35;
         } else {
             buttonSize = 30;
@@ -345,7 +345,6 @@ public class GameView {
      * This method is called when user presses the bot game button.
      */
     private void botGameLoop() {
-        // Called as if game is over to disable human input
         this.botButton.setDisable(true);
         this.disableAllButtons();
         LinkedBlockingQueue<Move> moveQueue = new LinkedBlockingQueue<>();
