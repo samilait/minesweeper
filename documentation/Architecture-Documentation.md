@@ -239,7 +239,8 @@ asks for the name and location of the file to be created.
 
 ### StartSelectView.java
 
-The StartSelectView.java represents the GUI that is presented to the
-user when the application is started. This view allows the player
-to select the difficulty of the board, which will affect the size
-and mine concentration of the board.
+The StartSelectView.java represents the GUI that is presented to the user when the application is started. This view allows the player to select the difficulty of the board to Beginner, Intermediate, or Expert levels.
+
+One can also set a custom sized board. A possible research task for the Tiralabra project would be to study how the bot's performance depends on the size of the board and number of mines on it.
+
+One can also use pre-set seeds for the game. Seed determines the distribution of mines on the board. This is another useful tool for performance analysis.
