@@ -22,7 +22,6 @@ import java.util.function.Function;
 import minesweeper.StorageSingleton;
 import javafx.animation.AnimationTimer;
 import javafx.beans.property.SimpleBooleanProperty;
-import minesweeper.bot.TestBot;
 import minesweeper.bot.Bot;
 import minesweeper.bot.BotSelect;
 import minesweeper.bot.BotExecutor;
@@ -74,9 +73,11 @@ public class GameView {
         } else if (x < 17 && y < 17) {
             buttonSize = 40;
         } else if (x < 31 && y < 31) {
-            buttonSize = 35;
-        } else {
             buttonSize = 30;
+        } else if (x < 41 && y < 41) {
+            buttonSize = 22;
+        } else {
+            buttonSize = 18;
         }
 
         this.bot = BotSelect.getBot();
@@ -170,6 +171,9 @@ public class GameView {
             }
         }
 
+        // NOTE: This variable is an array for interior mutability, variables passed into
+        // AnimationTimers need to be final (for concurrency) but we need to be able to mutate
+        // this one
         long[] previousNanoTime = new long[1];
         previousNanoTime[0] = System.nanoTime();
 
@@ -216,19 +220,19 @@ public class GameView {
         button.getStyleClass().add("unopened-button");
         // Some Window managers and/or distros seem to shortcut right + left as middle mouse. 
         button.setOnMousePressed((e) -> {
-            if(e.getButton() == MouseButton.PRIMARY || e.getButton() == MouseButton.MIDDLE) { 
+            if (e.getButton() == MouseButton.PRIMARY || e.getButton() == MouseButton.MIDDLE) { 
                 this.letClick.set(true);
             }
-            if(e.getButton() == MouseButton.SECONDARY || e.getButton() == MouseButton.MIDDLE) {
+            if (e.getButton() == MouseButton.SECONDARY || e.getButton() == MouseButton.MIDDLE) {
                 this.rightClick.set(true);
             }
             this.buttonUpdater(x, y);
         });
         button.setOnMouseReleased((e) -> {
-            if(e.getButton() == MouseButton.PRIMARY || e.getButton() == MouseButton.MIDDLE) { 
+            if (e.getButton() == MouseButton.PRIMARY || e.getButton() == MouseButton.MIDDLE) { 
                 this.letClick.set(false);
             }
-            if(e.getButton() == MouseButton.PRIMARY || e.getButton() == MouseButton.MIDDLE) {
+            if (e.getButton() == MouseButton.PRIMARY || e.getButton() == MouseButton.MIDDLE) {
                 this.rightClick.set(false);
             }
         });
@@ -237,17 +241,17 @@ public class GameView {
     /**
      * Helper method for button clicking
      */
-    private void buttonUpdater(int x, int y){
+    private void buttonUpdater(int x, int y) {
         boolean nonEndingMove = true;
-        if(this.letClick.get() && this.rightClick.get()){
+        if (this.letClick.get() && this.rightClick.get()) {
             Move chordedOpen = new Move(MoveType.CHORD, x, y);
             nonEndingMove = this.board.makeMove(chordedOpen);
             stats.update(chordedOpen);
-        } else if(this.letClick.get()){
+        } else if (this.letClick.get()) {
             Move open = new Move(MoveType.OPEN, x, y);
             nonEndingMove = this.board.makeMove(open);
             stats.update(open);
-        } else if(this.rightClick.get()){
+        } else if (this.rightClick.get()) {
             if (!this.board.getSquareAt(x, y).isOpened()) {
                 Move flag = new Move(MoveType.FLAG, x, y);
                 this.board.makeMove(flag);
@@ -282,7 +286,9 @@ public class GameView {
     }
 
     /**
-     * Updates the view with the current boardstate.
+     * Update the given X,Y coordinate of the game board
+     * @param x The X coordinate
+     * @param y the Y coordinate
      */
     public void updateGameGP(int x, int y) {
 
@@ -309,11 +315,17 @@ public class GameView {
         if (board.board[x][y].isOpened()) {
             updatedButton.getStyleClass().remove("unopened-button");
             styleToAdd.add("opened-button");
+
             if (board.board[x][y].isMine()) {
                 styleToAdd.add("mine");
             } else if (board.board[x][y].surroundingMines() != 0) {
                 updatedButton.setText("" + board.board[x][y].surroundingMines());
                 styleToAdd.add(setOpenedButtonColor(updatedButton, board.board[x][y].surroundingMines()));
+                if (buttonSize < 20) {
+                    styleToAdd.add("custom-label-tiny");
+                } else if (buttonSize < 25) {
+                    styleToAdd.add("custom-label-small");
+                } 
             }
         } else {
             if (board.board[x][y].getFlagged()) {
@@ -330,6 +342,9 @@ public class GameView {
         this.endLabel.setText("Mines: " + this.board.getUnflaggedMines());
     }
 
+    /**
+     * Iterate through the grid of buttons and clear their highlight styles
+     */
     public void clearAllHighlights() {
         this.board.clearHighlights();
         for (Button[] buttonRow : this.buttonGrid) {
@@ -356,6 +371,9 @@ public class GameView {
 
     /**
      * This method is called when user presses the bot game button.
+     * It creates BotExecutor thread and connects to it via a Queue,
+     * and initializes a new AnimationTimer to update the GUI based
+     * on the bot moves.
      */
     private void botGameLoop() {
         this.botButton.setDisable(true);
@@ -384,8 +402,8 @@ public class GameView {
             }
         };
         // This encapsulates the bot as a thread, bot gets its own board
-        // (deep copy of the guis board) that it uses to make its moves
-
+        // (board that is initializes with the same seed) that it uses to make
+        // its moves
         BotExecutor botThread = new BotExecutor(moveQueue, bot, botBoard);
 
         // Starts the gui updater and the bot thread
@@ -394,6 +412,13 @@ public class GameView {
         botThread.start();
     }
 
+    /**
+     * Determines the Button style class to be used based on
+     * the number of adjacent mines.
+     * @param button The Button to be updated
+     * @param mines The number of mines in
+     * @return The CSS style class for this button
+     */
     private String setOpenedButtonColor(Button button, int mines) {
         String labelStyle = "custom-label-";
         labelStyle = labelStyle.concat("" + mines);
@@ -401,6 +426,12 @@ public class GameView {
     }
 
     // Used by the gui updater timer to updat the board of the gui
+    /**
+     * Updater function for the GUI when running a bot game
+     * Callled by the AnimationTimer in botGameLoop()
+     * @param moveQueue The queue to which the bot will place its moves
+     * @parm board The current board for the GUI
+     */
     public void updater(LinkedBlockingQueue<Move> moveQueue, Board board) {
         // Takes a move that has bot has made
         Move move = moveQueue.poll();
@@ -417,8 +448,11 @@ public class GameView {
         updateGameGP(move.x, move.y);
     }
 
+    /**
+     * Initializes the Animation Speed slider for bot games from a StorageSingleton
+     * This way the slider speed will persist between multiple games
+     */
     private void initializeSlider() {
-        
         this.animationSlider = new Slider(100, 2000, StorageSingleton.getInstance().animationSpeed);
         this.animationSlider.setMajorTickUnit(200f);
         this.animationSlider.setBlockIncrement(10f);

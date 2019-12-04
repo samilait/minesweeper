@@ -30,8 +30,8 @@ public class StartSelectView {
     private TextField customWidth;
     private TextField customMines;
 
-    private final String guideText1 = "Height (min 3, max 40)";
-    private final String guideText2 = "Width (min 3, max 40)";
+    private final String guideText1 = "Height (min 3, max 50)";
+    private final String guideText2 = "Width (min 3, max 50)";
     private final String guideText3 = "Mine count";
 
     private Label customErrorLabel1;
@@ -67,7 +67,7 @@ public class StartSelectView {
         customErrorLabel3 = new Label(guideText3);
         customErrorLabel3.setVisible(false);
 
-        Button acceptButton = acceptCustomButton("Use Custom Board");
+        Button acceptButton = createAcceptCustomButton("Use Custom Board");
         acceptButton.setVisible(false); 
         
         customBoard.setOnAction(new EventHandler<ActionEvent>() {
@@ -182,12 +182,14 @@ public class StartSelectView {
         button.setWrapText(false);
         return button;
     }
-    
-    private Button acceptCustomButton(String label) {
+
+    /**
+     * Creates a button for initializing a custom minefield
+     */
+    private Button createAcceptCustomButton(String label) {
         Button button = new Button(label);
         button.getStyleClass().add("menu-button");
         button.setOnMouseClicked(e -> {
-            System.out.println(isValidBoard);
             if (isValidBoard) {
                 this.vbox.setVisible(false);
                 Button newGameButton = new Button("New Game");
@@ -238,9 +240,9 @@ public class StartSelectView {
             } else {
                 if (!type.equals("mines")) {
                     int value = Integer.parseInt(input.getText());
-                    if (value > 40) {
+                    if (value > 50) {
                         
-                        error.setText("Maximum " + type + " is 40");
+                        error.setText("Maximum " + type + " is 50");
                         error.getStyleClass().add("label-failure");
                         customErrorLabel3.setText(guideText3);            
                         customErrorLabel3.getStyleClass().removeAll("label-failure");
@@ -304,11 +306,14 @@ public class StartSelectView {
             && (customMines.getText().chars().allMatch(Character::isDigit) && !customMines.getText().isEmpty()));
     }
 
+    /**
+     * Checks that the board height and width are within parameters
+     */
     private Boolean heightAndWidthAreInRange() {
         int heightvalue = Integer.parseInt(customHeight.getText());
         int widthvalue = Integer.parseInt(customWidth.getText());
 
-        return (heightvalue >= 3 && heightvalue <= 40 && widthvalue >= 3 && widthvalue <= 40);
+        return (heightvalue >= 3 && heightvalue <= 50 && widthvalue >= 3 && widthvalue <= 50);
     }
 
     private boolean textCanBeParsed(String text, int maxLength) {
