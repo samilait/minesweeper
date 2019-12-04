@@ -43,6 +43,15 @@ scene and build the StartSelectView on that scene.
 This class is also where the user's bot will be initialized and passed to the GUI.
 Bot writers should replace the default bot implementation here with their own.
 
+### TestApp.java
+
+This class enables playing a series of test games with your bot without GUI.
+Feel free to modify this class for your bot.
+
+### StorageSingleton.java
+
+TBD
+
 ## bot package
 
 The bot package defines the classes and interfaces used for creation of Minesweeper bots.

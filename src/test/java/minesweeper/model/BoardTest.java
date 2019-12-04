@@ -350,5 +350,23 @@ public class BoardTest {
         board.runBFS(10,10);
         assert (true);
     }
-
+ 
+    @Test
+    public void toStringWorksToo() {
+        String basicOutput = "Field \n" +
+            "XXXXXXXXXX\n" +
+            "XXXXXXXXXX\n" +
+            "XXXXXXXXXX\n" +
+            "XXXXXXXXXX\n" +
+            "XXXXXXXXXX\n" +
+            "XXXXXXXXXX\n" +
+            "XXXXXXXXXX\n" +
+            "XXXXXXXXXX\n" +
+            "XXXXXXXXXX\n" +
+            "XXXXXXXXXX\n";
+        
+          //  "    ";
+        assertEquals(basicOutput, board.toString());
+    }
+    
 }
