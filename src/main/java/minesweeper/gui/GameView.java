@@ -22,6 +22,7 @@ import minesweeper.StorageSingleton;
 import javafx.animation.AnimationTimer;
 import minesweeper.bot.TestBot;
 import minesweeper.bot.Bot;
+import minesweeper.bot.BotSelect;
 import minesweeper.bot.BotExecutor;
 import minesweeper.model.Move;
 import minesweeper.model.Square;
@@ -73,8 +74,9 @@ public class GameView {
         } else {
             buttonSize = 30;
         }
-        this.bot = new TestBot();
-        
+
+        this.bot = BotSelect.getBot();
+
         botButton = new Button("Help (bot)");
         botButton.setOnMouseClicked(e -> {
             this.clearAllHighlights();
