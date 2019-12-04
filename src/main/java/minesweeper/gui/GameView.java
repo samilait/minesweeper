@@ -7,6 +7,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.Node;
 import javafx.scene.control.Slider;
+import javafx.scene.input.MouseButton;
 import javafx.scene.control.Separator;
 import javafx.geometry.Orientation;
 import minesweeper.model.Board;
@@ -20,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import minesweeper.StorageSingleton;
 import javafx.animation.AnimationTimer;
+import javafx.beans.property.SimpleBooleanProperty;
 import minesweeper.bot.TestBot;
 import minesweeper.bot.Bot;
 import minesweeper.bot.BotExecutor;
@@ -40,6 +42,8 @@ public class GameView {
     private Button[][] buttonGrid;
     private Button botButton;
     private int buttonSize;
+    private SimpleBooleanProperty letClick = new SimpleBooleanProperty();
+    private SimpleBooleanProperty rightClick = new SimpleBooleanProperty();
     public final GameStats stats = new GameStats();
     public final long[] currentNanotime = new long[1];
 
@@ -208,44 +212,50 @@ public class GameView {
         button.setMinHeight(size);
         button.setMaxHeight(size);
         button.getStyleClass().add("unopened-button");
-        button.setOnMouseReleased((e) -> {
-            boolean nonEndingMove = true;
-            switch (e.getButton()) {
-                case PRIMARY:
-                    if (e.isSecondaryButtonDown() && board.getSquareAt(x, y).isOpened()) {
-                        Move chordedOpen = new Move(MoveType.CHORD, x, y);
-                        nonEndingMove = this.board.makeMove(chordedOpen);
-                        stats.update(chordedOpen);
-                        break;
-                    }
-                    Move open = new Move(MoveType.OPEN, x, y);
-                    nonEndingMove = this.board.makeMove(open);
-                    stats.update(open);
-                    break;
-                case SECONDARY:
-                    if (e.isPrimaryButtonDown() && board.getSquareAt(x, y).isOpened()) {
-                        Move chordedOpen = new Move(MoveType.CHORD, x, y);
-                        nonEndingMove = this.board.makeMove(chordedOpen);
-                        stats.update(chordedOpen);
-                        break;
-                    }
-                    if (!this.board.getSquareAt(x, y).isOpened()) {
-                        Move flag = new Move(MoveType.FLAG, x, y);
-                        this.board.makeMove(flag);
-                        stats.update(flag);
-                    }
-                    break;
-                default:
-                    /* No such button, but don't */
-                    break;
+        button.setOnMousePressed((e) -> {
+            if(e.getButton() == MouseButton.PRIMARY || e.getButton() == MouseButton.MIDDLE) { 
+                this.letClick.set(true);
             }
-            updateGameGP(x, y);
-            this.clearAllHighlights();
-            if (!nonEndingMove | this.board.gameEnd | this.board.gameWon) {
-                gameOver();
+            if(e.getButton() == MouseButton.SECONDARY || e.getButton() == MouseButton.MIDDLE) {
+                this.rightClick.set(true);
+            }
+            this.buttonUpdater(x, y);
+        });
+        button.setOnMouseReleased((e) -> {
+            if(e.getButton() == MouseButton.PRIMARY || e.getButton() == MouseButton.MIDDLE) { 
+                this.letClick.set(false);
+            }
+            if(e.getButton() == MouseButton.PRIMARY || e.getButton() == MouseButton.MIDDLE) {
+                this.rightClick.set(false);
             }
         });
         return button;
+    }
+    /**
+     * Helper method for button clicking
+     */
+    private void buttonUpdater(int x, int y){
+        boolean nonEndingMove = true;
+        if(this.letClick.get() && this.rightClick.get()){
+            Move chordedOpen = new Move(MoveType.CHORD, x, y);
+            nonEndingMove = this.board.makeMove(chordedOpen);
+            stats.update(chordedOpen);
+        } else if(this.letClick.get()){
+            Move open = new Move(MoveType.OPEN, x, y);
+            nonEndingMove = this.board.makeMove(open);
+            stats.update(open);
+        } else if(this.rightClick.get()){
+            if (!this.board.getSquareAt(x, y).isOpened()) {
+                Move flag = new Move(MoveType.FLAG, x, y);
+                this.board.makeMove(flag);
+                stats.update(flag);
+            }
+        }
+        updateGameGP(x, y);
+        this.clearAllHighlights();
+        if (!nonEndingMove | this.board.gameEnd | this.board.gameWon) {
+            gameOver();
+        }
     }
 
     /**
