@@ -2,6 +2,7 @@
 package minesweeper.model;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.function.Function;
@@ -20,6 +21,7 @@ public class Board {
     private MinefieldGenerator generator;
     public boolean firstMove = true;
 
+    private ArrayList<Square> mineSquares = new ArrayList<>();
     private int unflaggedMines;
     private Function<Square, Void> observerCallback;
     private boolean isObserved = false;
@@ -296,6 +298,28 @@ public class Board {
                 return this.chordedOpen(move.x, move.y);
             default:
                 return false;
+        }
+    }
+
+    /**
+     * Adds square with mine to list, for GUI purposes only
+     * @param square square to add
+     */
+    public void addMineSquareToList(Square square) {
+        this.mineSquares.add(square);
+    }
+
+    /**
+     * Opens all squares with mines, for GUI end game purposes
+     */
+    public void openAllMines(){
+        if(this.isObserved){
+          this.mineSquares.stream().forEach(square -> {
+              if(!square.getFlagged()) {
+                  square.open();
+                  this.observerCallback.apply(square);
+                }
+            });
         }
     }
 

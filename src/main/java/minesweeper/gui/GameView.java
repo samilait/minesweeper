@@ -88,9 +88,12 @@ public class GameView {
             Move move = this.bot.makeMove(board);
             board.makeMove(move);
             stats.update(move);
-            if (!board.gameEnd) {
+            if (!board.gameEnd || board.gameWon) {
                 this.updateGameGP(move.x, move.y);
             } else {
+                if(this.board.gameEnd) {
+                    buttonGrid[move.x][move.y].getStyleClass().add("red-highlight");
+                }
                 this.updateGameGP(move.x, move.y);
                 this.gameOver();
             }
@@ -232,7 +235,7 @@ public class GameView {
             if (e.getButton() == MouseButton.PRIMARY || e.getButton() == MouseButton.MIDDLE) { 
                 this.letClick.set(false);
             }
-            if (e.getButton() == MouseButton.PRIMARY || e.getButton() == MouseButton.MIDDLE) {
+            if (e.getButton() == MouseButton.SECONDARY || e.getButton() == MouseButton.MIDDLE) {
                 this.rightClick.set(false);
             }
         });
@@ -261,6 +264,7 @@ public class GameView {
         updateGameGP(x, y);
         this.clearAllHighlights();
         if (!nonEndingMove | this.board.gameEnd | this.board.gameWon) {
+            buttonGrid[x][y].getStyleClass().add("red-highlight");
             gameOver();
         }
     }
@@ -281,6 +285,7 @@ public class GameView {
             this.endLabel.setText("You lost.");
             this.endLabel.getStyleClass().add("label-failure");
             this.timerLabel.getStyleClass().add("label-failure");
+            this.board.openAllMines();
         }
         this.disableAllButtons();
     }
@@ -446,6 +451,9 @@ public class GameView {
         stats.update(move);
         buttonGrid[move.x][move.y].getStyleClass().add("black-highlight");
         updateGameGP(move.x, move.y);
+        if(this.board.gameEnd) {
+            buttonGrid[move.x][move.y].getStyleClass().add("red-highlight");
+        }
     }
 
     /**

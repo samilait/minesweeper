@@ -76,6 +76,7 @@ public class MinefieldGenerator {
             Pair<Integer> coordinate = squares.remove(index);
 
             board.board[coordinate.first][coordinate.second].setMine();
+            board.addMineSquareToList(board.board[coordinate.first][coordinate.second]);
             board.incrementAdjacentSquares(coordinate.first, coordinate.second);
         }
     }
