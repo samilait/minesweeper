@@ -9,10 +9,13 @@ interaction is.
 
 **minesweeper**
   - App.java
+  - StorageSingleton.java
+  - TestApp.java
 
 **minesweeper.bot**
   - Bot.java
   - BotExecutor.java
+  - BotSelect.java
   - TestBot.java
 
 **minesweeper.model**
@@ -50,7 +53,7 @@ Feel free to modify this class for your bot.
 
 ### StorageSingleton.java
 
-TBD
+This class is used for transferring a state between UI scenes without variable passing.
 
 ## bot package
 
@@ -76,7 +79,7 @@ as the application only interacts with bots using this interface.
 ### BotSelect.java
 
 BotSelect.java provides a single static method getBot() which is used by the GUI
-to initialize the correct Bot implementation.
+to initialize the Bot implementation that you want to use, including your own.
 
 **NOTE:** Data Structures and Algorithms projects should modify this method to
 return their own Bot implementation. This class ensures that you only need to

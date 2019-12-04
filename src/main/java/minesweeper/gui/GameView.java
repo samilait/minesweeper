@@ -92,7 +92,7 @@ public class GameView {
                 botGame.setDisable(true);
                 this.updateGameGP(move.x, move.y);
             } else {
-                if(this.board.gameEnd) {
+                if (this.board.gameEnd) {
                     buttonGrid[move.x][move.y].getStyleClass().add("red-highlight");
                 }
                 this.updateGameGP(move.x, move.y);
@@ -266,7 +266,7 @@ public class GameView {
         updateGameGP(x, y);
         this.clearAllHighlights();
         if (!nonEndingMove | this.board.gameEnd | this.board.gameWon) {
-            if(this.board.gameEnd){
+            if (this.board.gameEnd) {
                 buttonGrid[x][y].getStyleClass().add("red-highlight");
             }
             gameOver();
@@ -437,7 +437,7 @@ public class GameView {
     // Used by the gui updater timer to updat the board of the gui
     /**
      * Updater function for the GUI when running a bot game
-     * Callled by the AnimationTimer in botGameLoop()
+     * Called by the AnimationTimer in botGameLoop()
      * @param moveQueue The queue to which the bot will place its moves
      * @parm board The current board for the GUI
      */
@@ -455,7 +455,7 @@ public class GameView {
         stats.update(move);
         buttonGrid[move.x][move.y].getStyleClass().add("black-highlight");
         updateGameGP(move.x, move.y);
-        if(this.board.gameEnd) {
+        if (this.board.gameEnd) {
             buttonGrid[move.x][move.y].getStyleClass().add("red-highlight");
         }
     }

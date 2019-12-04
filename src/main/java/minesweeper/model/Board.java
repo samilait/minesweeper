@@ -312,12 +312,12 @@ public class Board {
     /**
      * Opens all squares with mines, for GUI end game purposes
      */
-    public void openAllMines(){
-        if(this.isObserved){
-          this.mineSquares.stream().forEach(square -> {
-              if(!square.getFlagged()) {
-                  square.open();
-                  this.observerCallback.apply(square);
+    public void openAllMines() {
+        if (this.isObserved) {
+            this.mineSquares.stream().forEach(square -> {
+                if (!square.getFlagged()) {
+                    square.open();
+                    this.observerCallback.apply(square);
                 }
             });
         }
