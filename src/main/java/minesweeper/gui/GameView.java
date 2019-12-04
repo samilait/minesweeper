@@ -164,6 +164,9 @@ public class GameView {
             }
         }
 
+        // NOTE: This variable is an array for interior mutability, variables passed into
+        // AnimationTimers need to be final (for concurrency) but we need to be able to mutate
+        // this one
         long[] previousNanoTime = new long[1];
         previousNanoTime[0] = System.nanoTime();
 
@@ -269,7 +272,9 @@ public class GameView {
     }
 
     /**
-     * Updates the view with the current boardstate.
+     * Update the given X,Y coordinate of the game board
+     * @param x The X coordinate
+     * @param y the Y coordinate
      */
     public void updateGameGP(int x, int y) {
 
@@ -317,6 +322,9 @@ public class GameView {
         this.endLabel.setText("Mines: " + this.board.getUnflaggedMines());
     }
 
+    /**
+     * Iterate through the grid of buttons and clear their highlight styles
+     */
     public void clearAllHighlights() {
         this.board.clearHighlights();
         for (Button[] buttonRow : this.buttonGrid) {
@@ -343,6 +351,9 @@ public class GameView {
 
     /**
      * This method is called when user presses the bot game button.
+     * It creates BotExecutor thread and connects to it via a Queue,
+     * and initializes a new AnimationTimer to update the GUI based
+     * on the bot moves.
      */
     private void botGameLoop() {
         // Called as if game is over to disable human input
@@ -372,8 +383,8 @@ public class GameView {
             }
         };
         // This encapsulates the bot as a thread, bot gets its own board
-        // (deep copy of the guis board) that it uses to make its moves
-
+        // (board that is initializes with the same seed) that it uses to make
+        // its moves
         BotExecutor botThread = new BotExecutor(moveQueue, bot, botBoard);
 
         // Starts the gui updater and the bot thread
@@ -382,6 +393,13 @@ public class GameView {
         botThread.start();
     }
 
+    /**
+     * Determines the Button style class to be used based on
+     * the number of adjacent mines.
+     * @param button The Button to be updated
+     * @param mines The number of mines in
+     * @return The CSS style class for this button
+     */
     private String setOpenedButtonColor(Button button, int mines) {
         String labelStyle = "custom-label-";
         labelStyle = labelStyle.concat("" + mines);
@@ -389,6 +407,12 @@ public class GameView {
     }
 
     // Used by the gui updater timer to updat the board of the gui
+    /**
+     * Updater function for the GUI when running a bot game
+     * Callled by the AnimationTimer in botGameLoop()
+     * @param moveQueue The queue to which the bot will place its moves
+     * @parm board The current board for the GUI
+     */
     public void updater(LinkedBlockingQueue<Move> moveQueue, Board board) {
         // Takes a move that has bot has made
         Move move = moveQueue.poll();
@@ -405,8 +429,11 @@ public class GameView {
         updateGameGP(move.x, move.y);
     }
 
+    /**
+     * Initializes the Animation Speed slider for bot games from a StorageSingleton
+     * This way the slider speed will persist between multiple games
+     */
     private void initializeSlider() {
-        
         this.animationSlider = new Slider(100, 2000, StorageSingleton.getInstance().animationSpeed);
         this.animationSlider.setMajorTickUnit(200f);
         this.animationSlider.setBlockIncrement(10f);

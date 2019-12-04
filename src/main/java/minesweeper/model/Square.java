@@ -29,10 +29,16 @@ public class Square {
         this.locationY = y;
     }
 
+    /**
+     * @return Square's X coordinate
+     */
     public int getX() {
         return this.locationX;
     }
 
+    /**
+     * @return Square's Y coordinate
+     */
     public int getY() {
         return this.locationY;
     }

@@ -36,6 +36,10 @@ public class Board {
         this.initialize();
     }
 
+    /**
+     * Sets an observer callback for communicating Board state changes
+     * @param callbackFunction The function to be called upon a state change
+     */
     public void setChangeObserver(Function<Square, Void> callbackFunction) {
         this.observerCallback = callbackFunction;
         this.isObserved = true;
@@ -96,18 +100,26 @@ public class Board {
         return true;
     }
 
+    /**
+     * Run a BFS-style square opening algorithm.
+     * <p>
+     *
+     * BFS implementation for opening squares:
+     *
+     * 1. Open current square
+     * 2. If current square has surrounding mines, ignore
+     *    surrounding tiles
+     * 3. Else open all surrounding squares
+     *
+     * @param x X coordinate
+     * @param y Y coordinate
+     */
     public void runBFS(int x, int y) {
-        /*
-         * BFS implementation for opening squares:
-         *
-         * 1. Open current square 2. If current square has surrounding mines, ignore
-         * surrounding tiles 3. Else open all surrounding squares
-         */
 
         HashSet<Pair<Integer>> visited = new HashSet<>();
         ArrayDeque<Pair<Integer>> toVisit = new ArrayDeque<>();
 
-        toVisit.push(new Pair(x, y));
+        toVisit.push(new Pair<Integer>(x, y));
 
         while (!toVisit.isEmpty()) {
             Pair<Integer> v = toVisit.pop();
@@ -143,7 +155,7 @@ public class Board {
                         for (int yInc = -1; yInc <= 1; yInc++) {
                             if (withinBoard(v.first + xInc, v.second + yInc) 
                                 && !board[v.first + xInc][v.second + yInc].isOpened()) {
-                                toVisit.push(new Pair(v.first + xInc, v.second + yInc));
+                                toVisit.push(new Pair<Integer>(v.first + xInc, v.second + yInc));
                             }
                         }
                     }
@@ -287,6 +299,13 @@ public class Board {
         }
     }
 
+    /**
+     * Returns a number of currently unflagged mines
+     * The value is based on the assumption that all flags
+     * have been placed correctly
+     *
+     * @return Number of unflagged mines on the board
+     */
     public int getUnflaggedMines() {
         return this.unflaggedMines;
     }

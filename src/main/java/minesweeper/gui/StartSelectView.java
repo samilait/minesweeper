@@ -67,7 +67,7 @@ public class StartSelectView {
         customErrorLabel3 = new Label(guideText3);
         customErrorLabel3.setVisible(false);
 
-        Button acceptButton = acceptCustomButton("Use Custom Board");
+        Button acceptButton = createAcceptCustomButton("Use Custom Board");
         acceptButton.setVisible(false); 
         
         customBoard.setOnAction(new EventHandler<ActionEvent>() {
@@ -180,8 +180,11 @@ public class StartSelectView {
         button.setWrapText(false);
         return button;
     }
-    
-    private Button acceptCustomButton(String label) {
+
+    /**
+     * Creates a button for initializing a custom minefield
+     */
+    private Button createAcceptCustomButton(String label) {
         Button button = new Button(label);
         button.getStyleClass().add("menu-button");
         button.setOnMouseClicked(e -> {
@@ -302,6 +305,9 @@ public class StartSelectView {
             && (customMines.getText().chars().allMatch(Character::isDigit) && !customMines.getText().isEmpty()));
     }
 
+    /**
+     * Checks that the board height and width are within parameters
+     */
     private Boolean heightAndWidthAreInRange() {
         int heightvalue = Integer.parseInt(customHeight.getText());
         int widthvalue = Integer.parseInt(customWidth.getText());
