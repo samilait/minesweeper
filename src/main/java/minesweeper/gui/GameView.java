@@ -73,9 +73,11 @@ public class GameView {
         } else if (x < 17 && y < 17) {
             buttonSize = 40;
         } else if (x < 31 && y < 31) {
-            buttonSize = 35;
-        } else {
             buttonSize = 30;
+        } else if (x < 41 && y < 41) {
+            buttonSize = 22;
+        } else {
+            buttonSize = 18;
         }
 
         this.bot = BotSelect.getBot();
@@ -313,11 +315,17 @@ public class GameView {
         if (board.board[x][y].isOpened()) {
             updatedButton.getStyleClass().remove("unopened-button");
             styleToAdd.add("opened-button");
+
             if (board.board[x][y].isMine()) {
                 styleToAdd.add("mine");
             } else if (board.board[x][y].surroundingMines() != 0) {
                 updatedButton.setText("" + board.board[x][y].surroundingMines());
                 styleToAdd.add(setOpenedButtonColor(updatedButton, board.board[x][y].surroundingMines()));
+                if (buttonSize < 20) {
+                    styleToAdd.add("custom-label-tiny");
+                } else if (buttonSize < 25) {
+                    styleToAdd.add("custom-label-small");
+                } 
             }
         } else {
             if (board.board[x][y].getFlagged()) {
