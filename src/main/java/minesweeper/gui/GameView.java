@@ -212,6 +212,7 @@ public class GameView {
         button.setMinHeight(size);
         button.setMaxHeight(size);
         button.getStyleClass().add("unopened-button");
+        // Some Window managers and/or distros seem to shortcut right + left as middle mouse. 
         button.setOnMousePressed((e) -> {
             if(e.getButton() == MouseButton.PRIMARY || e.getButton() == MouseButton.MIDDLE) { 
                 this.letClick.set(true);
