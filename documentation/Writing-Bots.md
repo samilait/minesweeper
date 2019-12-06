@@ -29,9 +29,9 @@ a decision. As a parameter, the current state of the board is given in the form 
 Board object. The bot returns the action it has taken in the form of a Move object.
 
 In the bot implementations, this function must be overridden with your own custom
-functionality that represents a single round being played. The bot doesn't modify the
+functionality that represents a single round being played. ***The bot doesn't modify the
 state of the board directly but instead returns a Move object, which is processed
-by the application to update the board state.
+by the application to update the board state.**
 
 ## Move class
 
@@ -61,7 +61,7 @@ all of the individual squares as Square objects.
 The primary interaction with the board happens via the ```public Square getSquareAt(int x, int y)```
 method, which allows you to inspect a Square at a given coordinate.
 
-The Board also provides methods for opening squares, but the bot shouldn't use these itself.
+**The Board also provides methods for opening squares, but the bot shouldn't use these itself.**
 
 ## Square class
 
