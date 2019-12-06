@@ -115,7 +115,7 @@ public class BoardTest {
     public void openingASquareDoesNotOpenFlagged() {
         board.board[4][5].toggleFlagged();
         
-        assertEquals(true, board.board[4][5].getFlagged());
+        assertEquals(true, board.board[4][5].isFlagged());
 
         Move move = new Move(MoveType.OPEN, 5, 5);
         board.makeMove(move);
@@ -209,7 +209,7 @@ public class BoardTest {
 
         for (int xInc = -1; xInc <= 1; xInc++) {
             for (int yInc = -1; yInc <= 1; yInc++) {
-                if (!board.board[5 + xInc][5 + yInc].getFlagged()) {
+                if (!board.board[5 + xInc][5 + yInc].isFlagged()) {
                     assertEquals(true, board.board[5 + xInc][5 + yInc].isOpened());
                 }
             }
@@ -293,7 +293,7 @@ public class BoardTest {
 
         for (int xInc = -1; xInc <= 1; xInc++) {
             for (int yInc = -1; yInc <= 1; yInc++) {
-                if (!board.board[5 + xInc][5 + yInc].getFlagged()) {
+                if (!board.board[5 + xInc][5 + yInc].isFlagged()) {
                     assertEquals(true, board.board[5 + xInc][5 + yInc].isOpened());
                 }
             }
@@ -304,7 +304,7 @@ public class BoardTest {
     public void makingFlagMoveFlagsSquare() {
         board.makeMove(new Move(MoveType.FLAG, 5, 5));
 
-        assertTrue(board.getSquareAt(5, 5).getFlagged());
+        assertTrue(board.getSquareAt(5, 5).isFlagged());
     }
 
     @Test

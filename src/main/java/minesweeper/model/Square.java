@@ -81,7 +81,7 @@ public class Square {
      * Whether this Square is flagged 
      * @return true if this Square has been flagged by the user
      */
-    public boolean getFlagged() {
+    public boolean isFlagged() {
         return this.isFlagged;
     }
     

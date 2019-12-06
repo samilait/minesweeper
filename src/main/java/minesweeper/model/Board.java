@@ -83,7 +83,7 @@ public class Board {
             this.firstMove = false;
         }
 
-        if (this.board[x][y].getFlagged()) {
+        if (this.board[x][y].isFlagged()) {
             return true;
         }
 
@@ -138,7 +138,7 @@ public class Board {
             if (withinBoard(v.first, v.second)) {
                 Square square = board[v.first][v.second];
 
-                if (square.getFlagged()) {
+                if (square.isFlagged()) {
                     continue;
                 }
 
@@ -149,8 +149,8 @@ public class Board {
                 }
 
                 // If current square has surrounding mines, ignore surrounding squares
-//                if ((square.surroundingMines() == 0) && (!square.getFlagged())) {
-                // KO Note: jos square.getFlagged() niin on jo tehty continue!
+//                if ((square.surroundingMines() == 0) && (!square.isFlagged())) {
+                // KO Note: jos square.isFlagged() niin on jo tehty continue!
                 if (square.surroundingMines() == 0) {
                     // No surrounding mines, all surrounding squares can be opened
                     for (int xInc = -1; xInc <= 1; xInc++) {
@@ -181,7 +181,7 @@ public class Board {
 
         for (int xInc = -1; xInc <= 1; xInc++) {
             for (int yInc = -1; yInc <= 1; yInc++) {
-                if (withinBoard(x + xInc, y + yInc) && board[x + xInc][y + yInc].getFlagged()) {
+                if (withinBoard(x + xInc, y + yInc) && board[x + xInc][y + yInc].isFlagged()) {
                     surroundingFlagged++;
                 }
             }
@@ -194,7 +194,7 @@ public class Board {
         if (square.isOpened() && square.surroundingMines() == surroundingFlagged) {
             for (int xInc = -1; xInc <= 1; xInc++) {
                 for (int yInc = -1; yInc <= 1; yInc++) {
-                    if (withinBoard(x + xInc, y + yInc) && !board[x + xInc][y + yInc].getFlagged()
+                    if (withinBoard(x + xInc, y + yInc) && !board[x + xInc][y + yInc].isFlagged()
                             && !this.open(x + xInc, y + yInc)) {
                         // If we hit a mine, we return immediately
                         if (this.isObserved) { 
@@ -290,7 +290,7 @@ public class Board {
                 return true;
             case FLAG:
                 this.getSquareAt(move.x, move.y).toggleFlagged();
-                this.unflaggedMines += this.board[move.x][move.y].getFlagged() ? -1 : 1;
+                this.unflaggedMines += this.board[move.x][move.y].isFlagged() ? -1 : 1;
                 return true;
             case OPEN:
                 return this.open(move.x, move.y);
@@ -315,7 +315,7 @@ public class Board {
     public void openAllMines() {
         if (this.isObserved) {
             this.mineSquares.stream().forEach(square -> {
-                if (!square.getFlagged()) {
+                if (!square.isFlagged()) {
                     square.open();
                     this.observerCallback.apply(square);
                 }

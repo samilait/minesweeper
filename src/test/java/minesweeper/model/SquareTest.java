@@ -76,7 +76,7 @@ public class SquareTest {
     public void squareCanBeFlagged() {
         square.toggleFlagged();
 
-        assertTrue(square.getFlagged());
+        assertTrue(square.isFlagged());
     }
     
     @Test
@@ -84,7 +84,7 @@ public class SquareTest {
         square.toggleFlagged();
         square.toggleFlagged();
 
-        assertFalse(square.getFlagged());
+        assertFalse(square.isFlagged());
     }
 
     @Test

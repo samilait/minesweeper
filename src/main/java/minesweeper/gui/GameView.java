@@ -337,10 +337,10 @@ public class GameView {
                 } 
             }
         } else {
-            if (board.board[x][y].getFlagged()) {
+            if (board.board[x][y].isFlagged()) {
                 styleToAdd.add("flagged-button");
             }
-            if (!board.board[x][y].getFlagged()) {
+            if (!board.board[x][y].isFlagged()) {
                 updatedButton.getStyleClass().remove("flagged-button");
             }
         }
