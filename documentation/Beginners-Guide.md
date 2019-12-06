@@ -1,8 +1,14 @@
 # Beginner's guide for minesweeper bot setup
 
+[Architecture Documentation](https://github.com/TiraLabra/minesweeper/blob/master/documentation/Architecture-Documentation.md)
+[Writing Bots](https://github.com/TiraLabra/minesweeper/blob/master/documentation/Writing-Bots.md)
+[Testing headlessly](https://github.com/TiraLabra/minesweeper/blob/master/documentation/Writing-Bots.md)
+
 ## Java JDK 11 and JavaFX 11
 
 In order to develop and build the minesweeper, you will need at least version Java JDK 11 installed in your computer. Note that Java JDK 11 does not contain JavaFX 11 anymore, so make sure you have that too. JavaFX 11 can be downloaded from e.g. [here](https://gluonhq.com/products/javafx/).
+
+We recommend using **OpenJDK 11**.
 
 If your ./gradlew commands do not find your Java 11 JDK, even if you have it installed, you may get some response as follows:
 
