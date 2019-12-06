@@ -65,6 +65,7 @@ application {
 }
 
 checkstyle {
+    toolVersion '8.27'
     ignoreFailures = true
 }
 
