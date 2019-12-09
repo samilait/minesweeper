@@ -103,6 +103,8 @@ public class GameView {
             }
         });
 
+        this.bot.setGameStats(this.stats);
+
         animationSpeedLabel.setMinWidth(sizeX * buttonSize);
         animationSpeedLabel.getStyleClass().add("label-subheader");
         initializeSlider();

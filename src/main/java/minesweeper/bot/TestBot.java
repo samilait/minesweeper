@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.ArrayList;
 import minesweeper.model.Board;
+import minesweeper.model.GameStats;
 import minesweeper.model.Move;
 import minesweeper.model.MoveType;
 import minesweeper.model.Highlight;
@@ -38,7 +39,11 @@ import minesweeper.model.Square;
  * </p>
  */
 public class TestBot implements Bot {
+    
     private Random rng = new Random();
+
+    private GameStats gameStats;
+
     /**
      * Make a single decision based on the given Board state
      * @param board The current board state
@@ -108,6 +113,11 @@ public class TestBot implements Bot {
             }
         }
         return movesToMake;
+    }
+
+    @Override
+    public void setGameStats(GameStats gameStats) {
+        this.gameStats = gameStats;
     }
 
     /**

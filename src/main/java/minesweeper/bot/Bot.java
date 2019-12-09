@@ -2,6 +2,7 @@
 package minesweeper.bot;
 
 import minesweeper.model.Board;
+import minesweeper.model.GameStats;
 import minesweeper.model.Move;
 import java.util.ArrayList;
 
@@ -23,4 +24,12 @@ public interface Bot {
      * @return The bot's moves
      */
     ArrayList<Move> getPossibleMoves(Board board);
+    
+    /** 
+     * This method is used to pass GameStats-object to the bot,
+     * which can be then saved by the bot if necessary. 
+     * @param gameStats GameStats for current game
+     */
+    void setGameStats(GameStats gameStats);
+
 }
