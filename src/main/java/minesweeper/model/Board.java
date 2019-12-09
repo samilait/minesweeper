@@ -124,7 +124,7 @@ public class Board {
         toVisit.push(new Pair<Integer>(x, y));
 
         while (!toVisit.isEmpty()) {
-            Pair<Integer> v = toVisit.pop();
+            Pair<Integer> v = toVisit.remove();
 
             // Have we visited this square before?
             if (visited.contains(v)) {
