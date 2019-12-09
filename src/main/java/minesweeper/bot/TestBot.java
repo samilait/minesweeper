@@ -4,8 +4,6 @@ package minesweeper.bot;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.ArrayList;
-import java.util.HashSet;
-//import minesweeper.model.Square;
 import minesweeper.model.Board;
 import minesweeper.model.Move;
 import minesweeper.model.MoveType;
@@ -86,11 +84,11 @@ public class TestBot implements Bot {
         //Chooses a random amount of moves to make between 1 and total number of mines
         int movesToReturn = rng.nextInt(board.totalMines) + 1;
 
-        for (int i=0; i<movesToReturn; i++) {
+        for (int i = 0; i < movesToReturn; i++) {
             Boolean found = false;
             Pair<Integer> pair = new Pair(-1, -1);
             //Attempts to find a unique unopened square up to 5 times or until it is successfully found
-            for (int attempt = 0; attempt < 6 && found == false; attempt ++) {
+            for (int attempt = 0; attempt < 6 && !found; attempt++) {
                 pair = findUnopenedSquare(board);
                 if (!pairs.contains(pair)) {
                     pairs.add(pair);
@@ -98,7 +96,7 @@ public class TestBot implements Bot {
                 } 
             }
            
-            if (found == true){
+            if (found) {
                 if (i < Math.floor(movesToReturn / 2)) {
                     movesToMake.add(new Move(pair.first, pair.second, Highlight.GREEN));
                 } else {
