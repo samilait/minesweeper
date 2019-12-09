@@ -85,18 +85,21 @@ public class GameView {
         botButton = new Button("Help (bot)");
         botButton.setOnMouseClicked(e -> {
             this.clearAllHighlights();
-            Move move = this.bot.makeMove(board);
-            board.makeMove(move);
-            stats.update(move);
-            if (!board.gameEnd || board.gameWon) {
-                botGame.setDisable(true);
-                this.updateGameGP(move.x, move.y);
-            } else {
-                if (this.board.gameEnd) {
-                    buttonGrid[move.x][move.y].getStyleClass().add("red-highlight");
+            ArrayList<Move> helperMoves = this.bot.getPossibleMoves(board);
+            for (Move move : helperMoves) {
+                board.makeMove(move);
+                stats.update(move);
+          
+                if (!board.gameEnd || board.gameWon) {
+                    botGame.setDisable(true);
+                    this.updateGameGP(move.x, move.y);
+                } else {
+                    if (this.board.gameEnd) {
+                        buttonGrid[move.x][move.y].getStyleClass().add("red-highlight");
+                    }
+                    this.updateGameGP(move.x, move.y);
+                    this.gameOver();
                 }
-                this.updateGameGP(move.x, move.y);
-                this.gameOver();
             }
         });
 

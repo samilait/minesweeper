@@ -3,7 +3,8 @@ package minesweeper.bot;
 
 import java.util.HashSet;
 import java.util.Random;
-//import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.HashSet;
 //import minesweeper.model.Square;
 import minesweeper.model.Board;
 import minesweeper.model.Move;
@@ -11,6 +12,7 @@ import minesweeper.model.MoveType;
 import minesweeper.model.Highlight;
 import minesweeper.model.Pair;
 import minesweeper.model.Square;
+
 
 /**
  * A basic bot template for testing purposes and as an example
@@ -38,7 +40,7 @@ import minesweeper.model.Square;
  * </p>
  */
 public class TestBot implements Bot {
-
+    private Random rng = new Random();
     /**
      * Make a single decision based on the given Board state
      * @return Move to be made onto the board
@@ -52,7 +54,6 @@ public class TestBot implements Bot {
 
         // The TestBot isn't very smart and randomly
         // decides what move should be made using java.util.Random
-        Random rng = new Random();
         Integer type = rng.nextInt(10);
 
         // Certain move types are given more weight
@@ -70,6 +71,44 @@ public class TestBot implements Bot {
             }
         }
     }
+    /**
+     * Return mutiple possible moves to make based on current board state.
+     * Suggested to be used for a "helper" bot to provide multiple highlights at once. 
+     * @return List of moves for current board.
+     */
+    @Override
+    public ArrayList<Move> getPossibleMoves(Board board) {
+        ArrayList<Move> movesToMake = new ArrayList<>();
+        HashSet<Pair<Integer>> pairs = new HashSet();
+
+        //Chooses a random amount of moves to make between 1 and total number of mines
+        int movesToReturn = rng.nextInt(1, board.totalMines);
+
+        for (int i=0; i<movesToReturn; i++) {
+            Boolean found = false;
+            Pair<Integer> pair = new Pair(-1, -1);
+            //Attempts to find a unique unopened square up to 5 times or until it is successfully found
+            for (int attempt = 0; attempt < 6 && found == false; attempt ++) {
+                pair = findUnopenedSquare(board);
+                if (!pairs.contains(pair)) {
+                    pairs.add(pair);
+                    found = true;
+                } 
+            }
+           
+            if (found == true){
+                if (i < Math.floor(movesToReturn / 2)) {
+                    movesToMake.add(new Move(pair.first, pair.second, Highlight.GREEN));
+                } else {
+                    movesToMake.add(new Move(pair.first, pair.second, Highlight.RED));
+                }
+            } else {
+                //if a square is not found, skips the rest of the for loop
+                i = movesToReturn;
+            }
+        }
+        return movesToMake;
+    }
 
     /**
      * Find the (X, Y) coordinate pair of an unopened square
@@ -78,7 +117,6 @@ public class TestBot implements Bot {
      * @return An (X, Y) coordinate pair
      */
     public Pair<Integer> findUnopenedSquare(Board board) {
-        Random rng = new Random();
         Boolean unOpenedSquare = false;
 
         // board.getOpenSquares allows us to access those squares
