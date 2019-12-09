@@ -68,8 +68,8 @@ public class Move {
 
     @Override
     public String toString() {
-        DecimalFormat numberFormat = new DecimalFormat("0.00");
+        DecimalFormat numberFormat = new DecimalFormat("0.0000");
         return "Move: " + type + " Distance: " + numberFormat.format(euclideanDistance) 
-                + " Time: " + numberFormat.format(deltaTime);
+                + " Time: " + numberFormat.format(deltaTime / Math.pow(10, 6));
     }
 }

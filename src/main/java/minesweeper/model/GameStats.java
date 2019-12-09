@@ -42,10 +42,10 @@ public class GameStats {
     }
 
     public static double deltaTimeInSeconds(Move lastMove, Move currentMove) {
-        return (double) TimeUnit.NANOSECONDS.toMillis(currentMove.timestamp - lastMove.timestamp) / 1000.0d;
+        return (double) TimeUnit.NANOSECONDS.toMicros(currentMove.timestamp - lastMove.timestamp);
     }
 
     public static double deltaTimeInSeconds(long firstTime, Move move) {
-        return (double) TimeUnit.NANOSECONDS.toMillis(move.timestamp - firstTime) / 1000.0d;
+        return (double) TimeUnit.NANOSECONDS.toMicros(move.timestamp - firstTime);
     }
 }
