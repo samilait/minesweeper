@@ -289,10 +289,10 @@ public class GameView {
             this.endLabel.getStyleClass().add("label-success");
             this.timerLabel.getStyleClass().add("label-success");
         } else {
+            this.board.openAllMines();
             this.endLabel.setText("You lost.");
             this.endLabel.getStyleClass().add("label-failure");
             this.timerLabel.getStyleClass().add("label-failure");
-            this.board.openAllMines();
         }
         this.disableAllButtons();
     }
