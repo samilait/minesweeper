@@ -9,6 +9,9 @@ import java.util.function.Function;
 
 import minesweeper.generator.MinefieldGenerator;
 
+/**
+ * Class representing the game board
+ */
 public class Board {
 
     public boolean gameEnd = false;
