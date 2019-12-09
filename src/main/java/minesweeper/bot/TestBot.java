@@ -82,7 +82,7 @@ public class TestBot implements Bot {
         HashSet<Pair<Integer>> pairs = new HashSet();
 
         //Chooses a random amount of moves to make between 1 and total number of mines
-        int movesToReturn = rng.nextInt(1, board.totalMines);
+        int movesToReturn = rng.nextInt(board.totalMines) + 1;
 
         for (int i=0; i<movesToReturn; i++) {
             Boolean found = false;
