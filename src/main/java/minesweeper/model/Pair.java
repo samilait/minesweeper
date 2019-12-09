@@ -2,6 +2,11 @@ package minesweeper.model;
 
 import java.util.Objects;
 
+/**
+ * A simple pair type implementation
+ *
+ * Used for wrapping X, Y coordinate values for example
+ */
 public class Pair<T> {
     public T first;
     public T second;

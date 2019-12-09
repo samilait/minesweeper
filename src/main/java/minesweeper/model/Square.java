@@ -5,7 +5,7 @@ package minesweeper.model;
  * Represent a single square on the board.
  * All the methods regarding the information of this square, 
  * i.e. amount of surrounding mines and whether this Square has a mine are only accessible if the square has been opened
- * @see model.Board
+ * @see Board
  */
 public class Square {
     private boolean isMine;
@@ -18,7 +18,10 @@ public class Square {
     public Highlight highlight = Highlight.NONE;
 
     /**
-     * Generates a new Square with no mines
+     * Generates a new unopened Square with no mines or flag
+     *
+     * @param x X coordinate
+     * @param y Y coordinate
      */
     public Square(int x, int y) {
         this.isMine = false;
@@ -30,6 +33,7 @@ public class Square {
     }
 
     /**
+     * Get the X coordinate of the Square
      * @return Square's X coordinate
      */
     public int getX() {
@@ -37,6 +41,7 @@ public class Square {
     }
 
     /**
+     * Get the Y coordinate of the Square
      * @return Square's Y coordinate
      */
     public int getY() {
@@ -44,12 +49,21 @@ public class Square {
     }
 
     /**
-     * Generates a new Square as Square with mine.
-     * @param isMine
+     * Sets the X coordinate of the Square
+     * @param x Square's X coordinate
      */
-    public Square(boolean isMine) {
-        this.isMine = isMine;
+    public void setX(int x) {
+        this.locationX = x;
     }
+
+    /**
+     * Sets the Y coordinate of the Square
+     * @param y Square's Y coordinate
+     */
+    public void setY(int y) {
+        this.locationY = y;
+    }
+
 
     /**
      * Represents a "click" on this particular square, and sets the state to opened
@@ -61,7 +75,10 @@ public class Square {
     }
 
     /**
-     * Whether this Square is a Square with mine
+     * Check if this Square contains a mine
+     *
+     * <u><b>Trying to use this method without first opening the Square will result in an AssertionException</b></u>
+     *
      * @return true if this is a mine Square and it has been opened already, false otherwise
      */
     public boolean isMine() {
@@ -92,8 +109,11 @@ public class Square {
     }
 
     /**
-     * amount of surrounding Squares that have a mine.
-     * @return 0 if this square has not been opened, otherwise the amount of surrounding Squares that have a mine.
+     * Number of surrounding Squares that have a mine.
+     *
+     * <u><b>Trying to use this method without first openeing the Square will result in an AssertionException</b></u>
+     *
+     * @return The number of surrounding Squares that have a mine.
      */
     public int surroundingMines() {
         assert (this.opened);

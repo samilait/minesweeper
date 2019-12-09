@@ -130,7 +130,7 @@ public class TestBot implements Bot {
         // Randomly generate X,Y coordinate pairs that
         while (!unOpenedSquare) {
             x = rng.nextInt(board.width);
-            y = rng.nextInt(board.length); 
+            y = rng.nextInt(board.height);
             if (!opened.contains(board.board[x][y])) {
                 unOpenedSquare = true;
                 pair = new Pair<Integer>(x, y);
