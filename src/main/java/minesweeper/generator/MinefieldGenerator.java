@@ -48,7 +48,7 @@ public class MinefieldGenerator {
         board.setTotalMines(mines);
 
         int width = board.width;
-        int height = board.length;
+        int height = board.height;
 
         ArrayList<Pair<Integer>> squares = new ArrayList<>();
 

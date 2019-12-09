@@ -16,7 +16,7 @@ public class Board {
     public Square[][] board;
     public int totalMines;
     public final int width;
-    public final int length;
+    public final int height;
     
     private MinefieldGenerator generator;
     public boolean firstMove = true;
@@ -27,10 +27,18 @@ public class Board {
     private boolean isObserved = false;
     private HashSet<Square> openSquares;
 
-    public Board(MinefieldGenerator generator, int width, int length, int totalMines) {
+    /**
+     * Create a new Board using a specified MinefieldGenerator and given size and mine parameters.
+     *
+     * @param generator A MinefieldGenerator object that has possibly been constructed with specific seeds or other configurations
+     * @param width The width of the Board
+     * @param height The height of the Board
+     * @param totalMines The maximum number of mines on the Board
+     */
+    public Board(MinefieldGenerator generator, int width, int height, int totalMines) {
         this.width = width;
-        this.length = length;
-        this.board = new Square[width][length];
+        this.height = height;
+        this.board = new Square[width][height];
         this.generator = generator;
         this.totalMines = totalMines;
         this.unflaggedMines = totalMines;
@@ -40,6 +48,7 @@ public class Board {
 
     /**
      * Sets an observer callback for communicating Board state changes
+     * This is used by the GUI to recognize which squares need to be redrawn
      * @param callbackFunction The function to be called upon a state change
      */
     public void setChangeObserver(Function<Square, Void> callbackFunction) {
@@ -49,7 +58,10 @@ public class Board {
 
     /**
      * Sets the number of total mines, used by MinefieldGenerator when generating a
-     * new board
+     * new board. This value can be higher than the number of squares on the Board,
+     * but the MinefieldGenerator will ensure the extra mines are ignored
+     *
+     * @param totalMines The maximum number of mines on the Board
      */
     public void setTotalMines(int totalMines) {
         this.totalMines = totalMines;
@@ -57,18 +69,34 @@ public class Board {
 
     /**
      * Set a Square at a given X, Y coordinate
+     * @param square Square object to be placed onto the board
+     * @param x X coordinate of the Square
+     * @param y Y coordinate of the Square
      */
-    public void addSquare(Square square, int xCoord, int yCoord) {
-        this.board[xCoord][yCoord] = square;
+    public void addSquare(Square square, int x, int y) {
+        square.setX(x);
+        square.setY(y);
+
+        this.board[x][y] = square;
     }
 
     /**
      * Get a Square at a given X, Y coordinate
+     *
+     * @param x X coordinate of the Square
+     * @param y Y coordinate of the Square
+     *
+     * @return Square object in the given coordinates
      */
     public Square getSquareAt(int x, int y) {
         return this.board[x][y];
     }
 
+    /**
+     * Get the remaining open squares
+     *
+     * @return HashSet containing the remaining open Squares
+     */
     public HashSet<Square> getOpenSquares() {
         return this.openSquares;
     }
@@ -76,6 +104,10 @@ public class Board {
     /**
      * Opens a square in the given X, Y coordinate and all surrounding squares that
      * are not mines
+     *
+     * @param x X coordinate of the Square
+     * @param y Y coordinate of the Square
+     * @return True if the move doesn't open a mine, false otherwise
      */
     private boolean open(int x, int y) {
         if (this.firstMove) {
@@ -108,10 +140,11 @@ public class Board {
      *
      * BFS implementation for opening squares:
      *
-     * 1. Open current square
-     * 2. If current square has surrounding mines, ignore
-     *    surrounding tiles
-     * 3. Else open all surrounding squares
+     *<ol>
+     *    <li>Open current square</li>
+     *    <li>If current square has surrounding mines, ignore all surrounding tiles</li>
+     *    <li>Else open all surrounding squares</li>
+     *</ol>
      *
      * @param x X coordinate
      * @param y Y coordinate
@@ -124,6 +157,7 @@ public class Board {
         toVisit.push(new Pair<Integer>(x, y));
 
         while (!toVisit.isEmpty()) {
+            // Get a coordinate from the front of the queue
             Pair<Integer> v = toVisit.remove();
 
             // Have we visited this square before?
@@ -138,6 +172,7 @@ public class Board {
             if (withinBoard(v.first, v.second)) {
                 Square square = board[v.first][v.second];
 
+                // We don't process flagged squares
                 if (square.isFlagged()) {
                     continue;
                 }
@@ -149,8 +184,6 @@ public class Board {
                 }
 
                 // If current square has surrounding mines, ignore surrounding squares
-//                if ((square.surroundingMines() == 0) && (!square.isFlagged())) {
-                // KO Note: jos square.isFlagged() niin on jo tehty continue!
                 if (square.surroundingMines() == 0) {
                     // No surrounding mines, all surrounding squares can be opened
                     for (int xInc = -1; xInc <= 1; xInc++) {
@@ -213,23 +246,24 @@ public class Board {
     }
 
     /**
-     * Removes all highlights from any of the Squares
+     * Removes all highlights from all of the Squares
      */
     public void clearHighlights() {
         for (int x = 0; x < this.width; x++) {
-            for (int y = 0; y < this.length; y++) {
+            for (int y = 0; y < this.height; y++) {
                 this.board[x][y].highlight = Highlight.NONE;
             }
         }
     }
 
     /**
-     * Return the number of unopened squares left on the board
+     * Get the number of unopened squares left on the board
+     * @return Number of unopened squares
      */
     public int getUnopenedSquaresCount() {
         int unopenedSquares = 0;
         for (int x = 0; x < this.width; x++) {
-            for (int y = 0; y < this.length; y++) {
+            for (int y = 0; y < this.height; y++) {
                 if (!board[x][y].isOpened()) {
                     unopenedSquares++;
                 }
@@ -243,19 +277,17 @@ public class Board {
      */
     public void initialize() {
         for (int x = 0; x < this.width; x++) {
-            for (int y = 0; y < this.length; y++) {
+            for (int y = 0; y < this.height; y++) {
                 this.board[x][y] = new Square(x, y);
             }
         }
-        /*
-         * this.board = Arrays.stream(board).map(row -> { return
-         * Arrays.stream(row).map(squareElement -> new Square()).toArray(Square[]::new);
-         * }).toArray(Square[][]::new);
-         */
     }
 
     /**
      * Increments the surrounding mine counter for tiles surrounding given square
+     *
+     * @param x X coordinate
+     * @param y Y coordinate
      */
     public void incrementAdjacentSquares(int x, int y) {
         for (int xInc = -1; xInc <= 1; xInc++) {
@@ -272,16 +304,21 @@ public class Board {
 
     /**
      * Check if a given X,Y coordinate is within the board
+     *
+     * @param x X coordinate
+     * @param y Y coordinate
+     *
+     * @return True if the coordinates fall within the board, false otherwise
      */
     public boolean withinBoard(int x, int y) {
-        return x >= 0 && x < this.width && y >= 0 && y < this.length;
+        return x >= 0 && x < this.width && y >= 0 && y < this.height;
     }
 
     /**
-     * Make move from enum classes
+     * Update the board based on a given Move
      * 
-     * @param move
-     * @return true if the move is valid
+     * @param move Move object representing an action taken
+     * @return True if the move didn't open a mine, false otherwise
      */
     public boolean makeMove(Move move) {
         switch (move.type) {
@@ -302,15 +339,20 @@ public class Board {
     }
 
     /**
-     * Adds square with mine to list, for GUI purposes only
-     * @param square square to add
+     * Adds square to the private mine list
+     *
+     * This is used by the GUI to display all the mines upon failure
+     *
+     * @param square Square to be added to the list
      */
     public void addMineSquareToList(Square square) {
         this.mineSquares.add(square);
     }
 
     /**
-     * Opens all squares with mines, for GUI end game purposes
+     * Opens all squares with mines
+     *
+     * Used by the GUI to display all mines to the player when player loses
      */
     public void openAllMines() {
         if (this.isObserved) {
@@ -343,5 +385,4 @@ public class Board {
         });
         return builder.toString();
     }
-
 }

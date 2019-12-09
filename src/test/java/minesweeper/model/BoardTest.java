@@ -42,7 +42,7 @@ public class BoardTest {
     public void boardIsInitializedWithCorrectWidthAndHeight() {
         board = new Board(generator, 10, 10, 3);
 
-        assertEquals(10, board.length);
+        assertEquals(10, board.height);
         assertEquals(10, board.width);
     }
 
@@ -65,7 +65,10 @@ public class BoardTest {
 
     @Test
     public void addingAMineWorks() {
-        board.addSquare(new Square(true), 5, 5);
+        Square square = new Square(5, 5);
+        square.setMine();
+
+        board.addSquare(square, 5, 5);
         Move move = new Move(MoveType.OPEN, 5, 5);
         board.makeMove(move);
 
@@ -74,14 +77,20 @@ public class BoardTest {
 
     @Test
     public void clickinOnAMineReturnsFalse() {
-        board.addSquare(new Square(true), 5, 5);
+        Square square = new Square(5, 5);
+        square.setMine();
+
+        board.addSquare(square, 5, 5);
 
         assertEquals(false,  board.makeMove(new Move(MoveType.OPEN, 5, 5)));
     }
 
     @Test
     public void clickingOnAnEmptySquareReturnsTrue() {
-        board.addSquare(new Square(true), 5, 5);
+        Square square = new Square(5, 5);
+        square.setMine();
+
+        board.addSquare(square, 5, 5);
         
         Move move = new Move(MoveType.OPEN, 2, 2);
         assertEquals(true, board.makeMove(move));
@@ -102,7 +111,10 @@ public class BoardTest {
 
     @Test
     public void openingASquareDoesNotOpenMines() {
-        board.addSquare(new Square(true), 2, 2);
+        Square square = new Square(2, 2);
+        square.setMine();
+
+        board.addSquare(square, 2, 2);
         board.incrementAdjacentSquares(2,2);
 
         Move move = new Move(MoveType.OPEN, 5, 5);
@@ -264,7 +276,7 @@ public class BoardTest {
 
         board.clearHighlights();
 
-        for (int y = 0; y < board.length; y++) {
+        for (int y = 0; y < board.height; y++) {
             for (int x = 0; x < board.width; x++) {
                 assertEquals(Highlight.NONE, board.board[x][y].highlight);
             }

@@ -21,6 +21,8 @@ public class StorageSingleton {
 
     /**
      * Method for getting access to the singleton instance
+     *
+     * @return Singleton instance
      */
     public static StorageSingleton getInstance() {
         return singleton;

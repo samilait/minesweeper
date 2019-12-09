@@ -439,7 +439,7 @@ public class GameView {
      * Updater function for the GUI when running a bot game
      * Called by the AnimationTimer in botGameLoop()
      * @param moveQueue The queue to which the bot will place its moves
-     * @parm board The current board for the GUI
+     * @param board The current board for the GUI
      */
     public void updater(LinkedBlockingQueue<Move> moveQueue, Board board) {
         // Takes a move that has bot has made

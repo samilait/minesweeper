@@ -27,7 +27,10 @@ public class Move {
 
     /**
      * Create a Move of a specific type at given X.Y coordinates
+     *
      * @param type Move type
+     * @param x X coordinate
+     * @param y Y coordinate
      */
     public Move(MoveType type, int x, int y) {
         this(type, x, y, Highlight.NONE);
@@ -35,6 +38,9 @@ public class Move {
 
     /**
      * Creates a Highlight move at given X,Y coordinate with a given Highlight
+     *
+     * @param x X coordinate
+     * @param y Y coordinate
      * @param highlight Highlight colour
      */
     public Move(int x, int y, Highlight highlight) {
@@ -43,6 +49,11 @@ public class Move {
 
     /**
      * Base constructor for Moves
+     *
+     * @param type Move type
+     * @param x X coordinate
+     * @param y Y coordinate
+     * @param highlight Highlight colour
      */
     public Move(MoveType type, int x, int y, Highlight highlight) {
         this.type = type;
