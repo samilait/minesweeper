@@ -43,6 +43,7 @@ public class TestBot implements Bot {
     private Random rng = new Random();
     /**
      * Make a single decision based on the given Board state
+     * @param board The current board state
      * @return Move to be made onto the board
      */
     @Override
@@ -73,7 +74,8 @@ public class TestBot implements Bot {
     }
     /**
      * Return mutiple possible moves to make based on current board state.
-     * Suggested to be used for a "helper" bot to provide multiple highlights at once. 
+     * Suggested to be used for a "helper" bot to provide multiple highlights at once.
+     * @param board The current board state.
      * @return List of moves for current board.
      */
     @Override
