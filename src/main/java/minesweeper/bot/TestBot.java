@@ -26,7 +26,7 @@ import minesweeper.model.Square;
  * <p>
  * The Bot will be called externally (the interface for this is the makeMove()
  * function) and be given the current game state represented by a Board object.
- * <b>THE BOT DOES NOT MODIFY THIS BOARD OBJECT.</b> Instead the bot needs
+ * <b>THE BOT DOES NOT MODIFY THIS BOARD OBJECT.</b> Instead the bot needs to
  * determine the best action to take by returning a Move object, which represents
  * one action that can be executed onto the board. Refer to model/Move.java for
  * details.
@@ -41,7 +41,6 @@ import minesweeper.model.Square;
 public class TestBot implements Bot {
 
     private Random rng = new Random();
-
     private GameStats gameStats;
 
     /**
@@ -76,7 +75,7 @@ public class TestBot implements Bot {
         }
     }
     /**
-     * Return mutiple possible moves to make based on current board state.
+     * Return multiple possible moves to make based on current board state.
      * Suggested to be used for a "helper" bot to provide multiple highlights at once.
      * @param board The current board state.
      * @return List of moves for current board.
@@ -116,7 +115,7 @@ public class TestBot implements Bot {
     }
 
     /**
-     * Used to pass the bot the gamestats object, usefull for tracking previous moves
+     * Used to pass the bot the gameStats object, useful for tracking previous moves
      */
     @Override
     public void setGameStats(GameStats gameStats) {
@@ -132,15 +131,14 @@ public class TestBot implements Bot {
     public Pair<Integer> findUnopenedSquare(Board board) {
         Boolean unOpenedSquare = false;
 
-        // board.getOpenSquares allows us to access those squares
-        // that have already been opened
+        // board.getOpenSquares allows access to already opened squares
         HashSet<Square> opened = board.getOpenSquares();
         int x;
         int y;
 
         Pair<Integer> pair = new Pair<>(0, 0);
 
-        // Randomly generate X,Y coordinate pairs that
+        // Randomly generate X,Y coordinate pairs that are not opened
         while (!unOpenedSquare) {
             x = rng.nextInt(board.width);
             y = rng.nextInt(board.height);
