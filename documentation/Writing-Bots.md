@@ -3,11 +3,11 @@
 This document describes the required Java interfaces and the general functionality
 which must be implemented in order to write bots for this Minesweeper implementation.
 It also describes what data structures are made available to the bot and how the
-bot can interac t with those data structures.
+bot can interact with those data structures.
 
 Currently the bot will be called in two ways:
-- Using the "Help (Bot)" button to execute a single bot move
-- Using the "Bot Game" button, which will plays a full game using the bo
+- Using the "Help (Bot)" button to ask for possible moves to make
+- Using the "Bot Game" button, which will plays a full game using the bot
 
 ## Selecting the bot implementation
 
