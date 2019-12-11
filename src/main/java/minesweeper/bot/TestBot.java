@@ -39,10 +39,8 @@ import minesweeper.model.Square;
  * </p>
  */
 public class TestBot implements Bot {
-    
-    private Random rng = new Random();
 
-    private GameStats gameStats;
+    private Random rng = new Random();
 
     private GameStats gameStats;
 
