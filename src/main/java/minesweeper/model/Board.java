@@ -18,7 +18,7 @@ public class Board {
     public boolean gameLost = false;
     public boolean gameWon = false;
     /**
-     * The squares of this board in 2d array, with dimensions corresponding to this boards widht/height.
+     * The squares of this board in 2d array, with dimensions corresponding to this boards width/height.
      */
     public Square[][] board;
     public int totalMines;
@@ -27,7 +27,7 @@ public class Board {
     
     private MinefieldGenerator generator;
     /**
-     * True if the no moves has been made to this board, otherwise false
+     * True if no moves has been made to this board, otherwise false
      */
     public boolean firstMove = true;
 
@@ -40,7 +40,8 @@ public class Board {
     /**
      * Create a new Board using a specified MinefieldGenerator and given size and mine parameters.
      *
-     * @param generator A MinefieldGenerator object that has possibly been constructed with specific seeds or other configurations
+     * @param generator A MinefieldGenerator object that has possibly been constructed 
+     * with specific seeds or other configurations
      * @param width The width of the Board
      * @param height The height of the Board
      * @param totalMines The maximum number of mines on the Board
@@ -69,7 +70,7 @@ public class Board {
     /**
      * Sets the number of total mines, used by MinefieldGenerator when generating a
      * new board. This value can be higher than the number of squares on the Board,
-     * but the MinefieldGenerator will ensure the extra mines are ignored
+     * but the MinefieldGenerator will ensure that those extra mines are ignored
      *
      * @param totalMines The maximum number of mines on the Board
      */
@@ -294,7 +295,7 @@ public class Board {
     }
 
     /**
-     * Increments the surrounding mine counter for tiles surrounding given square
+     * Increments the mine counter for each square that surrounds the given square
      *
      * @param x X coordinate
      * @param y Y coordinate
