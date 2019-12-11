@@ -102,3 +102,9 @@ Move: HIGHLIGHT Distance: 3.16 Time: 0.00 at (4,3)
 Move: OPEN Distance: 3.16 Time: 0.00 at (5,0)
 Move: HIGHLIGHT Distance: 0.00 Time: 0.00 at (6,3)
 ```
+
+### Note
+
+When testing headless, there is no checks on your custom board size.
+Thus it is possible to test as large a board as your machine can run.
+Not larger.
