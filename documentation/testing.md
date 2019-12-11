@@ -1,6 +1,59 @@
-# Instructions for testing your bot without GUI
 
-You can write your test with the test class and run it with gradle task ``headlessTest``.  
+# Documentation for testing
+
+## Writing tests
+
+This document describes ways you can test your Bot implementation, both for
+performance and for validating the functionality of the Bot.
+
+## Unit testing
+
+You can write unit tests for your bot using JUnit, which has been pre-configured
+to work with the project. You can refer to ```TestBotTest.java``` as an example of how
+one may write tests for a Bot implementation.
+
+## Excluding files from JaCoCo coverage
+
+The project is configured to use JaCoCo for generating test coverage reports.
+Currently the coverage report includes all existing non-GUI code.
+
+For Data Structures and Algorithms projects, it may be important to limit this
+code coverage to just code that is specific to the project, in order to
+accurately report how well the project code has been tested.
+
+You can create JaCoCo exclusions in the ```build.gradle``` file:
+
+Example:
+
+```gradle
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled true
+    }
+     
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                'minesweeper/App*', 
+                'minesweeper/gui/**', 
+                'minesweeper/TestApp*',
+                'minesweeper/somepackage/SomeClass*, // Exclude SomeClass from somepackage
+                'minesweeper/somepackage/**          // Exclude all contents of somepackage
+            ])
+        }))
+    } 
+}
+```
+
+## Headless performance testing
+
+You can write your test with the test class and run it with gradle task
+``headlessTest``.
+
+This allows you to, for example, create performance tests for your bots in
+various gameplay situations.
 
 To run a single game you just need place your bot the classes ``bot`` variable and a new StartSelectView and create a new TestApp class in the main method.  
 The constructor creates and runs the with your bot as a player game. After that you can access the board and stats/moves with ``gameStats`` and ``board`` variables.  
