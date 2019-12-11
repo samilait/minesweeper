@@ -115,11 +115,9 @@ public class TestBot implements Bot {
         return movesToMake;
     }
 
-    @Override
-    public void setGameStats(GameStats gameStats) {
-        this.gameStats = gameStats;
-    }
-
+    /**
+     * Used to pass the bot the gamestats object, usefull for tracking previous moves
+     */
     @Override
     public void setGameStats(GameStats gameStats) {
         this.gameStats = gameStats;
