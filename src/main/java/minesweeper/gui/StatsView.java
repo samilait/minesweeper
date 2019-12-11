@@ -36,10 +36,11 @@ public class StatsView {
         VBox cumulativeStats = new VBox(cumulativeDistance, cumulativeTime);
         AnimationTimer timer = new AnimationTimer() {
             public void handle(long currentNanoTime) {
-                DecimalFormat numberFormat = new DecimalFormat("0.00");
+                DecimalFormat numberFormatTime = new DecimalFormat("0.0000");
+                DecimalFormat numberFormatDistance = new DecimalFormat("0.00");
                 cumulativeDistance.setText("Cumulative Distance: " 
-                        + numberFormat.format(stats.cumulativeEuclidianDistance));
-                cumulativeTime.setText("Cumulative Time: " + numberFormat.format(stats.cumulativeTime) + " sec");
+                        + numberFormatDistance.format(stats.cumulativeEuclidianDistance));
+                cumulativeTime.setText("Cumulative Time: " + numberFormatTime.format(stats.cumulativeTime / Math.pow(10, 6)) + " s");
             }
         };
 
@@ -92,7 +93,7 @@ public class StatsView {
             FileWriter fileWriter = new FileWriter(selectedFile);
             DecimalFormat numberFormat = new DecimalFormat("0.00");
             fileWriter.write("Cumulative Distance: " + numberFormat.format(stats.cumulativeEuclidianDistance) + "\n");
-            fileWriter.write("Time: " + numberFormat.format(stats.cumulativeTime) + " sec\n");
+            fileWriter.write("Time: " + numberFormat.format(stats.cumulativeTime) + " µs\n");
             for (int i = 0; i < this.stats.moves.size(); i++) {
                 fileWriter.write(stats.moves.get(i).toString() + "\n");
             }
