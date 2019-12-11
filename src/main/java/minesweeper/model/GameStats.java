@@ -29,11 +29,11 @@ public class GameStats {
     public void update(Move move) {
         Double dtime;
         if (firstMove) {
-            dtime = (Double) deltaTimeInSeconds(startTime, move);
+            dtime = (Double) deltaTimeInMicroSeconds(startTime, move);
             move.setEuclideanDistance(0d);
             firstMove = false;
         } else {
-            dtime = (Double) deltaTimeInSeconds(lastMove, move);
+            dtime = (Double) deltaTimeInMicroSeconds(lastMove, move);
             move.setEuclideanDistance(deltaEuclideanDistance(lastMove, move));
         }
         move.deltaTime = dtime;
@@ -55,11 +55,11 @@ public class GameStats {
         return Math.hypot(move2.x - move1.x, move2.y - move1.y);
     }
 
-    public static double deltaTimeInSeconds(Move lastMove, Move currentMove) {
+    public static double deltaTimeInMicroSeconds(Move lastMove, Move currentMove) {
         return (double) TimeUnit.NANOSECONDS.toMicros(currentMove.timestamp - lastMove.timestamp);
     }
 
-    public static double deltaTimeInSeconds(long firstTime, Move move) {
+    public static double deltaTimeInMicroSeconds(long firstTime, Move move) {
         return (double) TimeUnit.NANOSECONDS.toMicros(move.timestamp - firstTime);
     }
 }
