@@ -92,11 +92,11 @@ public class GameView {
                 board.makeMove(move);
                 stats.update(move);
           
-                if (!board.gameEnd || board.gameWon) {
+                if (!board.gameLost || board.gameWon) {
                     botGame.setDisable(true);
                     this.updateGameGP(move.x, move.y);
                 } else {
-                    if (this.board.gameEnd) {
+                    if (this.board.gameLost) {
                         buttonGrid[move.x][move.y].getStyleClass().add("red-highlight");
                     }
                     this.updateGameGP(move.x, move.y);
@@ -200,7 +200,7 @@ public class GameView {
                 
 
                 // Kills the timer update routine if the game has ended
-                if (board.gameEnd || board.gameWon) {
+                if (board.gameLost || board.gameWon) {
                     this.stop();
                 }
 
@@ -274,8 +274,8 @@ public class GameView {
         }
         updateGameGP(x, y);
         this.clearAllHighlights();
-        if (!nonEndingMove | this.board.gameEnd | this.board.gameWon) {
-            if (this.board.gameEnd) {
+        if (!nonEndingMove | this.board.gameLost | this.board.gameWon) {
+            if (this.board.gameLost) {
                 buttonGrid[x][y].getStyleClass().add("red-highlight");
             }
             gameOver();
@@ -413,7 +413,7 @@ public class GameView {
                     currentNanotime[0] = System.nanoTime();
                 }
                 // Kills the timer update routine if the game has ended
-                if (board.gameEnd || board.gameWon) {
+                if (board.gameLost || board.gameWon) {
                     this.stop();
                     gameOver();
                 }
@@ -467,7 +467,7 @@ public class GameView {
         stats.update(move);
         buttonGrid[move.x][move.y].getStyleClass().add("black-highlight");
         updateGameGP(move.x, move.y);
-        if (this.board.gameEnd) {
+        if (this.board.gameLost) {
             buttonGrid[move.x][move.y].getStyleClass().add("red-highlight");
         }
     }

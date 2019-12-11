@@ -14,14 +14,21 @@ import minesweeper.generator.MinefieldGenerator;
  */
 public class Board {
 
-    public boolean gameEnd = false;
+
+    public boolean gameLost = false;
     public boolean gameWon = false;
+    /**
+     * The squares of this board in 2d array, with dimensions corresponding to this boards widht/height.
+     */
     public Square[][] board;
     public int totalMines;
     public final int width;
     public final int height;
     
     private MinefieldGenerator generator;
+    /**
+     * True if the no moves has been made to this board, otherwise false
+     */
     public boolean firstMove = true;
 
     private ArrayList<Square> mineSquares = new ArrayList<>();
@@ -126,7 +133,7 @@ public class Board {
         this.openSquares.add(board[x][y]);
 
         if (board[x][y].isMine()) {
-            this.gameEnd = true;
+            this.gameLost = true;
             return false;
         } else {
             runBFS(x, y);
