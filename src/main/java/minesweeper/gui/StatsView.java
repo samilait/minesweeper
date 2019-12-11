@@ -40,7 +40,8 @@ public class StatsView {
                 DecimalFormat numberFormatDistance = new DecimalFormat("0.00");
                 cumulativeDistance.setText("Cumulative Distance: " 
                         + numberFormatDistance.format(stats.cumulativeEuclidianDistance));
-                cumulativeTime.setText("Cumulative Time: " + numberFormatTime.format(stats.cumulativeTime / Math.pow(10, 6)) + " s");
+                cumulativeTime.setText("Cumulative Time: " 
+                        + numberFormatTime.format(stats.cumulativeTime / Math.pow(10, 6)) + " s");
             }
         };
 

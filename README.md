@@ -34,10 +34,10 @@ Friday 10-16
 -   [Sprint 3](https://helsinkifi-my.sharepoint.com/:w:/g/personal/jermusto_ad_helsinki_fi/EV-9zUdnmDtCoePpXSOzNYQBxyav4A66BKxKV0HMV3bKLA?e=Y9EJcM)
 -   [Sprint 4](https://helsinkifi-my.sharepoint.com/:w:/g/personal/jermusto_ad_helsinki_fi/EePIA4VOXdtInlMIxWvw4l8BNFvupzbEdoos4i49rTLqSw?e=0vDlca)
 -   [Sprint 5](https://helsinkifi-my.sharepoint.com/:w:/g/personal/jermusto_ad_helsinki_fi/EQuPXWSYX6hAsYZ6WzD8JhABU7nVT2D6azj2jJfXFHmV1g?e=a4HRex)
-
+-   [Sprint 6](https://helsinkifi-my.sharepoint.com/:w:/g/personal/jermusto_ad_helsinki_fi/EbFTxJqYp3xBk2kpfb9DbyAB_sPYn-1v1z7-V1M5CbSFVQ?e=BOAow7)
 ## Notes on Client Meetings
 
 -   [Sprint 3](https://helsinkifi-my.sharepoint.com/:w:/g/personal/jermusto_ad_helsinki_fi/EVBtQfZkVSNMv8xDzRbPURcBGQvC2AZ49jySvPEdoPVT6Q?e=p9WEXI)
 -   [Sprint 4](https://helsinkifi-my.sharepoint.com/:w:/g/personal/jermusto_ad_helsinki_fi/EXUCXdtjXoZGkUTiI2-zW0oBywKPhSfmtDidHNCAzV3sHg?e=xW92S5)
 -   [Sprint 5](https://helsinkifi-my.sharepoint.com/:w:/g/personal/jermusto_ad_helsinki_fi/ESdNJMwzPTNKnaokSqW0xu0BqR5bZPdhV9WjKk8Mnza0Uw?rtime=6hOtoJt410g)
-
+-   [Sprint 6](https://helsinkifi-my.sharepoint.com/:w:/g/personal/jermusto_ad_helsinki_fi/ERBbfpTF9dRAreI3Hcj98dQBDPkrSwc92sLZweFijYuYSw?e=Phdpo2)
