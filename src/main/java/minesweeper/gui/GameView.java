@@ -37,6 +37,7 @@ public class GameView {
     private Bot bot;
     private Label endLabel = new Label("Mines: ");
     private Label timerLabel = new Label("Time: 0");
+    private AnimationTimer timer;
     private Label animationSpeedLabel = new Label("Bot game animation speed");
     private Slider animationSlider;
     private Button[][] buttonGrid;
@@ -47,6 +48,7 @@ public class GameView {
     private SimpleBooleanProperty rightClick = new SimpleBooleanProperty();
     public final GameStats stats = new GameStats();
     public final long[] currentNanotime = new long[1];
+    public final long[] timerPreviousTime = new long[1];
 
     private long time = 0;
 
@@ -183,17 +185,15 @@ public class GameView {
         // NOTE: This variable is an array for interior mutability, variables passed into
         // AnimationTimers need to be final (for concurrency) but we need to be able to mutate
         // this one
-        long[] previousNanoTime = new long[1];
-        previousNanoTime[0] = System.nanoTime();
 
-        AnimationTimer timer = new AnimationTimer() {
+        timer = new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 // Time that has passed since last update
               
-                long deltaTime = TimeUnit.MILLISECONDS.convert(currentNanoTime - previousNanoTime[0],
+                long deltaTime = TimeUnit.MILLISECONDS.convert(currentNanoTime - timerPreviousTime[0],
                         TimeUnit.NANOSECONDS);
 
-                previousNanoTime[0] = currentNanoTime;
+                timerPreviousTime[0] = currentNanoTime;
 
                 time += deltaTime;
                 timerLabel.setText("Time: " + TimeUnit.SECONDS.convert(time, TimeUnit.MILLISECONDS));
@@ -206,8 +206,6 @@ public class GameView {
 
             }
         };
-
-        timer.start();
     }
 
     /**
@@ -236,6 +234,9 @@ public class GameView {
                 this.rightClick.set(true);
             }
             this.buttonUpdater(x, y);
+
+            timerPreviousTime[0] = System.nanoTime();
+            timer.start();
         });
         button.setOnMouseReleased((e) -> {
             if (e.getButton() == MouseButton.PRIMARY || e.getButton() == MouseButton.MIDDLE) { 
@@ -245,6 +246,9 @@ public class GameView {
                 this.rightClick.set(false);
             }
             botGame.setDisable(true);
+
+            timerPreviousTime[0] = System.nanoTime();
+            timer.start();
         });
         return button;
     }
@@ -422,6 +426,7 @@ public class GameView {
         BotExecutor botThread = new BotExecutor(moveQueue, bot, botBoard);
 
         // Starts the gui updater and the bot thread
+        timerPreviousTime[0] = System.nanoTime();
         timer.start();
         stats.startTime = System.nanoTime();
         botThread.start();
@@ -456,6 +461,7 @@ public class GameView {
         }
 
         this.clearAllHighlights();
+        this.timer.start();
         // Makes move to the gui board and updates the gui buttons
         board.makeMove(move);
         stats.update(move);
