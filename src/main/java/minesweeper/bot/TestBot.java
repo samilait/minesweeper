@@ -44,6 +44,8 @@ public class TestBot implements Bot {
 
     private GameStats gameStats;
 
+    private GameStats gameStats;
+
     /**
      * Make a single decision based on the given Board state
      * @param board The current board state
@@ -113,6 +115,11 @@ public class TestBot implements Bot {
             }
         }
         return movesToMake;
+    }
+
+    @Override
+    public void setGameStats(GameStats gameStats) {
+        this.gameStats = gameStats;
     }
 
     @Override
