@@ -81,6 +81,12 @@ Minesweeper uses random numbers to generate the minefield. With "Use a pre-set s
 
 The maximum size of the minesweeper's custom sized board is set to fit on the "fuxi-laptop" screen. As the first click always opens a 3x3 area with no mines on it, the maximum number of mines on the custom board is limited to (height * width - 9).
 
+## How to start?
+
+Create your own bot class in the minesweeper.bot package.
+Your bot is to replace the TestBot.class, which you can copy/use as a template.
+Update the BotSelect.java class to use your own bot, instead of TestBot.java class.
+
 ## Other documents to study
 
 [Architecture Documentation](https://github.com/TiraLabra/minesweeper/blob/master/documentation/Architecture-Documentation.md)
