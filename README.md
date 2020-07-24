@@ -6,4 +6,4 @@ Miinaharavan avustaja ja ratkaisija
 
 ## Viikkoraportti
 
-[Viikko 1](https://github.com/samilait/minesweeper/tree/master/documentation/specification.md)
+[Viikko 1](https://github.com/samilait/minesweeper/tree/master/documentation/viikkoraportti1.md)
