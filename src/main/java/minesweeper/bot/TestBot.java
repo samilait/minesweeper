@@ -87,30 +87,54 @@ public class TestBot implements Bot {
 
         //Chooses a random amount of moves to make between 1 and total number of mines
         int movesToReturn = rng.nextInt(board.totalMines) + 1;
-
-        for (int i = 0; i < movesToReturn; i++) {
-            Boolean found = false;
-            Pair<Integer> pair = new Pair(-1, -1);
-            //Attempts to find a unique unopened square up to 5 times or until it is successfully found
-            for (int attempt = 0; attempt < 6 && !found; attempt++) {
-                pair = findUnopenedSquare(board);
-                if (!pairs.contains(pair)) {
-                    pairs.add(pair);
-                    found = true;
-                } 
-            }
-           
-            if (found) {
-                if (i < Math.floor(movesToReturn / 2)) {
-                    movesToMake.add(new Move(pair.first, pair.second, Highlight.GREEN));
-                } else {
-                    movesToMake.add(new Move(pair.first, pair.second, Highlight.RED));
-                }
-            } else {
-                //if a square is not found, skips the rest of the for loop
-                i = movesToReturn;
+        
+        // Set board to squares
+        ArrayList<Square> squares = new ArrayList<>();
+        int n =(int) Math.sqrt(board.getUnopenedSquaresCount()); // WRONG!!!
+        for (int x = 0; x < n; x++) {
+            for (int y = 0; y < n; y++) {
+                squares.add(board.getSquareAt(x, y));
             }
         }
+        
+        // Generate helper squares based on if rendomly selected square has mine or not
+        for (int i = 0; i < movesToReturn; i++) {
+            int r = rng.nextInt(squares.size());
+            Square square = squares.get(r);
+            if (!square.isOpened()) {
+                if (square.isMine()) {
+                    movesToMake.add(new Move(square.getX(), square.getY(), Highlight.RED));
+                } else {
+                    movesToMake.add(new Move(square.getX(), square.getY(), Highlight.GREEN));
+                }
+            }
+        }
+        
+        
+
+//        for (int i = 0; i < movesToReturn; i++) {
+//            Boolean found = false;
+//            Pair<Integer> pair = new Pair(-1, -1);
+//            //Attempts to find a unique unopened square up to 5 times or until it is successfully found
+//            for (int attempt = 0; attempt < 6 && !found; attempt++) {
+//                pair = findUnopenedSquare(board);
+//                if (!pairs.contains(pair)) {
+//                    pairs.add(pair);
+//                    found = true;
+//                } 
+//            }
+//           
+//            if (found) {
+//                if (i < Math.floor(movesToReturn / 2)) {
+//                    movesToMake.add(new Move(pair.first, pair.second, Highlight.GREEN));
+//                } else {
+//                    movesToMake.add(new Move(pair.first, pair.second, Highlight.RED));
+//                }
+//            } else {
+//                //if a square is not found, skips the rest of the for loop
+//                i = movesToReturn;
+//            }
+//        }
         return movesToMake;
     }
 
