@@ -23,7 +23,7 @@ public interface Bot {
      * @param board Current board state
      * @return The bot's moves
      */
-    ArrayList<Move> getPossibleMoves(Board board);
+    ArrayList<Move> getPossibleMoves(Board board, boolean hasMine);
     
     /** 
      * This method is used to pass GameStats-object to the bot,

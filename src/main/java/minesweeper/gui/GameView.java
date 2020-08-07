@@ -87,7 +87,7 @@ public class GameView {
         botButton = new Button("Help (bot)");
         botButton.setOnMouseClicked(e -> {
             this.clearAllHighlights();
-            ArrayList<Move> helperMoves = this.bot.getPossibleMoves(board);
+            ArrayList<Move> helperMoves = this.bot.getPossibleMoves(board, true);
             for (Move move : helperMoves) {
                 board.makeMove(move);
                 stats.update(move);
@@ -103,6 +103,23 @@ public class GameView {
                     this.gameOver();
                 }
             }
+            helperMoves = this.bot.getPossibleMoves(board, false);
+            for (Move move : helperMoves) {
+                board.makeMove(move);
+                stats.update(move);
+          
+                if (!board.gameLost || board.gameWon) {
+                    botGame.setDisable(true);
+                    this.updateGameGP(move.x, move.y);
+                } else {
+                    if (this.board.gameLost) {
+                        buttonGrid[move.x][move.y].getStyleClass().add("red-highlight");
+                    }
+                    this.updateGameGP(move.x, move.y);
+                    this.gameOver();
+                }
+            }
+            
         });
 
         this.bot.setGameStats(this.stats);

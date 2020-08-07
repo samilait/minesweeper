@@ -81,122 +81,233 @@ public class TestBot implements Bot {
      * @return List of moves for current board.
      */
     @Override
-    public ArrayList<Move> getPossibleMoves(Board board) {
+    public ArrayList<Move> getPossibleMoves(Board board, boolean hasMine) {
         ArrayList<Move> movesToMake = new ArrayList<>();
-        HashSet<Pair<Integer>> pairs = new HashSet();
         
-        for (int y = 0; y < board.width; y++) {
-            for (int x = 0; x < board.height; x++) {
-                
-                Square square = board.getSquareAt(x, y);
-                
-                if (square.surroundingMines() > 0 && square.isOpened()) {
-                    // count number of unopened squares around current square
-                    int unOpened = 0;
-                    
-                    // Edge cases
-                    if (x == 0 && y == 0)
-                    {
-                        if (!board.getSquareAt(square.getX() + 1, square.getY()).isOpened()) unOpened++;
-                        if (!board.getSquareAt(square.getX() + 1, square.getY() + 1).isOpened()) unOpened++;
-                        if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) unOpened++;
-                    } else if (y == 0) {
-                        if (!board.getSquareAt(square.getX() - 1, square.getY()).isOpened()) unOpened++;
-                        if (!board.getSquareAt(square.getX() + 1, square.getY()).isOpened()) unOpened++;
-                        if (!board.getSquareAt(square.getX() - 1, square.getY() + 1).isOpened()) unOpened++;
-                        if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) unOpened++;
-                        if (!board.getSquareAt(square.getX() + 1, square.getY() + 1).isOpened()) unOpened++;
-                    } else if (x == 0) {
-                        if (!board.getSquareAt(square.getX(), square.getY() - 1).isOpened()) unOpened++;
-                        if (!board.getSquareAt(square.getX() + 1, square.getY() - 1).isOpened()) unOpened++;
-                        if (!board.getSquareAt(square.getX() + 1, square.getY()).isOpened()) unOpened++;
-                        if (!board.getSquareAt(square.getX() + 1, square.getY() + 1).isOpened()) unOpened++;
-                        if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) unOpened++;                        
-                    } else if (x == board.width - 1 && y == board.height - 1) {
-                        if (!board.getSquareAt(square.getX() - 1, square.getY()).isOpened()) unOpened++;
-                        if (!board.getSquareAt(square.getX() - 1, square.getY() + 1).isOpened()) unOpened++;
-                        if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) unOpened++;                        
-                    } else if (x == board.width - 1) {
-                        if (!board.getSquareAt(square.getX(), square.getY() - 1).isOpened()) unOpened++;
-                        if (!board.getSquareAt(square.getX() - 1, square.getY() - 1).isOpened()) unOpened++;
-                        if (!board.getSquareAt(square.getX() - 1, square.getY()).isOpened()) unOpened++;
-                        if (!board.getSquareAt(square.getX() - 1, square.getY() + 1).isOpened()) unOpened++;
-                        if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) unOpened++;                                                
-                    } else if (y == board.height - 1) {
-                        if (!board.getSquareAt(square.getX() - 1, square.getY()).isOpened()) unOpened++;
-                        if (!board.getSquareAt(square.getX() - 1, square.getY() - 1).isOpened()) unOpened++;
-                        if (!board.getSquareAt(square.getX(), square.getY() - 1).isOpened()) unOpened++;
-                        if (!board.getSquareAt(square.getX() + 1, square.getY() - 1).isOpened()) unOpened++;
-                        if (!board.getSquareAt(square.getX() + 1, square.getY()).isOpened()) unOpened++;                                                                        
-                    } else {                                        
-                        if (!board.getSquareAt(square.getX() - 1, square.getY() - 1).isOpened()) unOpened++;
-                        if (!board.getSquareAt(square.getX(), square.getY() - 1).isOpened()) unOpened++;
-                        if (!board.getSquareAt(square.getX() + 1, square.getY() - 1).isOpened()) unOpened++;
-                        if (!board.getSquareAt(square.getX() - 1, square.getY()).isOpened()) unOpened++;
-                        if (!board.getSquareAt(square.getX() + 1, square.getY()).isOpened()) unOpened++;
-                        if (!board.getSquareAt(square.getX() - 1, square.getY() + 1).isOpened()) unOpened++;
-                        if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) unOpened++;
-                        if (!board.getSquareAt(square.getX() + 1, square.getY() + 1).isOpened()) unOpened++;
-                    }
-                    
-                    if (square.surroundingMines() == unOpened) {
-                        // Flag mines
-                        if (x == 0 && y == 0) {
-                            if (!board.getSquareAt(square.getX() + 1, square.getY()).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x + 1, y));
-                            if (!board.getSquareAt(square.getX() + 1, square.getY() + 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x + 1, y + 1));
-                            if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x, y + 1));
+        if (hasMine) {
+        
+            for (int y = 0; y < board.width; y++) {
+                for (int x = 0; x < board.height; x++) {
+
+                    Square square = board.getSquareAt(x, y);
+
+                    if (square.surroundingMines() > 0 && square.isOpened()) {
+                        // count number of unopened squares around current square
+                        int unOpened = 0;
+
+                        // Edge cases
+                        if (x == 0 && y == 0)
+                        {
+                            if (!board.getSquareAt(square.getX() + 1, square.getY()).isOpened()) unOpened++;
+                            if (!board.getSquareAt(square.getX() + 1, square.getY() + 1).isOpened()) unOpened++;
+                            if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) unOpened++;
                         } else if (y == 0) {
-                            if (!board.getSquareAt(square.getX() - 1, square.getY()).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x - 1, y));
-                            if (!board.getSquareAt(square.getX() + 1, square.getY()).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x + 1, y));
-                            if (!board.getSquareAt(square.getX() - 1, square.getY() + 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x - 1, y + 1));
-                            if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x, y + 1));
-                            if (!board.getSquareAt(square.getX() + 1, square.getY() + 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x + 1, y + 1));
+                            if (!board.getSquareAt(square.getX() - 1, square.getY()).isOpened()) unOpened++;
+                            if (!board.getSquareAt(square.getX() + 1, square.getY()).isOpened()) unOpened++;
+                            if (!board.getSquareAt(square.getX() - 1, square.getY() + 1).isOpened()) unOpened++;
+                            if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) unOpened++;
+                            if (!board.getSquareAt(square.getX() + 1, square.getY() + 1).isOpened()) unOpened++;
                         } else if (x == 0) {
-                            if (!board.getSquareAt(square.getX(), square.getY() - 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x, y - 1));
-                            if (!board.getSquareAt(square.getX() + 1, square.getY() - 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x + 1, y - 1));
-                            if (!board.getSquareAt(square.getX() + 1, square.getY()).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x + 1, y));
-                            if (!board.getSquareAt(square.getX() + 1, square.getY() + 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x + 1, y + 1));
-                            if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x, y + 1));
+                            if (!board.getSquareAt(square.getX(), square.getY() - 1).isOpened()) unOpened++;
+                            if (!board.getSquareAt(square.getX() + 1, square.getY() - 1).isOpened()) unOpened++;
+                            if (!board.getSquareAt(square.getX() + 1, square.getY()).isOpened()) unOpened++;
+                            if (!board.getSquareAt(square.getX() + 1, square.getY() + 1).isOpened()) unOpened++;
+                            if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) unOpened++;                        
                         } else if (x == board.width - 1 && y == board.height - 1) {
-                            if (!board.getSquareAt(square.getX() - 1, square.getY()).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x - 1, y));
-                            if (!board.getSquareAt(square.getX() - 1, square.getY() + 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x - 1, y + 1));
-                            if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x, y + 1));
+                            if (!board.getSquareAt(square.getX() - 1, square.getY()).isOpened()) unOpened++;
+                            if (!board.getSquareAt(square.getX() - 1, square.getY() + 1).isOpened()) unOpened++;
+                            if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) unOpened++;                        
                         } else if (x == board.width - 1) {
-                            if (!board.getSquareAt(square.getX(), square.getY() - 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x, y - 1));
-                            if (!board.getSquareAt(square.getX() - 1, square.getY() - 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x - 1, y - 1));
-                            if (!board.getSquareAt(square.getX() - 1, square.getY()).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x - 1, y));
-                            if (!board.getSquareAt(square.getX() - 1, square.getY() + 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x - 1, y + 1));
-                            if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x, y + 1));
+                            if (!board.getSquareAt(square.getX(), square.getY() - 1).isOpened()) unOpened++;
+                            if (!board.getSquareAt(square.getX() - 1, square.getY() - 1).isOpened()) unOpened++;
+                            if (!board.getSquareAt(square.getX() - 1, square.getY()).isOpened()) unOpened++;
+                            if (!board.getSquareAt(square.getX() - 1, square.getY() + 1).isOpened()) unOpened++;
+                            if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) unOpened++;                                                
                         } else if (y == board.height - 1) {
-                            if (!board.getSquareAt(square.getX() - 1, square.getY()).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x - 1, y));
-                            if (!board.getSquareAt(square.getX() - 1, square.getY() - 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x - 1, y - 1));
-                            if (!board.getSquareAt(square.getX(), square.getY() - 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x, y - 1));
-                            if (!board.getSquareAt(square.getX() + 1, square.getY() - 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x + 1, y - 1));
-                            if (!board.getSquareAt(square.getX() + 1, square.getY()).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x + 1, y));
+                            if (!board.getSquareAt(square.getX() - 1, square.getY()).isOpened()) unOpened++;
+                            if (!board.getSquareAt(square.getX() - 1, square.getY() - 1).isOpened()) unOpened++;
+                            if (!board.getSquareAt(square.getX(), square.getY() - 1).isOpened()) unOpened++;
+                            if (!board.getSquareAt(square.getX() + 1, square.getY() - 1).isOpened()) unOpened++;
+                            if (!board.getSquareAt(square.getX() + 1, square.getY()).isOpened()) unOpened++;                                                                        
                         } else {                                        
-                            if (!board.getSquareAt(square.getX() - 1, square.getY() - 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x - 1, y - 1));
-                            if (!board.getSquareAt(square.getX(), square.getY() - 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x, y - 1));
-                            if (!board.getSquareAt(square.getX() + 1, square.getY() - 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x + 1, y - 1));
-                            if (!board.getSquareAt(square.getX() - 1, square.getY()).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x - 1, y));
-                            if (!board.getSquareAt(square.getX() + 1, square.getY()).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x + 1, y));
-                            if (!board.getSquareAt(square.getX() - 1, square.getY() + 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x - 1, y + 1));
-                            if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x, y + 1));
-                            if (!board.getSquareAt(square.getX() + 1, square.getY() + 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x + 1, y + 1));
+                            if (!board.getSquareAt(square.getX() - 1, square.getY() - 1).isOpened()) unOpened++;
+                            if (!board.getSquareAt(square.getX(), square.getY() - 1).isOpened()) unOpened++;
+                            if (!board.getSquareAt(square.getX() + 1, square.getY() - 1).isOpened()) unOpened++;
+                            if (!board.getSquareAt(square.getX() - 1, square.getY()).isOpened()) unOpened++;
+                            if (!board.getSquareAt(square.getX() + 1, square.getY()).isOpened()) unOpened++;
+                            if (!board.getSquareAt(square.getX() - 1, square.getY() + 1).isOpened()) unOpened++;
+                            if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) unOpened++;
+                            if (!board.getSquareAt(square.getX() + 1, square.getY() + 1).isOpened()) unOpened++;
+                        }                                        
+
+                        if (square.surroundingMines() == unOpened) {
+                            // Flag mines
+                            if (x == 0 && y == 0) {
+                                if (!board.getSquareAt(square.getX() + 1, square.getY()).isOpened()) movesToMake.add(new Move(x + 1, y, Highlight.RED)); // movesToMake.add(new Move(MoveType.FLAG, x + 1, y));
+                                if (!board.getSquareAt(square.getX() + 1, square.getY() + 1).isOpened()) movesToMake.add(new Move(x + 1, y + 1, Highlight.RED));
+                                if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) movesToMake.add(new Move(x, y + 1, Highlight.RED));
+                            } else if (y == 0) {
+                                if (!board.getSquareAt(square.getX() - 1, square.getY()).isOpened()) movesToMake.add(new Move(x - 1, y, Highlight.RED));
+                                if (!board.getSquareAt(square.getX() + 1, square.getY()).isOpened()) movesToMake.add(new Move(x + 1, y, Highlight.RED));
+                                if (!board.getSquareAt(square.getX() - 1, square.getY() + 1).isOpened()) movesToMake.add(new Move(x - 1, y + 1, Highlight.RED));
+                                if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) movesToMake.add(new Move(x, y + 1, Highlight.RED));
+                                if (!board.getSquareAt(square.getX() + 1, square.getY() + 1).isOpened()) movesToMake.add(new Move(x + 1, y + 1, Highlight.RED));
+                            } else if (x == 0) {
+                                if (!board.getSquareAt(square.getX(), square.getY() - 1).isOpened()) movesToMake.add(new Move(x, y - 1, Highlight.RED));
+                                if (!board.getSquareAt(square.getX() + 1, square.getY() - 1).isOpened()) movesToMake.add(new Move(x + 1, y - 1, Highlight.RED));
+                                if (!board.getSquareAt(square.getX() + 1, square.getY()).isOpened()) movesToMake.add(new Move(x + 1, y, Highlight.RED));
+                                if (!board.getSquareAt(square.getX() + 1, square.getY() + 1).isOpened()) movesToMake.add(new Move(x + 1, y + 1, Highlight.RED));
+                                if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) movesToMake.add(new Move(x, y + 1, Highlight.RED));
+                            } else if (x == board.width - 1 && y == board.height - 1) {
+                                if (!board.getSquareAt(square.getX() - 1, square.getY()).isOpened()) movesToMake.add(new Move(x - 1, y, Highlight.RED));
+                                if (!board.getSquareAt(square.getX() - 1, square.getY() + 1).isOpened()) movesToMake.add(new Move(x - 1, y + 1, Highlight.RED));
+                                if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) movesToMake.add(new Move(x, y + 1, Highlight.RED));
+                            } else if (x == board.width - 1) {
+                                if (!board.getSquareAt(square.getX(), square.getY() - 1).isOpened()) movesToMake.add(new Move(x, y - 1, Highlight.RED));
+                                if (!board.getSquareAt(square.getX() - 1, square.getY() - 1).isOpened()) movesToMake.add(new Move(x - 1, y - 1, Highlight.RED));
+                                if (!board.getSquareAt(square.getX() - 1, square.getY()).isOpened()) movesToMake.add(new Move(x - 1, y, Highlight.RED));
+                                if (!board.getSquareAt(square.getX() - 1, square.getY() + 1).isOpened()) movesToMake.add(new Move(x - 1, y + 1, Highlight.RED));
+                                if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) movesToMake.add(new Move(x, y + 1, Highlight.RED));
+                            } else if (y == board.height - 1) {
+                                if (!board.getSquareAt(square.getX() - 1, square.getY()).isOpened()) movesToMake.add(new Move(x - 1, y, Highlight.RED));
+                                if (!board.getSquareAt(square.getX() - 1, square.getY() - 1).isOpened()) movesToMake.add(new Move(x - 1, y - 1, Highlight.RED));
+                                if (!board.getSquareAt(square.getX(), square.getY() - 1).isOpened()) movesToMake.add(new Move(x, y - 1, Highlight.RED));
+                                if (!board.getSquareAt(square.getX() + 1, square.getY() - 1).isOpened()) movesToMake.add(new Move(x + 1, y - 1, Highlight.RED));
+                                if (!board.getSquareAt(square.getX() + 1, square.getY()).isOpened()) movesToMake.add(new Move(x + 1, y, Highlight.RED));
+                            } else {                                        
+                                if (!board.getSquareAt(square.getX() - 1, square.getY() - 1).isOpened()) movesToMake.add(new Move(x - 1, y - 1, Highlight.RED));
+                                if (!board.getSquareAt(square.getX(), square.getY() - 1).isOpened()) movesToMake.add(new Move(x, y - 1, Highlight.RED));
+                                if (!board.getSquareAt(square.getX() + 1, square.getY() - 1).isOpened()) movesToMake.add(new Move(x + 1, y - 1, Highlight.RED));
+                                if (!board.getSquareAt(square.getX() - 1, square.getY()).isOpened()) movesToMake.add(new Move(x - 1, y, Highlight.RED));
+                                if (!board.getSquareAt(square.getX() + 1, square.getY()).isOpened()) movesToMake.add(new Move(x + 1, y, Highlight.RED));
+                                if (!board.getSquareAt(square.getX() - 1, square.getY() + 1).isOpened()) movesToMake.add(new Move(x - 1, y + 1, Highlight.RED));
+                                if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) movesToMake.add(new Move(x, y + 1, Highlight.RED));
+                                if (!board.getSquareAt(square.getX() + 1, square.getY() + 1).isOpened()) movesToMake.add(new Move(x + 1, y + 1, Highlight.RED));
+                            }
                         }
-                        // Open non-mines
-                        
-                        
 
                     }
-                    
                 }
-                
-                
-                
             }
+        
         }
         
+//        // Make flag moves
+//        for (Move move : movesToMake) {
+//            board.makeMove(move);            
+//        }
+//        
+//        // Open non-mines       
+        // If square number = number of neighbour flags => opne others        
         
+        if (!hasMine) {
+            
+        
+            for (int y = 0; y < board.height; y++) {
+                for (int x = 0; x < board.width; x++) {
+
+                    Square square = board.getSquareAt(x, y);
+
+                    if (square.surroundingMines() > 0 && square.isOpened()) {
+
+                        // Number of surrounding flags
+                        int numberOfFlags = 0;
+                        if (x == 0 && y == 0) {
+                            if (board.getSquareAt(x + 1, y).highlight == Highlight.RED) numberOfFlags++;
+                            if (board.getSquareAt(x + 1, y + 1).highlight == Highlight.RED) numberOfFlags++;
+                            if (board.getSquareAt(x, y + 1).highlight == Highlight.RED) numberOfFlags++;
+                        } else if (x == 0) {
+                            if (board.getSquareAt(x, y - 1).highlight == Highlight.RED) numberOfFlags++;
+                            if (board.getSquareAt(x + 1, y - 1).highlight == Highlight.RED) numberOfFlags++;
+                            if (board.getSquareAt(x + 1, y).highlight == Highlight.RED) numberOfFlags++;
+                            if (board.getSquareAt(x + 1, y + 1).highlight == Highlight.RED) numberOfFlags++;
+                            if (board.getSquareAt(x, y + 1).highlight == Highlight.RED) numberOfFlags++;
+                        } else if (y == 0) {
+                            if (board.getSquareAt(x - 1, y).highlight == Highlight.RED) numberOfFlags++;
+                            if (board.getSquareAt(x - 1, y + 1).highlight == Highlight.RED) numberOfFlags++;
+                            if (board.getSquareAt(x, y + 1).highlight == Highlight.RED) numberOfFlags++;
+                            if (board.getSquareAt(x + 1, y + 1).highlight == Highlight.RED) numberOfFlags++;
+                            if (board.getSquareAt(x + 1, y).highlight == Highlight.RED) numberOfFlags++;                    
+                        } else if (x == board.width - 1 && y == board.height - 1) {
+                            if (board.getSquareAt(x - 1, y).highlight == Highlight.RED) numberOfFlags++;
+                            if (board.getSquareAt(x - 1, y - 1).highlight == Highlight.RED) numberOfFlags++;
+                            if (board.getSquareAt(x, y - 1).highlight == Highlight.RED) numberOfFlags++;                    
+                        } else if (x == board.width - 1) {
+                            if (board.getSquareAt(x, y - 1).highlight == Highlight.RED) numberOfFlags++;
+                            if (board.getSquareAt(x - 1, y - 1).highlight == Highlight.RED) numberOfFlags++;
+                            if (board.getSquareAt(x - 1, y).highlight == Highlight.RED) numberOfFlags++;
+                            if (board.getSquareAt(x - 1, y + 1).highlight == Highlight.RED) numberOfFlags++;
+                            if (board.getSquareAt(x, y + 1).highlight == Highlight.RED) numberOfFlags++;                    
+                        } else if (y == board.height - 1) {
+                            if (board.getSquareAt(x - 1, y).highlight == Highlight.RED) numberOfFlags++;
+                            if (board.getSquareAt(x - 1, y - 1).highlight == Highlight.RED) numberOfFlags++;
+                            if (board.getSquareAt(x, y - 1).highlight == Highlight.RED) numberOfFlags++;
+                            if (board.getSquareAt(x + 1, y - 1).highlight == Highlight.RED) numberOfFlags++;
+                            if (board.getSquareAt(x + 1, y).highlight == Highlight.RED) numberOfFlags++;                                        
+                        } else {
+                            if (board.getSquareAt(x - 1, y - 1).highlight == Highlight.RED) numberOfFlags++;
+                            if (board.getSquareAt(x, y - 1).highlight == Highlight.RED) numberOfFlags++;
+                            if (board.getSquareAt(x + 1, y - 1).highlight == Highlight.RED) numberOfFlags++;
+                            if (board.getSquareAt(x + 1, y).highlight == Highlight.RED) numberOfFlags++;
+                            if (board.getSquareAt(x + 1, y + 1).highlight == Highlight.RED) numberOfFlags++;                                        
+                            if (board.getSquareAt(x, y + 1).highlight == Highlight.RED) numberOfFlags++;
+                            if (board.getSquareAt(x - 1, y + 1).highlight == Highlight.RED) numberOfFlags++;
+                            if (board.getSquareAt(x - 1, y).highlight == Highlight.RED) numberOfFlags++;                                                            
+                        }
+
+                        // Open squares
+                        if (square.surroundingMines() == numberOfFlags) {
+                            if (x == 0 && y == 0) {
+                                if (board.getSquareAt(x + 1, y).highlight != Highlight.RED && !board.getSquareAt(x + 1, y).isOpened()) movesToMake.add(new Move(x + 1, y, Highlight.GREEN));
+                                if (board.getSquareAt(x + 1, y + 1).highlight != Highlight.RED && !board.getSquareAt(x + 1, y + 1).isOpened()) movesToMake.add(new Move(x + 1, y + 1, Highlight.GREEN));
+                                if (board.getSquareAt(x, y + 1).highlight != Highlight.RED && !board.getSquareAt(x, y + 1).isOpened()) movesToMake.add(new Move(x, y + 1, Highlight.GREEN));
+                            } else if (x == 0) {
+                                if (board.getSquareAt(x, y - 1).highlight != Highlight.RED && !board.getSquareAt(x, y - 1).isOpened()) movesToMake.add(new Move(x, y - 1, Highlight.GREEN));
+                                if (board.getSquareAt(x + 1, y - 1).highlight != Highlight.RED && !board.getSquareAt(x + 1, y - 1).isOpened()) movesToMake.add(new Move(x + 1, y - 1, Highlight.GREEN));
+                                if (board.getSquareAt(x + 1, y).highlight != Highlight.RED && !board.getSquareAt(x + 1, y).isOpened()) movesToMake.add(new Move(x + 1, y, Highlight.GREEN));
+                                if (board.getSquareAt(x + 1, y + 1).highlight != Highlight.RED && !board.getSquareAt(x + 1, y + 1).isOpened()) movesToMake.add(new Move(x + 1, y + 1, Highlight.GREEN));
+                                if (board.getSquareAt(x, y + 1).highlight != Highlight.RED && !board.getSquareAt(x, y + 1).isOpened()) movesToMake.add(new Move(x, y + 1, Highlight.GREEN));                            
+                            } else if (y == 0) {
+                                if (board.getSquareAt(x - 1, y).highlight != Highlight.RED && !board.getSquareAt(x - 1, y).isOpened()) movesToMake.add(new Move(x - 1, y, Highlight.GREEN));
+                                if (board.getSquareAt(x - 1, y + 1).highlight != Highlight.RED && !board.getSquareAt(x - 1, y + 1).isOpened()) movesToMake.add(new Move(x - 1, y + 1, Highlight.GREEN));
+                                if (board.getSquareAt(x, y + 1).highlight != Highlight.RED && !board.getSquareAt(x, y + 1).isOpened()) movesToMake.add(new Move(x, y + 1, Highlight.GREEN));
+                                if (board.getSquareAt(x + 1, y + 1).highlight != Highlight.RED && !board.getSquareAt(x + 1, y + 1).isOpened()) movesToMake.add(new Move(x + 1, y + 1, Highlight.GREEN));
+                                if (board.getSquareAt(x + 1, y).highlight != Highlight.RED && !board.getSquareAt(x + 1, y).isOpened()) movesToMake.add(new Move(x + 1, y, Highlight.GREEN));                                                        
+                            } else if (x == board.width - 1 && y == board.height - 1) {
+                                if (board.getSquareAt(x - 1, y).highlight != Highlight.RED && !board.getSquareAt(x - 1, y).isOpened()) movesToMake.add(new Move(x - 1, y, Highlight.GREEN));
+                                if (board.getSquareAt(x - 1, y - 1).highlight != Highlight.RED && !board.getSquareAt(x - 1, y - 1).isOpened()) movesToMake.add(new Move(x - 1, y - 1, Highlight.GREEN));
+                                if (board.getSquareAt(x, y - 1).highlight != Highlight.RED && !board.getSquareAt(x, y - 1).isOpened()) movesToMake.add(new Move(x, y - 1, Highlight.GREEN));                            
+                            } else if (x == board.width - 1) {
+                                if (board.getSquareAt(x, y - 1).highlight != Highlight.RED && !board.getSquareAt(x, y - 1).isOpened()) movesToMake.add(new Move(x, y - 1, Highlight.GREEN));
+                                if (board.getSquareAt(x - 1, y - 1).highlight != Highlight.RED && !board.getSquareAt(x - 1, y - 1).isOpened()) movesToMake.add(new Move(x - 1, y - 1, Highlight.GREEN));
+                                if (board.getSquareAt(x - 1, y).highlight != Highlight.RED && !board.getSquareAt(x - 1, y).isOpened()) movesToMake.add(new Move(x - 1, y, Highlight.GREEN));
+                                if (board.getSquareAt(x - 1, y + 1).highlight != Highlight.RED && !board.getSquareAt(x - 1, y + 1).isOpened()) movesToMake.add(new Move(x - 1, y + 1, Highlight.GREEN));
+                                if (board.getSquareAt(x, y + 1).highlight != Highlight.RED && !board.getSquareAt(x, y + 1).isOpened()) movesToMake.add(new Move(x, y + 1, Highlight.GREEN));                                                        
+                            } else if (y == board.height - 1) {
+                                if (board.getSquareAt(x - 1, y).highlight != Highlight.RED && !board.getSquareAt(x - 1, y).isOpened()) movesToMake.add(new Move(x - 1, y, Highlight.GREEN));
+                                if (board.getSquareAt(x - 1, y - 1).highlight != Highlight.RED && !board.getSquareAt(x - 1, y - 1).isOpened()) movesToMake.add(new Move(x - 1, y - 1, Highlight.GREEN));
+                                if (board.getSquareAt(x, y - 1).highlight != Highlight.RED && !board.getSquareAt(x, y - 1).isOpened()) movesToMake.add(new Move(x, y - 1, Highlight.GREEN));
+                                if (board.getSquareAt(x + 1, y - 1).highlight != Highlight.RED && !board.getSquareAt(x + 1, y - 1).isOpened()) movesToMake.add(new Move(x + 1, y - 1, Highlight.GREEN));
+                                if (board.getSquareAt(x + 1, y).highlight != Highlight.RED && !board.getSquareAt(x + 1, y).isOpened()) movesToMake.add(new Move(x + 1, y, Highlight.GREEN));                                                                                    
+                            } else {
+                                if (board.getSquareAt(x - 1, y - 1).highlight != Highlight.RED && !board.getSquareAt(x - 1, y - 1).isOpened()) movesToMake.add(new Move(x - 1, y - 1, Highlight.GREEN));
+                                if (board.getSquareAt(x, y - 1).highlight != Highlight.RED && !board.getSquareAt(x, y - 1).isOpened()) movesToMake.add(new Move(x, y - 1, Highlight.GREEN));
+                                if (board.getSquareAt(x + 1, y - 1).highlight != Highlight.RED && !board.getSquareAt(x + 1, y - 1).isOpened()) movesToMake.add(new Move(x + 1, y - 1, Highlight.GREEN));
+                                if (board.getSquareAt(x + 1, y).highlight != Highlight.RED && !board.getSquareAt(x + 1, y).isOpened()) movesToMake.add(new Move(x + 1, y, Highlight.GREEN));
+                                if (board.getSquareAt(x + 1, y + 1).highlight != Highlight.RED && !board.getSquareAt(x + 1, y + 1).isOpened()) movesToMake.add(new Move(x + 1, y + 1, Highlight.GREEN));                                                                                    
+                                if (board.getSquareAt(x, y + 1).highlight != Highlight.RED && !board.getSquareAt(x, y + 1).isOpened()) movesToMake.add(new Move(x, y + 1, Highlight.GREEN));
+                                if (board.getSquareAt(x - 1, y + 1).highlight != Highlight.RED && !board.getSquareAt(x - 1, y + 1).isOpened()) movesToMake.add(new Move(x - 1, y + 1, Highlight.GREEN));
+                                if (board.getSquareAt(x - 1, y).highlight != Highlight.RED && !board.getSquareAt(x - 1, y).isOpened()) movesToMake.add(new Move(x - 1, y, Highlight.GREEN));                                                                                                                
+                            }
+                        }
+
+                    }
+
+
+                }
+            }
+
+        }
 
         return movesToMake;
     }
