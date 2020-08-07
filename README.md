@@ -13,3 +13,5 @@ Miinaharavan avustaja ja ratkaisija
 [Viikko 1](https://github.com/samilait/minesweeper/tree/master/documentation/viikkoraportti1.md)
 
 [Viikko 2](https://github.com/samilait/minesweeper/tree/master/documentation/viikkoraportti2.md)
+
+[Viikko 3](https://github.com/samilait/minesweeper/tree/master/documentation/viikkoraportti3.md)
