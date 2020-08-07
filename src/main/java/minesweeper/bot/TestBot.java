@@ -84,57 +84,120 @@ public class TestBot implements Bot {
     public ArrayList<Move> getPossibleMoves(Board board) {
         ArrayList<Move> movesToMake = new ArrayList<>();
         HashSet<Pair<Integer>> pairs = new HashSet();
+        
+        for (int y = 0; y < board.width; y++) {
+            for (int x = 0; x < board.height; x++) {
+                
+                Square square = board.getSquareAt(x, y);
+                
+                if (square.surroundingMines() > 0 && square.isOpened()) {
+                    // count number of unopened squares around current square
+                    int unOpened = 0;
+                    
+                    // Edge cases
+                    if (x == 0 && y == 0)
+                    {
+                        if (!board.getSquareAt(square.getX() + 1, square.getY()).isOpened()) unOpened++;
+                        if (!board.getSquareAt(square.getX() + 1, square.getY() + 1).isOpened()) unOpened++;
+                        if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) unOpened++;
+                    } else if (y == 0) {
+                        if (!board.getSquareAt(square.getX() - 1, square.getY()).isOpened()) unOpened++;
+                        if (!board.getSquareAt(square.getX() + 1, square.getY()).isOpened()) unOpened++;
+                        if (!board.getSquareAt(square.getX() - 1, square.getY() + 1).isOpened()) unOpened++;
+                        if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) unOpened++;
+                        if (!board.getSquareAt(square.getX() + 1, square.getY() + 1).isOpened()) unOpened++;
+                    } else if (x == 0) {
+                        if (!board.getSquareAt(square.getX(), square.getY() - 1).isOpened()) unOpened++;
+                        if (!board.getSquareAt(square.getX() + 1, square.getY() - 1).isOpened()) unOpened++;
+                        if (!board.getSquareAt(square.getX() + 1, square.getY()).isOpened()) unOpened++;
+                        if (!board.getSquareAt(square.getX() + 1, square.getY() + 1).isOpened()) unOpened++;
+                        if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) unOpened++;                        
+                    } else if (x == board.width - 1 && y == board.height - 1) {
+                        if (!board.getSquareAt(square.getX() - 1, square.getY()).isOpened()) unOpened++;
+                        if (!board.getSquareAt(square.getX() - 1, square.getY() + 1).isOpened()) unOpened++;
+                        if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) unOpened++;                        
+                    } else if (x == board.width - 1) {
+                        if (!board.getSquareAt(square.getX(), square.getY() - 1).isOpened()) unOpened++;
+                        if (!board.getSquareAt(square.getX() - 1, square.getY() - 1).isOpened()) unOpened++;
+                        if (!board.getSquareAt(square.getX() - 1, square.getY()).isOpened()) unOpened++;
+                        if (!board.getSquareAt(square.getX() - 1, square.getY() + 1).isOpened()) unOpened++;
+                        if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) unOpened++;                                                
+                    } else if (y == board.height - 1) {
+                        if (!board.getSquareAt(square.getX() - 1, square.getY()).isOpened()) unOpened++;
+                        if (!board.getSquareAt(square.getX() - 1, square.getY() - 1).isOpened()) unOpened++;
+                        if (!board.getSquareAt(square.getX(), square.getY() - 1).isOpened()) unOpened++;
+                        if (!board.getSquareAt(square.getX() + 1, square.getY() - 1).isOpened()) unOpened++;
+                        if (!board.getSquareAt(square.getX() + 1, square.getY()).isOpened()) unOpened++;                                                                        
+                    } else {                                        
+                        if (!board.getSquareAt(square.getX() - 1, square.getY() - 1).isOpened()) unOpened++;
+                        if (!board.getSquareAt(square.getX(), square.getY() - 1).isOpened()) unOpened++;
+                        if (!board.getSquareAt(square.getX() + 1, square.getY() - 1).isOpened()) unOpened++;
+                        if (!board.getSquareAt(square.getX() - 1, square.getY()).isOpened()) unOpened++;
+                        if (!board.getSquareAt(square.getX() + 1, square.getY()).isOpened()) unOpened++;
+                        if (!board.getSquareAt(square.getX() - 1, square.getY() + 1).isOpened()) unOpened++;
+                        if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) unOpened++;
+                        if (!board.getSquareAt(square.getX() + 1, square.getY() + 1).isOpened()) unOpened++;
+                    }
+                    
+                    if (square.surroundingMines() == unOpened) {
+                        // Flag mines
+                        if (x == 0 && y == 0) {
+                            if (!board.getSquareAt(square.getX() + 1, square.getY()).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x + 1, y));
+                            if (!board.getSquareAt(square.getX() + 1, square.getY() + 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x + 1, y + 1));
+                            if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x, y + 1));
+                        } else if (y == 0) {
+                            if (!board.getSquareAt(square.getX() - 1, square.getY()).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x - 1, y));
+                            if (!board.getSquareAt(square.getX() + 1, square.getY()).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x + 1, y));
+                            if (!board.getSquareAt(square.getX() - 1, square.getY() + 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x - 1, y + 1));
+                            if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x, y + 1));
+                            if (!board.getSquareAt(square.getX() + 1, square.getY() + 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x + 1, y + 1));
+                        } else if (x == 0) {
+                            if (!board.getSquareAt(square.getX(), square.getY() - 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x, y - 1));
+                            if (!board.getSquareAt(square.getX() + 1, square.getY() - 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x + 1, y - 1));
+                            if (!board.getSquareAt(square.getX() + 1, square.getY()).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x + 1, y));
+                            if (!board.getSquareAt(square.getX() + 1, square.getY() + 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x + 1, y + 1));
+                            if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x, y + 1));
+                        } else if (x == board.width - 1 && y == board.height - 1) {
+                            if (!board.getSquareAt(square.getX() - 1, square.getY()).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x - 1, y));
+                            if (!board.getSquareAt(square.getX() - 1, square.getY() + 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x - 1, y + 1));
+                            if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x, y + 1));
+                        } else if (x == board.width - 1) {
+                            if (!board.getSquareAt(square.getX(), square.getY() - 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x, y - 1));
+                            if (!board.getSquareAt(square.getX() - 1, square.getY() - 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x - 1, y - 1));
+                            if (!board.getSquareAt(square.getX() - 1, square.getY()).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x - 1, y));
+                            if (!board.getSquareAt(square.getX() - 1, square.getY() + 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x - 1, y + 1));
+                            if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x, y + 1));
+                        } else if (y == board.height - 1) {
+                            if (!board.getSquareAt(square.getX() - 1, square.getY()).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x - 1, y));
+                            if (!board.getSquareAt(square.getX() - 1, square.getY() - 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x - 1, y - 1));
+                            if (!board.getSquareAt(square.getX(), square.getY() - 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x, y - 1));
+                            if (!board.getSquareAt(square.getX() + 1, square.getY() - 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x + 1, y - 1));
+                            if (!board.getSquareAt(square.getX() + 1, square.getY()).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x + 1, y));
+                        } else {                                        
+                            if (!board.getSquareAt(square.getX() - 1, square.getY() - 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x - 1, y - 1));
+                            if (!board.getSquareAt(square.getX(), square.getY() - 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x, y - 1));
+                            if (!board.getSquareAt(square.getX() + 1, square.getY() - 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x + 1, y - 1));
+                            if (!board.getSquareAt(square.getX() - 1, square.getY()).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x - 1, y));
+                            if (!board.getSquareAt(square.getX() + 1, square.getY()).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x + 1, y));
+                            if (!board.getSquareAt(square.getX() - 1, square.getY() + 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x - 1, y + 1));
+                            if (!board.getSquareAt(square.getX(), square.getY() + 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x, y + 1));
+                            if (!board.getSquareAt(square.getX() + 1, square.getY() + 1).isOpened()) movesToMake.add(new Move(MoveType.FLAG, x + 1, y + 1));
+                        }
+                        // Open non-mines
+                        
+                        
 
-        //Chooses a random amount of moves to make between 1 and total number of mines
-        int movesToReturn = rng.nextInt(board.totalMines) + 1;
-        
-        // Set board to squares
-        ArrayList<Square> squares = new ArrayList<>();
-        int n =(int) Math.sqrt(board.getUnopenedSquaresCount()); // WRONG!!!
-        for (int x = 0; x < n; x++) {
-            for (int y = 0; y < n; y++) {
-                squares.add(board.getSquareAt(x, y));
-            }
-        }
-        
-        // Generate helper squares based on if rendomly selected square has mine or not
-        for (int i = 0; i < movesToReturn; i++) {
-            int r = rng.nextInt(squares.size());
-            Square square = squares.get(r);
-            if (!square.isOpened()) {
-                if (square.isMine()) {
-                    movesToMake.add(new Move(square.getX(), square.getY(), Highlight.RED));
-                } else {
-                    movesToMake.add(new Move(square.getX(), square.getY(), Highlight.GREEN));
+                    }
+                    
                 }
+                
+                
+                
             }
         }
         
         
 
-//        for (int i = 0; i < movesToReturn; i++) {
-//            Boolean found = false;
-//            Pair<Integer> pair = new Pair(-1, -1);
-//            //Attempts to find a unique unopened square up to 5 times or until it is successfully found
-//            for (int attempt = 0; attempt < 6 && !found; attempt++) {
-//                pair = findUnopenedSquare(board);
-//                if (!pairs.contains(pair)) {
-//                    pairs.add(pair);
-//                    found = true;
-//                } 
-//            }
-//           
-//            if (found) {
-//                if (i < Math.floor(movesToReturn / 2)) {
-//                    movesToMake.add(new Move(pair.first, pair.second, Highlight.GREEN));
-//                } else {
-//                    movesToMake.add(new Move(pair.first, pair.second, Highlight.RED));
-//                }
-//            } else {
-//                //if a square is not found, skips the rest of the for loop
-//                i = movesToReturn;
-//            }
-//        }
         return movesToMake;
     }
 
